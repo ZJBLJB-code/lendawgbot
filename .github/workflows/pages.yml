@@ -12,11 +12,13 @@ on:
   push:
     branches: [main]
   schedule:
-    # Every 15 min, 06:30-13:30 PT (US futures session, PDT = UTC-7). Gives a
-    # hard 15-min ceiling on staleness when the optional local watcher is off.
-    - cron: "*/15 13-20 * * 1-5"
-    # Hourly off-hours so weekend tabs still see a fresh build.
-    - cron: "0 0,6 * * *"
+    # Daily at 1:30pm ET — the post-bot-EOD refresh.
+    # GitHub Actions cron is UTC-only, so we schedule both 17:30 and 18:30 UTC
+    # to cover the 1:30pm ET window year-round regardless of DST:
+    #   • EDT (Mar–Nov, UTC-4): 17:30 UTC = 1:30pm ET ✓ ; 18:30 UTC = 2:30pm ET (harmless extra)
+    #   • EST (Nov–Mar, UTC-5): 17:30 UTC = 12:30pm ET (harmless early); 18:30 UTC = 1:30pm ET ✓
+    # Net: at least one fire happens at 1:30pm ET every day, no DST babysitting.
+    - cron: "30 17,18 * * *"
   workflow_dispatch:
 
 permissions:
