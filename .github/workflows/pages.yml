@@ -1,0 +1,77 @@
+name: GitHub Pages
+
+# Primary publish path. Uses GitHub's built-in GITHUB_TOKEN — no user secrets,
+# no Cloudflare account needed. Site goes live at
+#   https://<owner>.github.io/<repo>/
+# the moment Pages is enabled in repo Settings (Source: "GitHub Actions").
+#
+# Cron note: schedules are UTC. Times below assume Pacific Daylight Time (PDT,
+# UTC-7). When PT flips to PST in November, bump each cron by one hour.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Every 15 min, 06:30-13:30 PT (US futures session, PDT = UTC-7). Gives a
+    # hard 15-min ceiling on staleness when the optional local watcher is off.
+    - cron: "*/15 13-20 * * 1-5"
+    # Hourly off-hours so weekend tabs still see a fresh build.
+    - cron: "0 0,6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Pages only allows one in-flight deployment at a time. Newer run wins.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        if: hashFiles('requirements.txt') != ''
+        run: pip install -r requirements.txt
+
+      - name: Generate sample data
+        run: python3 scripts/generate_sample_data.py
+
+      - name: Build
+        # Reads the checked-in quant-bot snapshot under data/quant_bot_journal/.
+        # --also-demo emits the fabricated showcase as demo.html.
+        # Adapter never raises: missing snapshot falls back to sample.json so
+        # cron stays green. --publisher tags the heartbeat for monitors.
+        run: python3 scripts/build.py --from quant-bot --root data/quant_bot_journal --mode AUTO --also-demo --publisher github-pages
+
+      - name: Verify status
+        run: |
+          set -e
+          test -f dist/index.html
+          test -f dist/demo.html
+          test -f dist/_status.json
+          python3 -c "import json; s=json.load(open('dist/_status.json')); assert s['ok'] is True, s; assert s['schema_version']==1, s; assert s['publisher']=='github-pages', s; print('status ok:', s['mode'], s['last_build_source'], s['publisher'])"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

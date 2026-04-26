@@ -1,0 +1,49 @@
+{
+  "ts": "2026-04-26T02:41:17.504317+00:00",
+  "phase": "day0_vol_regime_gated",
+  "instrument": "MES",
+  "data": {
+    "start": "2021-04-25",
+    "end": "2026-04-25",
+    "rth_bars": 487134,
+    "n_sessions_total": 1269,
+    "n_sessions_skipped": 592,
+    "pct_sessions_skipped": 0.4665090622537431
+  },
+  "vol_regime_params": {
+    "realized_vol_window_days": 5,
+    "percentile_lookback_days": 252,
+    "low_percentile": 0.3,
+    "high_percentile": 0.75
+  },
+  "wfo": {
+    "n_folds": 12,
+    "n_combos": 3,
+    "winner": "ORF1.5_VWAP1.5",
+    "holdout_start": "2025-04-23",
+    "holdout_end": "2026-04-23",
+    "cost_usd": 2.0,
+    "is_fraction": 0.4
+  },
+  "trades": {
+    "n_signals_dropped": 1859,
+    "n_folded_trades_winner": 554,
+    "n_holdout_trades_winner": 126
+  },
+  "gate": {
+    "all_pass": false,
+    "gates_passed": "4",
+    "g1_pass": true,
+    "g2_pass": false,
+    "g3_pass": true,
+    "g4_pass": true,
+    "g5_pass": true,
+    "in_sample_sharpe": 0.7078010889203603,
+    "oos_sharpe": 0.5299713914020683,
+    "deflated_sharpe": 0.49315458431770504,
+    "pbo": 0.04257964257964258,
+    "mr_friendly_sharpe": 0.03539946107644802,
+    "holdout_sharpe": 2.066825906593523,
+    "max_dd_dollars": -627.960514281941
+  }
+}

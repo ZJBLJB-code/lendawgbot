@@ -1,0 +1,83 @@
+{
+  "ts": "2026-04-26T02:10:37.834568+00:00",
+  "phase": "day0_mnq_tf_only",
+  "instrument": "MNQ",
+  "data": {
+    "start": "2021-04-25",
+    "end": "2026-04-25",
+    "rth_bars": 487530
+  },
+  "wfo": {
+    "n_folds": 12,
+    "n_combos": 4,
+    "winner": "MNQ_TF_STRICT_BUF2.0_RSI70",
+    "holdout_start": "2025-04-24",
+    "holdout_end": "2026-04-24",
+    "cost_usd": 2.0,
+    "is_fraction": 0.4
+  },
+  "trades": {
+    "n_total": 937,
+    "n_folded": 723,
+    "n_holdout": 214,
+    "win_rate_folded": 0.28077455048409405,
+    "avg_pnl_per_trade": 4.5564491538344996
+  },
+  "sweep": [
+    {
+      "label": "MNQ_TF_STRICT_BUF2.0_RSI70",
+      "gates_passed": 2,
+      "oos_sharpe": 1.9629093836132963,
+      "is_sharpe": -1.2447139115266284,
+      "deflated_sharpe": 0.9931585352755993,
+      "pbo": 0.7423465423465423,
+      "holdout_sharpe": -1.7595437300250127
+    },
+    {
+      "label": "MNQ_TF_W30_BUF1.5_RSI70",
+      "gates_passed": 2,
+      "oos_sharpe": 1.9139087047899745,
+      "is_sharpe": -1.105920447936916,
+      "deflated_sharpe": 0.989297195687669,
+      "pbo": 0.7423465423465423,
+      "holdout_sharpe": -1.8173386223435828
+    },
+    {
+      "label": "MNQ_TF_MEDIUM_BUF1.5_RSI65",
+      "gates_passed": 2,
+      "oos_sharpe": 1.8737033695377527,
+      "is_sharpe": -0.7963924935631658,
+      "deflated_sharpe": 0.9862666582918934,
+      "pbo": 0.7423465423465423,
+      "holdout_sharpe": -1.7912127062330527
+    },
+    {
+      "label": "MNQ_TF_LOOSE_BUF1.0_RSI60",
+      "gates_passed": 2,
+      "oos_sharpe": 1.5891628710705896,
+      "is_sharpe": -0.18955150219674893,
+      "deflated_sharpe": 0.9437115168190381,
+      "pbo": 0.7423465423465423,
+      "holdout_sharpe": -0.8580176742867679
+    }
+  ],
+  "gate": {
+    "all_pass": false,
+    "gates_passed": 2,
+    "g1_pass": false,
+    "g2_pass": true,
+    "g3_pass": false,
+    "g4_pass": "True",
+    "g5_pass": false,
+    "in_sample_sharpe": -1.2447139115266284,
+    "oos_sharpe": 1.9629093836132963,
+    "oos_to_is_ratio": 0.0,
+    "deflated_sharpe": 0.9931585352755993,
+    "pbo": 0.7423465423465423,
+    "mr_friendly_sharpe": 2.0108616187914197,
+    "trend_sharpe": 6.221827321821256,
+    "holdout_sharpe": -1.7595437300250127,
+    "holdout_sharpe_ratio_to_wfo": -0.896395801412936
+  },
+  "daily_returns_path": "journal/day0/daily_returns_MNQ_TF_2026-04-25.parquet"
+}

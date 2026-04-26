@@ -1,0 +1,20 @@
+# Build artifacts
+dist/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Local config (do not check in user-specific paths)
+.claude/settings.local.json
+
+# Local sync log
+/tmp/lendawgbot-*.log
+
+# Local launchd plist after install (kept .template in repo)
+scripts/com.lendawgbot.watcher.plist

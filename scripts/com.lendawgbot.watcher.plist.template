@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  launchd agent that watches the quant-bot journal directory and runs
+  refresh.sh --deploy whenever a new verdict or live event log lands.
+
+  This is the "auto-publish on file change" half of the data pipeline.
+  When this is installed, Zach never has to type "refresh" — the moment
+  quant-bot writes a new file, the public site updates within ~2 minutes.
+
+  To install:
+    cp tomcash/scripts/com.lendawgbot.watcher.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.lendawgbot.watcher.plist
+
+  To uninstall:
+    launchctl unload ~/Library/LaunchAgents/com.lendawgbot.watcher.plist
+    rm ~/Library/LaunchAgents/com.lendawgbot.watcher.plist
+
+  To check status:
+    launchctl list | grep lendawgbot
+    tail -f /tmp/lendawgbot-watcher.log
+
+  WatchPaths fires when an immediate child of the watched dir changes.
+  ThrottleInterval coalesces bursts (e.g. quant-bot writing 14 verdict
+  files in 30 seconds) into a single refresh run.
+
+  IMPORTANT: edit the two ProgramArguments paths below if the worktrees
+  move. Both are absolute.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lendawgbot.watcher</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>@LENDAWGBOT_DIR@/scripts/refresh.sh</string>
+        <string>--deploy</string>
+    </array>
+
+    <key>WatchPaths</key>
+    <array>
+        <string>@QUANT_BOT_DIR@/journal/day0</string>
+        <string>@QUANT_BOT_DIR@/journal/live</string>
+    </array>
+
+    <!-- Coalesce file-change bursts. quant-bot's EOD job writes ~14 verdict
+         files in seconds; we don't need 14 deploys, just one. -->
+    <key>ThrottleInterval</key>
+    <integer>120</integer>
+
+    <!-- Don't run on agent load itself (agent starts at login). Only run
+         when WatchPaths fires. -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/lendawgbot-watcher.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/lendawgbot-watcher.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>

@@ -1,0 +1,1260 @@
+{
+  "mode": "LIVE",
+  "generated_at": "2026-04-26T20:35:49.303599+00:00",
+  "as_of_date": "2026-04-24",
+  "bot": {
+    "name": "Len Dawg",
+    "instrument": "/MES",
+    "instrument_friendly": "S&P 500 mini",
+    "phase": "Phase A \u2014 Live, 1 contract max",
+    "phase_short": "Live",
+    "days_live": 10,
+    "starting_equity": 10000.0
+  },
+  "translations": {
+    "regime": {
+      "MEAN_REV_FRIENDLY": "Calm, choppy market",
+      "TREND_REGIME": "Strong trend day",
+      "VOLATILE": "Choppy, wild market",
+      "UNCLASSIFIED": "Unclear regime"
+    },
+    "sub_signal": {
+      "ORF": "Opening fade",
+      "VWAP_REV": "Pullback",
+      "GAP_FILL": "Gap fill"
+    },
+    "exit_reason": {
+      "TARGET": "hit goal",
+      "STOP": "stopped out",
+      "TIME": "ran out of time",
+      "TRAILING": "trailed out"
+    }
+  },
+  "persona_nicknames": {
+    "TT": "The Chartist",
+    "ME": "The Macro Guy",
+    "OF": "The Flow Reader",
+    "DA": "The Skeptic"
+  },
+  "today": {
+    "date": "2026-04-24",
+    "regime": "MEAN_REV_FRIENDLY",
+    "trades_count": 3,
+    "wins": 2,
+    "losses": 1,
+    "pnl_dollars": 37.5,
+    "cumulative_pnl": 181.25,
+    "persona_quote": {
+      "persona": "TT",
+      "line": "Sellers gave up. Buyers stepped right in."
+    },
+    "notable_pattern": "Win rate this week is running hot \u2014 64% vs. the 55% the bot expects long-term."
+  },
+  "brag": {
+    "headline": "Up +$181 on $10K (+1.8%)",
+    "win_record": "Bot won 21 of 32 trades. (66%)",
+    "skeptic_credit": "The Skeptic talked Len Dawg out of $187 in losers."
+  },
+  "today_vs_average": {
+    "today_pnl": 37.5,
+    "avg_day_pnl": 18.12,
+    "today_percentile": 90,
+    "today_vs_avg_arrow": "up",
+    "today_vs_avg_pct": 107
+  },
+  "today_trades": [
+    {
+      "trade_id": "T-20260424-00",
+      "date": "2026-04-24",
+      "entry_time": "2026-04-24T17:32:00+00:00",
+      "exit_time": "2026-04-24T17:52:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "ORF",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5384.0,
+      "exit_price": 5390.5,
+      "stop_price": 5381.25,
+      "target_price": 5390.5,
+      "pnl_points": 6.5,
+      "pnl_dollars": 27.5,
+      "bars_held": 4,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.88,
+          "reasoning": "The gap closed by 10:15. Closed the trade.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.66,
+          "reasoning": "No big news today. Quiet days are the bot's friend.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "SKIP",
+          "confidence": 0.85,
+          "reasoning": "Wall of resistance above. Don't expect a breakout today.",
+          "size_multiplier": 0.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "TAKE",
+          "confidence": 0.65,
+          "reasoning": "The setup is clean. I am suspicious of clean setups.",
+          "size_multiplier": 1.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 3
+    },
+    {
+      "trade_id": "T-20260424-01",
+      "date": "2026-04-24",
+      "entry_time": "2026-04-24T16:37:00+00:00",
+      "exit_time": "2026-04-24T17:17:00+00:00",
+      "direction": "SHORT",
+      "sub_signal": "ORF",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5405.0,
+      "exit_price": 5408.25,
+      "stop_price": 5408.25,
+      "target_price": 5398.75,
+      "pnl_points": -3.25,
+      "pnl_dollars": -21.25,
+      "bars_held": 8,
+      "exit_reason": "TIME",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.81,
+          "reasoning": "Strong trend day. I had to sit on my hands. Harder than it sounds.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.8,
+          "reasoning": "Inflation came in soft. Stocks loved it. The trade lined up.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.54,
+          "reasoning": "No fear in the options market. Quiet-day setup.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "TAKE",
+          "confidence": 0.83,
+          "reasoning": "Everyone's bullish. That's usually the whole problem.",
+          "size_multiplier": 1.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 2
+    },
+    {
+      "trade_id": "T-20260424-02",
+      "date": "2026-04-24",
+      "entry_time": "2026-04-24T15:34:00+00:00",
+      "exit_time": "2026-04-24T17:29:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "VWAP_REV",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5386.5,
+      "exit_price": 5393.75,
+      "stop_price": 5383.5,
+      "target_price": 5393.0,
+      "pnl_points": 7.25,
+      "pnl_dollars": 31.25,
+      "bars_held": 23,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.65,
+          "reasoning": "The line held perfectly. I love it when charts behave.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.83,
+          "reasoning": "Bonds and stocks both rallying. Clean signal.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.77,
+          "reasoning": "The options market is pulling the index toward 5380 like a magnet.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "SKIP",
+          "confidence": 0.7,
+          "reasoning": "Three winners in a row. Statistically, I am due to be vindicated.",
+          "size_multiplier": 0.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 1
+    }
+  ],
+  "cumulative": {
+    "total_pnl": 181.25,
+    "total_trades": 32,
+    "win_rate": 0.656,
+    "current_equity": 10181.25,
+    "best_day": {
+      "date": "2026-04-15",
+      "regime": "MEAN_REV_FRIENDLY",
+      "trades_count": 4,
+      "wins": 4,
+      "losses": 0,
+      "pnl_dollars": 103.75,
+      "cumulative_pnl": 107.5,
+      "persona_quote": {
+        "persona": "TT",
+        "line": "The line held perfectly. I love it when charts behave."
+      },
+      "notable_pattern": null
+    },
+    "worst_day": {
+      "date": "2026-04-20",
+      "regime": "VOLATILE",
+      "trades_count": 4,
+      "wins": 1,
+      "losses": 3,
+      "pnl_dollars": -46.25,
+      "cumulative_pnl": 43.75,
+      "persona_quote": {
+        "persona": "ME",
+        "line": "Watching the yen \u2014 could get bumpy if Japan moves."
+      },
+      "notable_pattern": null
+    },
+    "streak": 4,
+    "streak_type": "win"
+  },
+  "equity_curve": [
+    {
+      "date": "2026-04-13",
+      "equity": 10011.25,
+      "pnl": 11.25
+    },
+    {
+      "date": "2026-04-14",
+      "equity": 10003.75,
+      "pnl": -7.5
+    },
+    {
+      "date": "2026-04-15",
+      "equity": 10107.5,
+      "pnl": 103.75
+    },
+    {
+      "date": "2026-04-16",
+      "equity": 10127.5,
+      "pnl": 20.0
+    },
+    {
+      "date": "2026-04-17",
+      "equity": 10090.0,
+      "pnl": -37.5
+    },
+    {
+      "date": "2026-04-20",
+      "equity": 10043.75,
+      "pnl": -46.25
+    },
+    {
+      "date": "2026-04-21",
+      "equity": 10077.5,
+      "pnl": 33.75
+    },
+    {
+      "date": "2026-04-22",
+      "equity": 10108.75,
+      "pnl": 31.25
+    },
+    {
+      "date": "2026-04-23",
+      "equity": 10143.75,
+      "pnl": 35.0
+    },
+    {
+      "date": "2026-04-24",
+      "equity": 10181.25,
+      "pnl": 37.5
+    }
+  ],
+  "recent_days": [
+    {
+      "date": "2026-04-16",
+      "regime": "MEAN_REV_FRIENDLY",
+      "trades_count": 1,
+      "wins": 1,
+      "losses": 0,
+      "pnl_dollars": 20.0,
+      "cumulative_pnl": 127.5,
+      "persona_quote": {
+        "persona": "TT",
+        "line": "The gap closed by 10:15. Closed the trade."
+      },
+      "notable_pattern": null
+    },
+    {
+      "date": "2026-04-17",
+      "regime": "MEAN_REV_FRIENDLY",
+      "trades_count": 4,
+      "wins": 1,
+      "losses": 3,
+      "pnl_dollars": -37.5,
+      "cumulative_pnl": 90.0,
+      "persona_quote": {
+        "persona": "DA",
+        "line": "I'd skip this. I will be wrong, and I will be smug about it later."
+      },
+      "notable_pattern": null
+    },
+    {
+      "date": "2026-04-20",
+      "regime": "VOLATILE",
+      "trades_count": 4,
+      "wins": 1,
+      "losses": 3,
+      "pnl_dollars": -46.25,
+      "cumulative_pnl": 43.75,
+      "persona_quote": {
+        "persona": "ME",
+        "line": "Watching the yen \u2014 could get bumpy if Japan moves."
+      },
+      "notable_pattern": null
+    },
+    {
+      "date": "2026-04-21",
+      "regime": "MEAN_REV_FRIENDLY",
+      "trades_count": 4,
+      "wins": 4,
+      "losses": 0,
+      "pnl_dollars": 33.75,
+      "cumulative_pnl": 77.5,
+      "persona_quote": {
+        "persona": "DA",
+        "line": "I'd skip this. I will be wrong, and I will be smug about it later."
+      },
+      "notable_pattern": null
+    },
+    {
+      "date": "2026-04-22",
+      "regime": "MEAN_REV_FRIENDLY",
+      "trades_count": 5,
+      "wins": 3,
+      "losses": 2,
+      "pnl_dollars": 31.25,
+      "cumulative_pnl": 108.75,
+      "persona_quote": {
+        "persona": "DA",
+        "line": "The setup is clean. I am suspicious of clean setups."
+      },
+      "notable_pattern": null
+    },
+    {
+      "date": "2026-04-23",
+      "regime": "MEAN_REV_FRIENDLY",
+      "trades_count": 4,
+      "wins": 3,
+      "losses": 1,
+      "pnl_dollars": 35.0,
+      "cumulative_pnl": 143.75,
+      "persona_quote": {
+        "persona": "ME",
+        "line": "Jobs report missed. Nobody cared. Market's looking past it."
+      },
+      "notable_pattern": null
+    },
+    {
+      "date": "2026-04-24",
+      "regime": "MEAN_REV_FRIENDLY",
+      "trades_count": 3,
+      "wins": 2,
+      "losses": 1,
+      "pnl_dollars": 37.5,
+      "cumulative_pnl": 181.25,
+      "persona_quote": {
+        "persona": "TT",
+        "line": "Sellers gave up. Buyers stepped right in."
+      },
+      "notable_pattern": "Win rate this week is running hot \u2014 64% vs. the 55% the bot expects long-term."
+    }
+  ],
+  "all_trades_count": 32,
+  "recent_trades": [
+    {
+      "trade_id": "T-20260424-00",
+      "date": "2026-04-24",
+      "entry_time": "2026-04-24T17:32:00+00:00",
+      "exit_time": "2026-04-24T17:52:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "ORF",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5384.0,
+      "exit_price": 5390.5,
+      "stop_price": 5381.25,
+      "target_price": 5390.5,
+      "pnl_points": 6.5,
+      "pnl_dollars": 27.5,
+      "bars_held": 4,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.88,
+          "reasoning": "The gap closed by 10:15. Closed the trade.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.66,
+          "reasoning": "No big news today. Quiet days are the bot's friend.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "SKIP",
+          "confidence": 0.85,
+          "reasoning": "Wall of resistance above. Don't expect a breakout today.",
+          "size_multiplier": 0.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "TAKE",
+          "confidence": 0.65,
+          "reasoning": "The setup is clean. I am suspicious of clean setups.",
+          "size_multiplier": 1.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 3
+    },
+    {
+      "trade_id": "T-20260424-01",
+      "date": "2026-04-24",
+      "entry_time": "2026-04-24T16:37:00+00:00",
+      "exit_time": "2026-04-24T17:17:00+00:00",
+      "direction": "SHORT",
+      "sub_signal": "ORF",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5405.0,
+      "exit_price": 5408.25,
+      "stop_price": 5408.25,
+      "target_price": 5398.75,
+      "pnl_points": -3.25,
+      "pnl_dollars": -21.25,
+      "bars_held": 8,
+      "exit_reason": "TIME",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.81,
+          "reasoning": "Strong trend day. I had to sit on my hands. Harder than it sounds.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.8,
+          "reasoning": "Inflation came in soft. Stocks loved it. The trade lined up.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.54,
+          "reasoning": "No fear in the options market. Quiet-day setup.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "TAKE",
+          "confidence": 0.83,
+          "reasoning": "Everyone's bullish. That's usually the whole problem.",
+          "size_multiplier": 1.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 2
+    },
+    {
+      "trade_id": "T-20260424-02",
+      "date": "2026-04-24",
+      "entry_time": "2026-04-24T15:34:00+00:00",
+      "exit_time": "2026-04-24T17:29:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "VWAP_REV",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5386.5,
+      "exit_price": 5393.75,
+      "stop_price": 5383.5,
+      "target_price": 5393.0,
+      "pnl_points": 7.25,
+      "pnl_dollars": 31.25,
+      "bars_held": 23,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.65,
+          "reasoning": "The line held perfectly. I love it when charts behave.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.83,
+          "reasoning": "Bonds and stocks both rallying. Clean signal.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.77,
+          "reasoning": "The options market is pulling the index toward 5380 like a magnet.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "SKIP",
+          "confidence": 0.7,
+          "reasoning": "Three winners in a row. Statistically, I am due to be vindicated.",
+          "size_multiplier": 0.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 1
+    },
+    {
+      "trade_id": "T-20260423-03",
+      "date": "2026-04-23",
+      "entry_time": "2026-04-23T19:22:00+00:00",
+      "exit_time": "2026-04-23T19:55:00+00:00",
+      "direction": "SHORT",
+      "sub_signal": "GAP_FILL",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5394.75,
+      "exit_price": 5392.0,
+      "stop_price": 5398.5,
+      "target_price": 5389.75,
+      "pnl_points": 2.75,
+      "pnl_dollars": 8.75,
+      "bars_held": 8,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.7,
+          "reasoning": "Played out exactly as the script said.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.62,
+          "reasoning": "Bonds and stocks both rallying. Clean signal.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.86,
+          "reasoning": "After 3pm the tape gets sticky. Stay patient.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "SKIP",
+          "confidence": 0.74,
+          "reasoning": "Three winners in a row. Statistically, I am due to be vindicated.",
+          "size_multiplier": 0.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 4
+    },
+    {
+      "trade_id": "T-20260423-02",
+      "date": "2026-04-23",
+      "entry_time": "2026-04-23T18:23:00+00:00",
+      "exit_time": "2026-04-23T19:55:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "ORF",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5428.75,
+      "exit_price": 5436.0,
+      "stop_price": 5426.25,
+      "target_price": 5435.75,
+      "pnl_points": 7.25,
+      "pnl_dollars": 31.25,
+      "bars_held": 20,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.82,
+          "reasoning": "Played out exactly as the script said.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.91,
+          "reasoning": "Inflation came in soft. Stocks loved it. The trade lined up.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.83,
+          "reasoning": "After 3pm the tape gets sticky. Stay patient.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.58,
+          "reasoning": "Take the trade. But promise me you will not add to it.",
+          "size_multiplier": 0.5
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 3
+    },
+    {
+      "trade_id": "T-20260423-00",
+      "date": "2026-04-23",
+      "entry_time": "2026-04-23T15:53:00+00:00",
+      "exit_time": "2026-04-23T17:03:00+00:00",
+      "direction": "SHORT",
+      "sub_signal": "ORF",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5386.5,
+      "exit_price": 5382.0,
+      "stop_price": 5389.25,
+      "target_price": 5380.5,
+      "pnl_points": 4.5,
+      "pnl_dollars": 17.5,
+      "bars_held": 14,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "SKIP",
+          "confidence": 0.9,
+          "reasoning": "The line held perfectly. I love it when charts behave.",
+          "size_multiplier": 0.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.54,
+          "reasoning": "Watching the yen \u2014 could get bumpy if Japan moves.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.79,
+          "reasoning": "Mechanical flows favor up into the close. Held the bid.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.57,
+          "reasoning": "If this fails, fail fast. Don't argue with the tape.",
+          "size_multiplier": 0.5
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 2
+    },
+    {
+      "trade_id": "T-20260423-01",
+      "date": "2026-04-23",
+      "entry_time": "2026-04-23T13:40:00+00:00",
+      "exit_time": "2026-04-23T16:05:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "VWAP_REV",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5412.0,
+      "exit_price": 5408.5,
+      "stop_price": 5409.0,
+      "target_price": 5418.75,
+      "pnl_points": -3.5,
+      "pnl_dollars": -22.5,
+      "bars_held": 29,
+      "exit_reason": "STOP",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.5,
+          "reasoning": "The gap closed by 10:15. Closed the trade.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.83,
+          "reasoning": "Bonds and stocks both rallying. Clean signal.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.79,
+          "reasoning": "Wall of resistance above. Don't expect a breakout today.",
+          "size_multiplier": 0.5
+        },
+        {
+          "persona": "DA",
+          "verdict": "TAKE",
+          "confidence": 0.72,
+          "reasoning": "Bull case is loud. Bear case is quiet. Quiet usually wins.",
+          "size_multiplier": 1.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 1
+    },
+    {
+      "trade_id": "T-20260422-03",
+      "date": "2026-04-22",
+      "entry_time": "2026-04-22T19:27:00+00:00",
+      "exit_time": "2026-04-22T19:55:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "VWAP_REV",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5391.5,
+      "exit_price": 5395.5,
+      "stop_price": 5388.75,
+      "target_price": 5397.25,
+      "pnl_points": 4.0,
+      "pnl_dollars": 15.0,
+      "bars_held": 30,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.58,
+          "reasoning": "The gap closed by 10:15. Closed the trade.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.84,
+          "reasoning": "Watching the yen \u2014 could get bumpy if Japan moves.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.8,
+          "reasoning": "The options market is pulling the index toward 5380 like a magnet.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "SKIP",
+          "confidence": 0.91,
+          "reasoning": "The setup is clean. I am suspicious of clean setups.",
+          "size_multiplier": 0.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 5
+    },
+    {
+      "trade_id": "T-20260422-04",
+      "date": "2026-04-22",
+      "entry_time": "2026-04-22T18:50:00+00:00",
+      "exit_time": "2026-04-22T19:55:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "GAP_FILL",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5416.25,
+      "exit_price": 5411.75,
+      "stop_price": 5413.0,
+      "target_price": 5422.25,
+      "pnl_points": -4.5,
+      "pnl_dollars": -27.5,
+      "bars_held": 28,
+      "exit_reason": "STOP",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.55,
+          "reasoning": "Strong trend day. I had to sit on my hands. Harder than it sounds.",
+          "size_multiplier": 0.5
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.56,
+          "reasoning": "Fed meeting tomorrow. I said cut size. We didn't. We got lucky.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.74,
+          "reasoning": "After 3pm the tape gets sticky. Stay patient.",
+          "size_multiplier": 0.5
+        },
+        {
+          "persona": "DA",
+          "verdict": "SKIP",
+          "confidence": 0.63,
+          "reasoning": "Three winners in a row. Statistically, I am due to be vindicated.",
+          "size_multiplier": 0.0
+        }
+      ],
+      "thesis_confirmed": false,
+      "display_index": 4
+    },
+    {
+      "trade_id": "T-20260422-01",
+      "date": "2026-04-22",
+      "entry_time": "2026-04-22T18:09:00+00:00",
+      "exit_time": "2026-04-22T18:54:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "ORF",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5377.75,
+      "exit_price": 5384.25,
+      "stop_price": 5375.0,
+      "target_price": 5382.25,
+      "pnl_points": 6.5,
+      "pnl_dollars": 27.5,
+      "bars_held": 9,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.72,
+          "reasoning": "The gap closed by 10:15. Closed the trade.",
+          "size_multiplier": 0.5
+        },
+        {
+          "persona": "ME",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.86,
+          "reasoning": "Watching the yen \u2014 could get bumpy if Japan moves.",
+          "size_multiplier": 0.5
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.51,
+          "reasoning": "Big bets on the downside are holding the line. Floor's solid.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.69,
+          "reasoning": "Three winners in a row. Statistically, I am due to be vindicated.",
+          "size_multiplier": 0.5
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 3
+    },
+    {
+      "trade_id": "T-20260422-00",
+      "date": "2026-04-22",
+      "entry_time": "2026-04-22T14:52:00+00:00",
+      "exit_time": "2026-04-22T17:22:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "GAP_FILL",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5387.0,
+      "exit_price": 5384.5,
+      "stop_price": 5384.25,
+      "target_price": 5391.5,
+      "pnl_points": -2.5,
+      "pnl_dollars": -17.5,
+      "bars_held": 30,
+      "exit_reason": "STOP",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.81,
+          "reasoning": "Played out exactly as the script said.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.85,
+          "reasoning": "Jobs report missed. Nobody cared. Market's looking past it.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.65,
+          "reasoning": "Mechanical flows favor up into the close. Held the bid.",
+          "size_multiplier": 0.5
+        },
+        {
+          "persona": "DA",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.52,
+          "reasoning": "Everyone's bullish. That's usually the whole problem.",
+          "size_multiplier": 0.5
+        }
+      ],
+      "thesis_confirmed": false,
+      "display_index": 2
+    },
+    {
+      "trade_id": "T-20260422-02",
+      "date": "2026-04-22",
+      "entry_time": "2026-04-22T14:32:00+00:00",
+      "exit_time": "2026-04-22T15:12:00+00:00",
+      "direction": "SHORT",
+      "sub_signal": "ORF",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5376.25,
+      "exit_price": 5368.5,
+      "stop_price": 5379.75,
+      "target_price": 5372.0,
+      "pnl_points": 7.75,
+      "pnl_dollars": 33.75,
+      "bars_held": 8,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "SKIP",
+          "confidence": 0.8,
+          "reasoning": "Volume disappeared right at our level. Took it.",
+          "size_multiplier": 0.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.55,
+          "reasoning": "Dollar's slipping. That's a tailwind for stocks today.",
+          "size_multiplier": 0.5
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.7,
+          "reasoning": "The options market is pulling the index toward 5380 like a magnet.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "TAKE",
+          "confidence": 0.59,
+          "reasoning": "The thesis is fine. It's also what everyone else is doing.",
+          "size_multiplier": 1.0
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 1
+    },
+    {
+      "trade_id": "T-20260421-00",
+      "date": "2026-04-21",
+      "entry_time": "2026-04-21T19:28:00+00:00",
+      "exit_time": "2026-04-21T19:55:00+00:00",
+      "direction": "SHORT",
+      "sub_signal": "VWAP_REV",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5384.0,
+      "exit_price": 5382.0,
+      "stop_price": 5387.25,
+      "target_price": 5377.25,
+      "pnl_points": 2.0,
+      "pnl_dollars": 5.0,
+      "bars_held": 7,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.63,
+          "reasoning": "Strong trend day. I had to sit on my hands. Harder than it sounds.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.68,
+          "reasoning": "Bonds and stocks both rallying. Clean signal.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.88,
+          "reasoning": "After 3pm the tape gets sticky. Stay patient.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.7,
+          "reasoning": "I'd skip this. I will be wrong, and I will be smug about it later.",
+          "size_multiplier": 0.5
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 4
+    },
+    {
+      "trade_id": "T-20260421-02",
+      "date": "2026-04-21",
+      "entry_time": "2026-04-21T18:34:00+00:00",
+      "exit_time": "2026-04-21T19:34:00+00:00",
+      "direction": "SHORT",
+      "sub_signal": "VWAP_REV",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5392.5,
+      "exit_price": 5389.75,
+      "stop_price": 5396.0,
+      "target_price": 5387.0,
+      "pnl_points": 2.75,
+      "pnl_dollars": 8.75,
+      "bars_held": 12,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.68,
+          "reasoning": "The market kept knocking at the door but couldn't get in. Took the fade.",
+          "size_multiplier": 0.5
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.66,
+          "reasoning": "Watching the yen \u2014 could get bumpy if Japan moves.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.82,
+          "reasoning": "Wall of resistance above. Don't expect a breakout today.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "TAKE",
+          "confidence": 0.91,
+          "reasoning": "Take the trade. But promise me you will not add to it.",
+          "size_multiplier": 1.0
+        }
+      ],
+      "thesis_confirmed": false,
+      "display_index": 3
+    },
+    {
+      "trade_id": "T-20260421-03",
+      "date": "2026-04-21",
+      "entry_time": "2026-04-21T16:27:00+00:00",
+      "exit_time": "2026-04-21T16:42:00+00:00",
+      "direction": "LONG",
+      "sub_signal": "VWAP_REV",
+      "regime": "MEAN_REV_FRIENDLY",
+      "qty": 1,
+      "entry_price": 5414.0,
+      "exit_price": 5416.25,
+      "stop_price": 5411.5,
+      "target_price": 5420.0,
+      "pnl_points": 2.25,
+      "pnl_dollars": 6.25,
+      "bars_held": 3,
+      "exit_reason": "TARGET",
+      "persona_votes": [
+        {
+          "persona": "TT",
+          "verdict": "TAKE",
+          "confidence": 0.69,
+          "reasoning": "Played out exactly as the script said.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "ME",
+          "verdict": "TAKE",
+          "confidence": 0.85,
+          "reasoning": "Bonds and stocks both rallying. Clean signal.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "OF",
+          "verdict": "TAKE",
+          "confidence": 0.9,
+          "reasoning": "After 3pm the tape gets sticky. Stay patient.",
+          "size_multiplier": 1.0
+        },
+        {
+          "persona": "DA",
+          "verdict": "REDUCE_SIZE",
+          "confidence": 0.74,
+          "reasoning": "Take the trade. But promise me you will not add to it.",
+          "size_multiplier": 0.5
+        }
+      ],
+      "thesis_confirmed": true,
+      "display_index": 2
+    }
+  ],
+  "personas": {
+    "names": {
+      "TT": "Technical Trader",
+      "ME": "Macro Economist",
+      "OF": "Options Analyst",
+      "DA": "Devil's Advocate"
+    },
+    "record": {
+      "TT": {
+        "wins": 15,
+        "losses": 9,
+        "vetoed": 2
+      },
+      "ME": {
+        "wins": 17,
+        "losses": 7,
+        "vetoed": 0
+      },
+      "OF": {
+        "wins": 15,
+        "losses": 5,
+        "vetoed": 5
+      },
+      "DA": {
+        "wins": 6,
+        "losses": 4,
+        "vetoed": 10
+      }
+    },
+    "mvp": "OF"
+  },
+  "cage_match": {
+    "trade_id": "T-20260424-00",
+    "outcome": "WIN",
+    "pnl_dollars": 27.5,
+    "direction": "LONG",
+    "sub_signal": "ORF",
+    "regime": "MEAN_REV_FRIENDLY",
+    "votes": [
+      {
+        "persona": "TT",
+        "verdict": "TAKE",
+        "confidence": 0.88,
+        "reasoning": "The gap closed by 10:15. Closed the trade.",
+        "size_multiplier": 1.0
+      },
+      {
+        "persona": "ME",
+        "verdict": "TAKE",
+        "confidence": 0.66,
+        "reasoning": "No big news today. Quiet days are the bot's friend.",
+        "size_multiplier": 1.0
+      },
+      {
+        "persona": "OF",
+        "verdict": "SKIP",
+        "confidence": 0.85,
+        "reasoning": "Wall of resistance above. Don't expect a breakout today.",
+        "size_multiplier": 0.0
+      },
+      {
+        "persona": "DA",
+        "verdict": "TAKE",
+        "confidence": 0.65,
+        "reasoning": "The setup is clean. I am suspicious of clean setups.",
+        "size_multiplier": 1.0
+      }
+    ]
+  },
+  "ai_learnings": [
+    "Most stop-outs happen between 1:30 and 2:00 PM ET. The bot now sits that out.",
+    "The Skeptic's vetoes saved $187 over the last 30 trades. The grump earns his keep.",
+    "Opening fades work better on big overnight moves. Tiny moves are just noise."
+  ],
+  "tomorrow_watch": [
+    "VIX < 14, expect tight ranges.",
+    "Roll-over week for /MES. Watch volume."
+  ],
+  "eod_reflection": {
+    "date": "2026-04-24",
+    "wins_summary": [
+      "T-20260424-00: thesis confirmed, +$28",
+      "T-20260424-02: thesis confirmed, +$31"
+    ],
+    "losses_summary": [
+      "T-20260424-01: time, -$21"
+    ],
+    "persona_accuracy": {
+      "TT": 0.51,
+      "ME": 0.68,
+      "OF": 0.63,
+      "DA": 0.55
+    },
+    "patterns_observed": [
+      "Win rate this week is running hot \u2014 64% vs. the 55% the bot expects long-term.",
+      "Two losses in a row on choppy days \u2014 bot may be mis-reading the regime."
+    ],
+    "tomorrow_watch": [
+      "VIX < 14, expect tight ranges.",
+      "Roll-over week for /MES. Watch volume."
+    ]
+  }
+}
