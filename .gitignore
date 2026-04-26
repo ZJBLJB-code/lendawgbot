@@ -18,3 +18,8 @@ venv/
 
 # Local launchd plist after install (kept .template in repo)
 scripts/com.lendawgbot.watcher.plist
+
+# Public-repo PII guard: live JSONL events have account_id = "DUP1234567"
+# (the paper trading account). Always exclude them from this repo. See
+# scripts/sync_quant_bot.sh — SYNC_SKIP_LIVE=1 default.
+data/quant_bot_journal/live/*.jsonl

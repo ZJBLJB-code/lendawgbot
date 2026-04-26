@@ -66,10 +66,10 @@ FONT_SOURCES: list[dict[str, str]] = [
     },
 ]
 
-# Make tomcash/ importable so ``adapters.quant_bot`` resolves as a package.
+# Make repo root importable so ``adapters.quant_bot`` resolves as a package.
 sys.path.insert(0, str(ROOT))
 
-log = logging.getLogger("tomcash.build")
+log = logging.getLogger("lendawgbot.build")
 
 
 # Self-hosted fonts (Path B). _fetch_fonts() runs at build time, downloads

@@ -8,7 +8,7 @@
   quant-bot writes a new file, the public site updates within ~2 minutes.
 
   To install:
-    cp tomcash/scripts/com.lendawgbot.watcher.plist ~/Library/LaunchAgents/
+    cp scripts/com.lendawgbot.watcher.plist ~/Library/LaunchAgents/
     launchctl load ~/Library/LaunchAgents/com.lendawgbot.watcher.plist
 
   To uninstall:

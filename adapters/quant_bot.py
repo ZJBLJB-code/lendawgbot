@@ -8,7 +8,7 @@ Entry point: `build_dashboard(quant_bot_root, mode="AUTO")`.
 
 Design notes (see ADAPTER_DESIGN.md sibling doc):
   - Presentation-layer concerns (nicknames, plain-English translations) live in
-    `tomcash/adapters/translations.py` and are stitched in here. quant-bot is
+    `adapters/translations.py` and are stitched in here. quant-bot is
     not asked to know about them.
   - Staleness: data older than MAX_STALENESS_HOURS triggers an "AWAITING
     TODAY'S DATA" empty-state payload, *not* a stale render and *not* a hard
@@ -35,7 +35,7 @@ from .translations import (
     SUB_SIGNAL_TRANSLATIONS,
 )
 
-log = logging.getLogger("tomcash.adapter")
+log = logging.getLogger("lendawgbot.adapter")
 
 Dashboard = dict[str, Any]  # matches data/sample.json shape; typed-dict later
 Mode = Literal["LIVE", "DAY0", "AUTO"]
@@ -120,7 +120,7 @@ def _journal_paths(quant_bot_root: Path) -> tuple[Path, Path]:
     ``<root>/live/`` directly).
 
     The staged-stub layout is what TomCash CI uses — only the day0 verdicts
-    are checked into ``tomcash/data/quant_bot_journal/`` so the runner can
+    are checked into ``data/quant_bot_journal/`` so the runner can
     build without access to the full quant-bot worktree.
     """
     journal = quant_bot_root / "journal"

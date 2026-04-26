@@ -5,10 +5,10 @@
 # and (optionally) commit + push so the live site updates within a minute.
 #
 # Usage:
-#   bash tomcash/scripts/refresh.sh                # local: sync + build, no commit
-#   bash tomcash/scripts/refresh.sh --deploy       # sync + build + commit + push
-#   bash tomcash/scripts/refresh.sh --diff-only    # show what changed, no build
-#   QB_ROOT=/path/to/quant-bot bash tomcash/scripts/refresh.sh --deploy
+#   bash scripts/refresh.sh                # local: sync + build, no commit
+#   bash scripts/refresh.sh --deploy       # sync + build + commit + push
+#   bash scripts/refresh.sh --diff-only    # show what changed, no build
+#   QB_ROOT=/path/to/quant-bot bash scripts/refresh.sh --deploy
 #
 # Exit codes:
 #   0  ok (built, optionally pushed)
@@ -71,7 +71,7 @@ fi
 
 if [ "$DIFF_ONLY" = "1" ]; then
   cd "$REPO_ROOT"
-  git diff --stat tomcash/data/quant_bot_journal/ || true
+  git diff --stat data/quant_bot_journal/ || true
   exit 0
 fi
 
@@ -112,11 +112,11 @@ fi
 # --- 3. (optional) commit + push so the public site picks it up -------------
 if [ "$DEPLOY" = "1" ]; then
   cd "$REPO_ROOT"
-  if [ -z "$(git status --porcelain tomcash/data/quant_bot_journal/ tomcash/dist/)" ]; then
+  if [ -z "$(git status --porcelain data/quant_bot_journal/ dist/)" ]; then
     ok "no journal/dist changes — skipping commit"
   else
     say "git: staging quant_bot_journal/"
-    git add tomcash/data/quant_bot_journal/ || { err "git add failed"; exit 3; }
+    git add data/quant_bot_journal/ || { err "git add failed"; exit 3; }
     # Don't commit dist/ — it's gitignored as a build artifact. CI rebuilds.
     BR=$(git rev-parse --abbrev-ref HEAD)
     MSG="refresh: sync quant-bot journal ($(date -u +%FT%TZ))"
