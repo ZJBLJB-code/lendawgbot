@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # refresh.sh — the "tell Claude to refresh" workflow.
 #
-# One command. Sync the latest quant-bot artifacts, rebuild the dashboard,
-# and (optionally) commit + push so the live site updates within a minute.
+# v2 architecture (canonical publisher):
+#   1. sync_quant_bot.sh runs tools/publisher.py and writes data/dashboard.json
+#   2. build.py reads data/dashboard.json (--from canonical) and emits dist/
 #
 # Usage:
 #   bash scripts/refresh.sh                # local: sync + build, no commit
@@ -12,7 +13,7 @@
 #
 # Exit codes:
 #   0  ok (built, optionally pushed)
-#   1  sync failed (quant-bot not reachable)
+#   1  sync failed (publisher error / quant-bot not reachable)
 #   2  build failed
 #   3  git step failed (when --deploy)
 
@@ -26,7 +27,7 @@ for arg in "$@"; do
     --deploy) DEPLOY=1 ;;
     --diff-only) DIFF_ONLY=1 ;;
     -h|--help)
-      sed -n '2,15p' "$0"
+      sed -n '2,18p' "$0"
       exit 0
       ;;
     *) echo "unknown arg: $arg" >&2; exit 1 ;;
@@ -38,6 +39,7 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 TOMCASH="$(cd "$HERE/.." && pwd)"
 REPO_ROOT="$(cd "$TOMCASH/.." && pwd)"
 QB_ROOT="${QB_ROOT:-$HOME/quant-bot}"
+CANONICAL="$TOMCASH/data/dashboard.json"
 
 cd "$TOMCASH"
 
@@ -50,38 +52,45 @@ err() { printf "[%s] ✗ %s\n" "$(ts)" "$*" >&2; }
 START_TS=$(date +%s)
 say "refresh start  qb_root=$QB_ROOT"
 
-# --- 1. Sync from quant-bot -------------------------------------------------
-say "sync …"
+# --- 1. Sync via the canonical publisher ------------------------------------
+say "sync (canonical publisher) …"
 if ! bash "$HERE/sync_quant_bot.sh" > /tmp/lendawg-sync.log 2>&1; then
   err "sync failed — see /tmp/lendawg-sync.log"
   cat /tmp/lendawg-sync.log
   exit 1
 fi
 
-# Show what changed in the staged journal
-STAGED="$TOMCASH/data/quant_bot_journal"
-LATEST_VERDICT=$(ls -1t "$STAGED"/day0/verdict_*.json 2>/dev/null | head -1 || true)
-if [ -n "$LATEST_VERDICT" ]; then
-  ALL_PASS=$(python3 -c "import json; d=json.load(open('$LATEST_VERDICT')); print(d.get('gate',{}).get('all_pass'))")
-  PASSED=$(python3 -c "import json; d=json.load(open('$LATEST_VERDICT')); g=d.get('gate',{}); print(sum(1 for k,v in g.items() if k.endswith('_pass') and k!='all_pass' and (v is True or v=='True')))")
-  ok "synced  latest verdict: $(basename "$LATEST_VERDICT")  all_pass=$ALL_PASS  passed=$PASSED/5"
+# Show the canonical artifact's headline facts.
+if [ -f "$CANONICAL" ]; then
+  python3 - "$CANONICAL" <<'PY' || true
+import json, sys
+p = json.load(open(sys.argv[1]))
+prov = p.get("_provenance") or {}
+v = p.get("verdict") or {}
+print(f"  canonical: mode={p.get('mode')} schema={p.get('schema_version')} "
+      f"source={prov.get('source_detail')}")
+if v:
+    print(f"  verdict:   {v.get('verdict')} ({v.get('gates_passed')}/5 gates)")
+PY
+  ok "synced  canonical=$CANONICAL"
 else
-  err "no verdict files staged — quant-bot may be offline or empty"
+  err "no canonical dashboard.json after sync — aborting"
+  exit 1
 fi
 
 if [ "$DIFF_ONLY" = "1" ]; then
   cd "$REPO_ROOT"
-  git diff --stat data/quant_bot_journal/ || true
+  git diff --stat data/dashboard.json || true
   exit 0
 fi
 
-# --- 2. Build the dashboard from real data ----------------------------------
-say "build …"
+# --- 2. Build the dashboard from the canonical artifact ---------------------
+say "build (--from canonical) …"
 if ! python3 "$TOMCASH/scripts/build.py" \
-        --from quant-bot \
-        --root "$STAGED" \
-        --mode AUTO \
+        --from canonical \
+        --root "$CANONICAL" \
         --also-demo \
+        --publisher local \
         > /tmp/lendawg-build.log 2>&1; then
   err "build failed — see /tmp/lendawg-build.log"
   tail -40 /tmp/lendawg-build.log >&2
@@ -112,14 +121,14 @@ fi
 # --- 3. (optional) commit + push so the public site picks it up -------------
 if [ "$DEPLOY" = "1" ]; then
   cd "$REPO_ROOT"
-  if [ -z "$(git status --porcelain data/quant_bot_journal/ dist/)" ]; then
-    ok "no journal/dist changes — skipping commit"
+  if [ -z "$(git status --porcelain data/dashboard.json dist/)" ]; then
+    ok "no canonical/dist changes — skipping commit"
   else
-    say "git: staging quant_bot_journal/"
-    git add data/quant_bot_journal/ || { err "git add failed"; exit 3; }
+    say "git: staging data/dashboard.json"
+    git add data/dashboard.json || { err "git add failed"; exit 3; }
     # Don't commit dist/ — it's gitignored as a build artifact. CI rebuilds.
     BR=$(git rev-parse --abbrev-ref HEAD)
-    MSG="refresh: sync quant-bot journal ($(date -u +%FT%TZ))"
+    MSG="refresh: publish canonical dashboard ($(date -u +%FT%TZ))"
     git commit -m "$MSG" || { err "nothing to commit"; }
     say "git: pushing to origin/$BR …"
     git push origin "$BR" || { err "push failed"; exit 3; }

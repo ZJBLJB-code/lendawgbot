@@ -456,9 +456,11 @@ def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
     parser = argparse.ArgumentParser(description="Build TomCash dashboard")
-    parser.add_argument("--from", dest="source", choices=["sample", "quant-bot"],
+    parser.add_argument("--from", dest="source", choices=["sample", "quant-bot", "canonical"],
                         default="sample", help="Data source (default: sample)")
-    parser.add_argument("--root", type=Path, help="quant-bot project root (required if --from quant-bot)")
+    parser.add_argument("--root", type=Path,
+                        help="With --from quant-bot: quant-bot project root. "
+                             "With --from canonical: path to publisher's dashboard.json.")
     parser.add_argument("--mode", choices=["AUTO", "LIVE", "DAY0"], default="AUTO",
                         help="Mode hint for quant-bot adapter (default: AUTO)")
     parser.add_argument("--day0", action="store_true",
@@ -522,6 +524,29 @@ def main() -> int:
         data_as_of_for_prov = datetime.fromtimestamp(
             DAY0_DATA.stat().st_mtime, tz=timezone.utc
         ).isoformat()
+    elif args.source == "canonical":
+        # New canonical pipeline: tools/publisher.py has already produced
+        # a schema-validated, PII-free dashboard JSON. We just load it,
+        # round-trip-validate, and render. No translations, no event
+        # reconstruction — the publisher did all that.
+        if not args.root:
+            sys.exit("--from canonical requires --root <path-to-dashboard.json>")
+        if not args.root.is_file():
+            sys.exit(f"canonical dashboard not found: {args.root}")
+        data = json.loads(args.root.read_text())
+        # Round-trip via the v2 schema as a last-line defence.
+        try:
+            from tools.publisher_schema import Dashboard as _DashboardV2  # type: ignore
+            _ = _DashboardV2.from_dict(data)
+        except Exception as e:
+            log.warning("canonical dashboard failed schema validation: %s", e)
+            warnings.append(f"canonical schema validation: {e}")
+        source_label = "canonical"
+        mode_label = str(data.get("mode", "LIVE"))
+        source_detail = (data.get("_provenance") or {}).get("source_detail") or str(args.root)
+        data_as_of_for_prov = (data.get("_provenance") or {}).get("data_as_of") or (
+            datetime.fromtimestamp(args.root.stat().st_mtime, tz=timezone.utc).isoformat()
+        )
     elif args.source == "quant-bot":
         if not args.root:
             sys.exit("--from quant-bot requires --root <path>")

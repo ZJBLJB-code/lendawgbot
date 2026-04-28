@@ -31,40 +31,58 @@ No virtualenv, no `pip install`, no Node — Python 3.11 stdlib is enough to bui
 
 ## Architecture
 
+The pipeline has **two stages with a frozen contract between them**: a
+canonical publisher that reads quant-bot's raw artifacts and writes one
+schema-validated, PII-free JSON file, and a build step that consumes that
+file and renders the static dashboard. Because the canonical schema in
+`tools/publisher_schema.py` is an **allow-list** (unknown fields are dropped
+at construction time), PII cannot survive the trip from quant-bot into
+`data/dashboard.json` — there is no separate sanitize step. Schema version
+is pinned at `2.0`; bumping it is a breaking change.
+
 ```
-        +----------------+
-        |   data sources |
-        |  (quant-bot OR |
-        |   sample.json) |
-        +-------+--------+
-                |
-                v
-        +----------------+        adapters/quant_bot.py
-        |    schema.py   |  <-->  reads journal/, verdict files,
-        |  (Dashboard,   |        normalises into Dashboard
-        |   Verdict, ..) |
-        +-------+--------+
-                |
-                v
-        +----------------+        scripts/build.py
-        |  build step    |        embeds JSON inline into
-        | (template +    |        src/template.html, minifies,
-        |  data -> html) |        self-hosts fonts
-        +-------+--------+
-                |
-                v
-        +----------------+
-        |  dist/         |        index.html  -> real data
-        |  (deployable)  |        demo.html   -> demo data
-        |                |        _status.json -> health probe
-        +-------+--------+
-                |
-                v
-        +----------------+
-        |  GitHub Pages  |        every push + every 15 min
-        |  (or CF Pages) |        during market hours
-        +----------------+
+        +-------------------+
+        |   quant-bot       |   journal/day0/verdict_*.json
+        |   (raw artifacts) |   journal/live/*.jsonl
+        |                   |   data/processed/trades.parquet
+        +---------+---------+
+                  |
+                  v
+        +-------------------+        tools/publisher.py  (v2)
+        |  canonical        |  --->  read raw -> typed Dashboard ->
+        |  publisher        |        ALLOW-LIST emit -> atomic write
+        +---------+---------+
+                  |
+                  v
+        +-------------------+        data/dashboard.json
+        |  canonical JSON   |        schema_version 2.0
+        |  (the contract)   |        + _provenance block
+        +---------+---------+
+                  |
+                  v
+        +-------------------+        scripts/build.py --from canonical
+        |  build step       |        embeds JSON inline into
+        |                   |        src/template.html, minifies,
+        |                   |        self-hosts fonts
+        +---------+---------+
+                  |
+                  v
+        +-------------------+
+        |  dist/            |        index.html  -> real data
+        |  (deployable)     |        demo.html   -> demo data
+        |                   |        _status.json -> health probe
+        +---------+---------+
+                  |
+                  v
+        +-------------------+
+        |  GitHub Pages     |        every push + every 15 min
+        |  (or CF Pages)    |        during market hours
+        +-------------------+
 ```
+
+The legacy `adapters/quant_bot.py` (read-and-reverse-engineer-with-blocklist)
+is deprecated and kept only as a transitional safety net. New work belongs
+in `tools/publisher.py` + `tools/publisher_schema.py`.
 
 ## The "refresh" workflow
 
@@ -109,13 +127,17 @@ Logs: `/tmp/lendawgbot-watcher.log`. Uninstall: `bash scripts/install_watcher.sh
 │   ├── refresh.sh             # one-shot sync + build + deploy
 │   ├── sync_quant_bot.sh      # mirror fresh artifacts from $QB_ROOT
 │   └── install_watcher.sh     # launchd auto-trigger on file change
+├── tools/
+│   ├── publisher.py           # canonical publisher (v2): raw → dashboard.json
+│   ├── publisher_schema.py    # allow-listed Dashboard schema (v2.0)
+│   └── dashboard.schema.json  # emitted JSON Schema artifact
 ├── adapters/
-│   ├── quant_bot.py           # reads quant-bot artifacts → Dashboard
+│   ├── quant_bot.py           # DEPRECATED — kept as transitional fallback
 │   └── translations.py        # presentation copy (regimes, signals, etc.)
 ├── data/
+│   ├── dashboard.json         # canonical published payload (v2.0)
 │   ├── sample.json            # demo (LIVE mode showcase)
-│   ├── day0_sample.json       # demo (DAY0 lab mode)
-│   └── quant_bot_journal/     # snapshot from sibling quant-bot repo
+│   └── day0_sample.json       # demo (DAY0 lab mode)
 ├── personas/                  # reusable persona charters for design reviews
 ├── docs/                      # design + audit history
 ├── schema.py                  # Dashboard / Verdict / EquityPoint dataclasses

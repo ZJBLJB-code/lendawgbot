@@ -1,0 +1,561 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lendawgbot.io/schemas/dashboard-2.0.json",
+  "title": "Dashboard",
+  "description": "Canonical Len Dawg Bot dashboard payload, produced by tools/publisher.py. Schema version 2.0.",
+  "$defs": {
+    "Bot": {
+      "type": "object",
+      "title": "Bot",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "instrument": {
+          "type": "string"
+        },
+        "phase_short": {
+          "type": "string"
+        },
+        "instrument_friendly": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "phase": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "days_live": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "starting_equity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "PersonaVote": {
+      "type": "object",
+      "title": "PersonaVote",
+      "properties": {
+        "persona": {
+          "type": "string"
+        },
+        "verdict": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "reasoning": {
+          "type": "string"
+        },
+        "size_multiplier": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Trade": {
+      "type": "object",
+      "title": "Trade",
+      "properties": {
+        "trade_id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "entry_time": {
+          "type": "string"
+        },
+        "exit_time": {
+          "type": "string"
+        },
+        "direction": {
+          "type": "string"
+        },
+        "sub_signal": {
+          "type": "string"
+        },
+        "regime": {
+          "type": "string"
+        },
+        "qty": {
+          "type": "integer"
+        },
+        "entry_price": {
+          "type": "number"
+        },
+        "exit_price": {
+          "type": "number"
+        },
+        "pnl_dollars": {
+          "type": "number"
+        },
+        "pnl_points": {
+          "type": "number"
+        },
+        "bars_held": {
+          "type": "integer"
+        },
+        "exit_reason": {
+          "type": "string"
+        },
+        "persona_votes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PersonaVote"
+          }
+        },
+        "stop_price": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_price": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "thesis_confirmed": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Day": {
+      "type": "object",
+      "title": "Day",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "regime": {
+          "type": "string"
+        },
+        "trades_count": {
+          "type": "integer"
+        },
+        "wins": {
+          "type": "integer"
+        },
+        "losses": {
+          "type": "integer"
+        },
+        "pnl_dollars": {
+          "type": "number"
+        },
+        "cumulative_pnl": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "EquityPoint": {
+      "type": "object",
+      "title": "EquityPoint",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "equity": {
+          "type": "number"
+        },
+        "pnl": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CageMatch": {
+      "type": "object",
+      "title": "CageMatch",
+      "properties": {
+        "trade_id": {
+          "type": "string"
+        },
+        "outcome": {
+          "type": "string"
+        },
+        "pnl_dollars": {
+          "type": "number"
+        },
+        "direction": {
+          "type": "string"
+        },
+        "sub_signal": {
+          "type": "string"
+        },
+        "regime": {
+          "type": "string"
+        },
+        "votes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PersonaVote"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Persona": {
+      "type": "object",
+      "title": "Persona",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "wins": {
+          "type": "integer"
+        },
+        "losses": {
+          "type": "integer"
+        },
+        "vetoed": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Translations": {
+      "type": "object",
+      "title": "Translations",
+      "properties": {
+        "regime": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "sub_signal": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "exit_reason": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "persona_nicknames": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "persona_names": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "instrument_friendly": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Cumulative": {
+      "type": "object",
+      "title": "Cumulative",
+      "properties": {
+        "total_pnl": {
+          "type": "number"
+        },
+        "total_trades": {
+          "type": "integer"
+        },
+        "win_rate": {
+          "type": "number"
+        },
+        "current_equity": {
+          "type": "number"
+        },
+        "streak": {
+          "type": "integer"
+        },
+        "streak_type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Gate": {
+      "type": "object",
+      "title": "Gate",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "threshold": {
+          "type": "number"
+        },
+        "pass": {
+          "type": "boolean"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Verdict": {
+      "type": "object",
+      "title": "Verdict",
+      "properties": {
+        "verdict": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "gates_passed": {
+          "type": "integer"
+        },
+        "gates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Gate"
+          }
+        },
+        "all_pass": {
+          "type": "boolean"
+        },
+        "wfo_winner": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "holdout_start": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "holdout_end": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Provenance": {
+      "type": "object",
+      "title": "Provenance",
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "source_detail": {
+          "type": "string"
+        },
+        "data_as_of": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "publisher_run_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "publisher_version": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string"
+    },
+    "bot": {
+      "$ref": "#/$defs/Bot"
+    },
+    "translations": {
+      "$ref": "#/$defs/Translations"
+    },
+    "personas": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/Persona"
+      }
+    },
+    "equity_curve": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/EquityPoint"
+      }
+    },
+    "today_trades": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Trade"
+      }
+    },
+    "today": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Day"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cumulative": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Cumulative"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cage_match": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CageMatch"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "verdict": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Verdict"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "as_of_date": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ai_learnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tomorrow_watch": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "_provenance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Provenance"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

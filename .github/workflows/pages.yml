@@ -49,11 +49,23 @@ jobs:
         run: python3 scripts/generate_sample_data.py
 
       - name: Build
-        # Reads the checked-in quant-bot snapshot under data/quant_bot_journal/.
-        # --also-demo emits the fabricated showcase as demo.html.
-        # Adapter never raises: missing snapshot falls back to sample.json so
-        # cron stays green. --publisher tags the heartbeat for monitors.
-        run: python3 scripts/build.py --from quant-bot --root data/quant_bot_journal --mode AUTO --also-demo --publisher github-pages
+        # v2 architecture: prefer the committed canonical dashboard JSON
+        # (data/dashboard.json), produced offline by tools/publisher.py from
+        # quant-bot's raw artifacts. CI runners don't have the bot's full
+        # state, so the canonical JSON is the contract between the local
+        # operator (refresh.sh) and CI.
+        #
+        # If data/dashboard.json is present → --from canonical (the canonical
+        # path).  If it's missing → --from sample (cron stays green; the
+        # provenance bar will show "sample-fallback").
+        run: |
+          if [ -f data/dashboard.json ]; then
+            echo "Using committed canonical dashboard.json"
+            python3 scripts/build.py --from canonical --root data/dashboard.json --also-demo --publisher github-pages
+          else
+            echo "No canonical dashboard.json — falling back to sample"
+            python3 scripts/build.py --from sample --also-demo --publisher github-pages
+          fi
 
       - name: Verify status
         run: |
@@ -61,7 +73,16 @@ jobs:
           test -f dist/index.html
           test -f dist/demo.html
           test -f dist/_status.json
-          python3 -c "import json; s=json.load(open('dist/_status.json')); assert s['ok'] is True, s; assert s['schema_version']==1, s; assert s['publisher']=='github-pages', s; print('status ok:', s['mode'], s['last_build_source'], s['publisher'])"
+          python3 - <<'PY'
+          import json, sys
+          s = json.load(open("dist/_status.json"))
+          assert s["ok"] is True, s
+          assert s["schema_version"] == 1, s
+          assert s["publisher"] == "github-pages", s
+          # canonical is the preferred source; sample is the green-fallback.
+          assert s["last_build_source"] in ("canonical", "sample"), s
+          print("status ok:", s["mode"], s["last_build_source"], s["publisher"])
+          PY
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

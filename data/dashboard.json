@@ -1,0 +1,112 @@
+{
+  "schema_version": "2.0",
+  "publisher_version": "1.0.0",
+  "generated_at": "2026-04-28T14:25:32.523743+00:00",
+  "mode": "LIVE",
+  "bot": {
+    "name": "Len Dawg",
+    "instrument": "/MES",
+    "phase_short": "Live",
+    "instrument_friendly": "S&P 500 mini",
+    "phase": "Phase A — Live, 1 contract max",
+    "days_live": 1,
+    "starting_equity": 10000.0
+  },
+  "translations": {
+    "regime": {
+      "MEAN_REV_FRIENDLY": "Calm, choppy market",
+      "TREND_REGIME": "Strong trend day",
+      "VOLATILE": "Choppy, wild market",
+      "UNCLASSIFIED": "Unclear regime"
+    },
+    "sub_signal": {
+      "ORF": "Opening fade",
+      "VWAP_REV": "Pullback",
+      "GAP_FILL": "Gap fill"
+    },
+    "exit_reason": {
+      "TARGET": "hit goal",
+      "STOP": "stopped out",
+      "TIME": "ran out of time",
+      "TRAILING": "trailed out"
+    },
+    "persona_nicknames": {
+      "TT": "The Chartist",
+      "ME": "The Macro Guy",
+      "OF": "The Flow Reader",
+      "DA": "The Skeptic"
+    },
+    "persona_names": {
+      "TT": "Technical Trader",
+      "ME": "Macro Economist",
+      "OF": "Options Analyst",
+      "DA": "Devil's Advocate"
+    },
+    "instrument_friendly": {
+      "/MES": "S&P 500 mini",
+      "/ES": "S&P 500 futures",
+      "/MNQ": "Nasdaq 100 mini",
+      "/NQ": "Nasdaq 100 futures",
+      "/MYM": "Dow mini",
+      "/YM": "Dow futures",
+      "/M2K": "Russell 2000 mini",
+      "/RTY": "Russell 2000 futures"
+    }
+  },
+  "personas": {
+    "TT": {
+      "code": "TT",
+      "name": "Technical Trader",
+      "nickname": "The Chartist",
+      "wins": 0,
+      "losses": 0,
+      "vetoed": 0
+    },
+    "ME": {
+      "code": "ME",
+      "name": "Macro Economist",
+      "nickname": "The Macro Guy",
+      "wins": 0,
+      "losses": 0,
+      "vetoed": 0
+    },
+    "OF": {
+      "code": "OF",
+      "name": "Options Analyst",
+      "nickname": "The Flow Reader",
+      "wins": 0,
+      "losses": 0,
+      "vetoed": 0
+    },
+    "DA": {
+      "code": "DA",
+      "name": "Devil's Advocate",
+      "nickname": "The Skeptic",
+      "wins": 0,
+      "losses": 0,
+      "vetoed": 0
+    }
+  },
+  "equity_curve": [],
+  "today_trades": [],
+  "today": null,
+  "cumulative": {
+    "total_pnl": 0,
+    "total_trades": 0,
+    "win_rate": 0.0,
+    "current_equity": 10000.0,
+    "streak": 0,
+    "streak_type": "none"
+  },
+  "cage_match": null,
+  "verdict": null,
+  "as_of_date": "2026-04-28",
+  "ai_learnings": [],
+  "tomorrow_watch": [],
+  "_provenance": {
+    "source": "quant-bot",
+    "source_detail": "live/2026-04-28.jsonl",
+    "data_as_of": "2026-04-28T14:25:16.196463+00:00",
+    "publisher_run_id": "7ffd0fef-d676-4243-8d14-a363bfba219b"
+  }
+}

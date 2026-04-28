@@ -1,64 +1,76 @@
 #!/usr/bin/env bash
-# Mirror the latest quant-bot day0 verdicts (and live event logs, if present)
-# into data/quant_bot_journal/ so CI can build without needing the
-# full quant-bot worktree.
+# sync_quant_bot.sh — produce data/dashboard.json from a local quant-bot.
+#
+# v2 architecture: this script no longer copies raw quant-bot files. Instead
+# it invokes the canonical publisher, which reads quant-bot's raw artifacts
+# and emits a single schema-validated, PII-free dashboard JSON. The schema
+# allow-list (tools/publisher_schema.py) is what guarantees PII safety —
+# there is no separate "sanitize" pass.
 #
 # Usage:
 #   bash scripts/sync_quant_bot.sh
 #   QB_ROOT=/path/to/quant-bot bash scripts/sync_quant_bot.sh
+#   SYNC_SKIP_LIVE=1 bash scripts/sync_quant_bot.sh   # force DAY0 mode
 #
-# This is the manual half of "Option A" data sync (see README.md
-# Real data section). Run it whenever quant-bot emits a fresh verdict, then
-# git-commit the result so the next cron build picks it up.
+# Behavior:
+#   - QB_ROOT defaults to $HOME/quant-bot
+#   - SYNC_SKIP_LIVE=1 passes --mode DAY0 to the publisher, ignoring live JSONL.
+#   - On publisher failure: hard exit (NO silent fallback). The dashboard
+#     should NEVER drift forward on stale data because nobody noticed.
+#
+# Exit codes:
+#   0  success
+#   1  QB_ROOT not found / not a directory
+#   2  publisher hard failure
 set -euo pipefail
 
 QB_ROOT="${QB_ROOT:-$HOME/quant-bot}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
-DEST="$HERE/../data/quant_bot_journal"
+TOMCASH="$(cd "$HERE/.." && pwd)"
+OUT="$TOMCASH/data/dashboard.json"
+PUBLISHER="$TOMCASH/tools/publisher.py"
 
 if [ ! -d "$QB_ROOT" ]; then
   echo "QB_ROOT not found: $QB_ROOT" >&2
   echo "set QB_ROOT=/path/to/quant-bot and re-run." >&2
   exit 1
 fi
-
-mkdir -p "$DEST/day0" "$DEST/live"
-
-# Verdict files — small, always copy.
-if compgen -G "$QB_ROOT/journal/day0/verdict_*.json" > /dev/null; then
-  cp -v "$QB_ROOT"/journal/day0/verdict_*.json "$DEST/day0/"
-else
-  echo "no verdict_*.json under $QB_ROOT/journal/day0 (skipping)"
+if [ ! -f "$PUBLISHER" ]; then
+  echo "publisher not found: $PUBLISHER" >&2
+  exit 1
 fi
 
-# Live event logs — every line is piped through scripts/sanitize_jsonl.py
-# which strips known PII fields (account_id, client_id, host, port, bot_pid,
-# equity_usd, drawdown_pct, position detail). The scrubbed JSONL is what
-# the public dashboard's adapter reads. See sanitize_jsonl.py for the
-# canonical PII_FIELDS list.
-#
-# SYNC_SKIP_LIVE=1 overrides this and skips the sync entirely (useful while
-# auditing a brand-new event field that might leak). Default 0 = sync.
-SANITIZER="$HERE/sanitize_jsonl.py"
-if [ "${SYNC_SKIP_LIVE:-0}" = "0" ] && compgen -G "$QB_ROOT/journal/live/*.jsonl" > /dev/null; then
-  if [ ! -f "$SANITIZER" ]; then
-    echo "ERROR: sanitizer not found at $SANITIZER — refusing to copy raw live JSONL" >&2
-    exit 2
-  fi
-  # newest 7 by name (which encodes date), each scrubbed in-flight.
-  ls -1 "$QB_ROOT"/journal/live/*.jsonl | sort -r | head -n 7 | while read -r f; do
-    name=$(basename "$f")
-    python3 "$SANITIZER" < "$f" > "$DEST/live/$name"
-    echo "  scrubbed $name -> $DEST/live/$name"
-  done
-else
-  if [ "${SYNC_SKIP_LIVE:-0}" != "0" ]; then
-    echo "live JSONL sync skipped (SYNC_SKIP_LIVE=$SYNC_SKIP_LIVE)"
-  else
-    echo "no *.jsonl under $QB_ROOT/journal/live (skipping)"
-  fi
+MODE_FLAG=""
+if [ "${SYNC_SKIP_LIVE:-0}" != "0" ]; then
+  echo "SYNC_SKIP_LIVE=$SYNC_SKIP_LIVE — forcing publisher --mode DAY0"
+  MODE_FLAG="--mode DAY0"
 fi
+
+mkdir -p "$(dirname "$OUT")"
+
+echo "publishing  qb_root=$QB_ROOT  out=$OUT"
+# Run the publisher. Any failure (PublisherError, missing artifacts, …)
+# bubbles up via `set -e`. We deliberately do NOT fall back to a stale
+# previous artifact — silent staleness is the worst failure mode.
+if ! python3 "$PUBLISHER" --quant-bot-root "$QB_ROOT" --out "$OUT" $MODE_FLAG; then
+  echo "publisher failed — refusing to leave stale dashboard.json in place" >&2
+  exit 2
+fi
+
+# Surface the headline facts so the operator can sanity-check at a glance.
+python3 - "$OUT" <<'PY'
+import json, sys
+p = json.load(open(sys.argv[1]))
+prov = p.get("_provenance") or {}
+print(f"  schema_version = {p.get('schema_version')}")
+print(f"  mode           = {p.get('mode')}")
+print(f"  source_detail  = {prov.get('source_detail')}")
+print(f"  data_as_of     = {prov.get('data_as_of')}")
+v = p.get("verdict") or {}
+if v:
+    print(f"  verdict        = {v.get('verdict')} ({v.get('gates_passed')}/5 gates)")
+PY
 
 echo
-echo "synced from $QB_ROOT into $DEST"
-echo "next: git add data/quant_bot_journal && git commit"
+echo "wrote $OUT"
+echo "next: bash scripts/refresh.sh  (or commit data/dashboard.json)"

@@ -1,5 +1,19 @@
 """TomCash <- quant-bot adapter.
 
+# ============================================================
+# DEPRECATED (2026-04-27).  DO NOT EXTEND.
+#
+# Superseded by ``tools/publisher.py`` + the v2 canonical schema in
+# ``tools/publisher_schema.py``. The new pipeline is:
+#
+#     quant-bot artifacts -> tools/publisher.py -> dashboard.json -> build.py
+#
+# This module is kept ONLY as a transitional safety net while the canonical
+# pipeline beds in. It will be deleted after a few days of canonical-only
+# operation in CI. New fields go in ``tools/publisher_schema.Dashboard``
+# and ``tools/publisher.py``, NOT here.
+# ============================================================
+
 Reads raw artifacts from a quant-bot project root and emits the dashboard
 payload shape consumed by `src/template.html` (see `data/sample.json` for the
 schema-of-truth).
