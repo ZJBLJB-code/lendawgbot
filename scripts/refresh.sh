@@ -132,5 +132,5 @@ ok "done in ${ELAPSED}s"
 echo
 echo "→ open  http://localhost:8765  (local preview)"
 if [ "$DEPLOY" = "1" ]; then
-  echo "→ live  https://zjbljb-code.github.io/zach-pocs/  (~1-2 min after CI)"
+  echo "→ live  https://zjbljb-code.github.io/lendawgbot/  (~1-2 min after CI)"
 fi
