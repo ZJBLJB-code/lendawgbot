@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "publisher_version": "1.0.0",
-  "generated_at": "2026-04-28T14:25:32.523743+00:00",
+  "generated_at": "2026-05-15T21:17:15.316993+00:00",
   "mode": "LIVE",
   "bot": {
     "name": "Len Dawg",
@@ -9,7 +9,7 @@
     "phase_short": "Live",
     "instrument_friendly": "S&P 500 mini",
     "phase": "Phase A — Live, 1 contract max",
-    "days_live": 1,
+    "days_live": 6,
     "starting_equity": 10000.0
   },
   "translations": {
@@ -87,26 +87,115 @@
       "vetoed": 0
     }
   },
-  "equity_curve": [],
-  "today_trades": [],
-  "today": null,
-  "cumulative": {
-    "total_pnl": 0,
-    "total_trades": 0,
-    "win_rate": 0.0,
-    "current_equity": 10000.0,
-    "streak": 0,
-    "streak_type": "none"
+  "equity_curve": [
+    {
+      "date": "2026-05-01",
+      "equity": 9997.5,
+      "pnl": -2.5
+    },
+    {
+      "date": "2026-05-05",
+      "equity": 9986.25,
+      "pnl": -11.25
+    },
+    {
+      "date": "2026-05-06",
+      "equity": 10052.5,
+      "pnl": 66.25
+    },
+    {
+      "date": "2026-05-08",
+      "equity": 10035.0,
+      "pnl": -17.5
+    },
+    {
+      "date": "2026-05-11",
+      "equity": 10055.0,
+      "pnl": 20.0
+    },
+    {
+      "date": "2026-05-15",
+      "equity": 10080.0,
+      "pnl": 25.0
+    }
+  ],
+  "today_trades": [
+    {
+      "trade_id": "BR-32760ee4",
+      "date": "2026-05-15",
+      "entry_time": "2026-05-15T15:51:11.814394+00:00",
+      "exit_time": "2026-05-15T16:21:24.950786+00:00",
+      "direction": "LONG",
+      "sub_signal": "ORF",
+      "regime": "UNCLASSIFIED",
+      "qty": 1,
+      "entry_price": 7436.5,
+      "exit_price": 7447.5,
+      "pnl_dollars": 55.0,
+      "pnl_points": 11.0,
+      "bars_held": 30,
+      "exit_reason": "TARGET",
+      "persona_votes": [],
+      "stop_price": 7429.0,
+      "target_price": 7447.5,
+      "thesis_confirmed": true
+    },
+    {
+      "trade_id": "BR-88d35132",
+      "date": "2026-05-15",
+      "entry_time": "2026-05-15T19:46:13.592660+00:00",
+      "exit_time": "2026-05-15T19:53:17.614532+00:00",
+      "direction": "LONG",
+      "sub_signal": "ORF",
+      "regime": "UNCLASSIFIED",
+      "qty": 1,
+      "entry_price": 7440.75,
+      "exit_price": 7434.75,
+      "pnl_dollars": -30.0,
+      "pnl_points": -6.0,
+      "bars_held": 7,
+      "exit_reason": "STOP",
+      "persona_votes": [],
+      "stop_price": 7434.75,
+      "target_price": 7449.25,
+      "thesis_confirmed": false
+    }
+  ],
+  "today": {
+    "date": "2026-05-15",
+    "regime": "UNCLASSIFIED",
+    "trades_count": 2,
+    "wins": 1,
+    "losses": 1,
+    "pnl_dollars": 25.0,
+    "cumulative_pnl": 80.0
   },
-  "cage_match": null,
+  "cumulative": {
+    "total_pnl": 80.0,
+    "total_trades": 10,
+    "win_rate": 0.4,
+    "current_equity": 10080.0,
+    "streak": 2,
+    "streak_type": "win"
+  },
+  "cage_match": {
+    "trade_id": "BR-32760ee4",
+    "outcome": "WIN",
+    "pnl_dollars": 55.0,
+    "direction": "LONG",
+    "sub_signal": "ORF",
+    "regime": "UNCLASSIFIED",
+    "votes": []
+  },
   "verdict": null,
-  "as_of_date": "2026-04-28",
+  "as_of_date": "2026-05-15",
   "ai_learnings": [],
   "tomorrow_watch": [],
+  "awaiting_first_trade": false,
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-04-28.jsonl",
-    "data_as_of": "2026-04-28T14:25:16.196463+00:00",
-    "publisher_run_id": "7ffd0fef-d676-4243-8d14-a363bfba219b"
+    "source_detail": "live/2026-05-15.jsonl",
+    "data_as_of": "2026-05-15T20:45:44.085392+00:00",
+    "publisher_run_id": "601832f2-0963-4e97-beef-cb474e0b239f"
   }
 }
