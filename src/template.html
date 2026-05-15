@@ -1854,8 +1854,20 @@ details[open] .trades-summary .chev { transform: rotate(180deg); }
       stateClass = 'is-stale';
       glyph = '⚠';
       label = 'REAL';
-      msg = 'last sync ' + (asOf ? fmtRelative(asOf) : 'unknown') +
-            ' · awaiting fresh data from quant-bot';
+      // For multi-day-stale states ("17d ago"), also include the absolute
+      // date so the staleness isn't ambiguous — "17 days" can be hard for a
+      // casual reader to translate into "wait, it hasn't synced this month?"
+      let staleWording;
+      if (asOf) {
+        const rel = fmtRelative(asOf);
+        const abs = new Date(asOf).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        staleWording = (ageHours > 48)
+          ? 'last sync ' + abs + ' (' + rel + ')'
+          : 'last sync ' + rel;
+      } else {
+        staleWording = 'last sync unknown';
+      }
+      msg = staleWording + ' · awaiting fresh data from quant-bot';
     } else {
       stateClass = 'is-real';
       glyph = '';  // pulse dot does the work

@@ -151,6 +151,71 @@ def test_live_mode_triggers_on_real_fill(tmp_path: Path) -> None:
     assert payload["cumulative"] is not None
 
 
+def test_live_mode_reconstructs_trade_from_fill_pairs(tmp_path: Path) -> None:
+    """A bracket with entry-leg fill + exit-leg fill + position_closed must
+    reconstruct cleanly into a Trade. This is today's actual bot shape —
+    real fills land before the parquet build job catches up.
+    """
+    root = _make_root(tmp_path)
+    live = root / "journal" / "live" / "2026-05-15.jsonl"
+    live.write_text(
+        '{"ts":"2026-05-15T15:50:00+00:00","event":"bracket_submitted",'
+        '"bracket_id":"BR-AAA","sub_signal":"ORF","side":"LONG","qty":1,'
+        '"entry":7436.5,"stop":7430.0,"target":7447.5,"instrument":"MES"}\n'
+        '{"ts":"2026-05-15T15:51:11+00:00","event":"fill","bracket_id":"BR-AAA",'
+        '"leg":"entry","action":"BUY","qty":1,"price":7436.5}\n'
+        '{"ts":"2026-05-15T16:21:24+00:00","event":"fill","bracket_id":"BR-AAA",'
+        '"leg":"target","action":"SELL","qty":1,"price":7447.5}\n'
+        '{"ts":"2026-05-15T16:21:24+00:00","event":"position_closed",'
+        '"bracket_id":"BR-AAA","exit_leg":"target","exit_price":7447.5,'
+        '"net_pnl_usd":55.0,"equity_after_usd":5990.2}\n'
+    )
+
+    out = tmp_path / "dashboard.json"
+    payload = publisher.publish(root, out, mode="AUTO")
+
+    assert payload["mode"] == "LIVE"
+    assert payload["awaiting_first_trade"] is False
+    today_trades = payload["today_trades"]
+    assert len(today_trades) == 1
+    t = today_trades[0]
+    assert t["trade_id"] == "BR-AAA"
+    assert t["direction"] == "LONG"
+    assert t["entry_price"] == 7436.5
+    assert t["exit_price"] == 7447.5
+    assert t["pnl_dollars"] == 55.0
+    assert t["exit_reason"] == "TARGET"
+    assert t["bars_held"] == 30  # 30 minutes between entry-fill and exit-fill
+    assert t["sub_signal"] == "ORF"
+    # PII keys never propagate.
+    s = json.dumps(payload)
+    assert "equity_after_usd" not in s
+    assert "net_pnl_usd" not in s
+
+
+def test_live_mode_awaiting_first_trade_when_no_closes(tmp_path: Path) -> None:
+    """A live JSONL with bracket_filled but no closed positions still trips
+    LIVE mode, but the dashboard must signal awaiting_first_trade=True so
+    the renderer shows the empty-state banner instead of a blank hero.
+    """
+    root = _make_root(tmp_path)
+    live = root / "journal" / "live" / "2026-05-15.jsonl"
+    live.write_text(
+        '{"ts":"2026-05-15T15:00:00+00:00","event":"heartbeat"}\n'
+        # bracket_filled trips LIVE mode but there's no exit fill or close —
+        # so reconstruction can't synthesize a closed trade.
+        '{"ts":"2026-05-15T15:30:00+00:00","event":"bracket_filled",'
+        '"bracket_id":"BR-OPEN","sub_signal":"ORF","qty":1,"entry":5400.0}\n'
+    )
+
+    out = tmp_path / "dashboard.json"
+    payload = publisher.publish(root, out, mode="AUTO")
+
+    assert payload["mode"] == "LIVE"
+    assert payload["today_trades"] == []
+    assert payload["awaiting_first_trade"] is True
+
+
 def test_live_mode_ignores_sat_test_brackets(tmp_path: Path) -> None:
     """A live JSONL with only SAT_TEST brackets must NOT promote to LIVE."""
     root = _make_root(tmp_path)

@@ -164,6 +164,11 @@ def _has_real_trade_event(path: Path) -> bool:
                 # diagnostics — not real fills).
                 if obj.get("replay") is True:
                     continue
+                # Ignore smoke-test brackets (BR-test*); they're synthetic
+                # check-the-pipe events, not real fills.
+                bid = obj.get("bracket_id") or ""
+                if isinstance(bid, str) and bid.lower().startswith("br-test"):
+                    continue
                 return True
     except OSError as e:
         log.warning("could not read %s: %s", path, e)
@@ -490,15 +495,190 @@ def _build_day0(root: Path, verdict_path: Path) -> Dashboard:
     )
 
 
+def _reconstruct_trades_from_events(root: Path) -> list[dict[str, Any]]:
+    """Build Trade-shaped dicts from raw live-log events.
+
+    Three event sources are indexed per bracket_id:
+      * bracket_submitted  — entry-side intent (sub_signal, regime, target/stop)
+      * fill               — confirmed broker fills (entry leg + target/stop leg)
+      * position_closed    — exit summary with net_pnl_usd
+
+    A bracket counts as a closed trade if it has EITHER:
+      (a) a position_closed or trade_closed event (these carry net P&L), OR
+      (b) both an entry-leg fill AND an exit-leg fill (target / stop /
+          market_close / trail).
+
+    NOTE: ``bracket_filled`` is an entry-side event (broker confirmed entry +
+    OCA stop/target placement), NOT a close. It correctly trips LIVE-mode
+    detection (real trading is happening) but does not on its own indicate
+    a trade has closed. Don't include it here.
+
+    Used in the early live window before trades.parquet exists. When the
+    parquet appears, _build_live() prefers that and skips reconstruction.
+
+    Filters: any bracket_id starting with ``br-test`` (case-insensitive) is
+    dropped — those are smoke-test brackets the bot writes to verify the
+    publish pipeline. Any event with ``replay == True`` is also dropped
+    (replayed-from-fixtures diagnostics, not real fills).
+    """
+    _, live_dir, _ = _journal_paths(root)
+    if not live_dir.is_dir():
+        return []
+
+    submits: dict[str, dict[str, Any]] = {}        # bid → submit event
+    fills_by_bid: dict[str, list[dict[str, Any]]] = {}  # bid → list of fills
+    closes_by_bid: dict[str, dict[str, Any]] = {}  # bid → close event
+
+    def _is_excluded(ev: dict[str, Any]) -> bool:
+        if ev.get("replay") is True:
+            return True
+        bid = ev.get("bracket_id") or ""
+        return isinstance(bid, str) and bid.lower().startswith("br-test")
+
+    for jsonl in sorted(live_dir.glob("*.jsonl")):
+        for ev in _read_jsonl(jsonl):
+            if _is_excluded(ev):
+                continue
+            bid = ev.get("bracket_id") or ""
+            if not bid:
+                continue
+            event = ev.get("event")
+            if event == "bracket_submitted":
+                submits.setdefault(bid, ev)  # first submit wins; later ones can't override
+            elif event == "fill":
+                fills_by_bid.setdefault(bid, []).append(ev)
+            elif event in {"position_closed", "trade_closed"}:
+                # Multiple close events for the same bid (rare): keep first.
+                closes_by_bid.setdefault(bid, ev)
+            # bracket_filled deliberately omitted — it's an entry event.
+
+    # The union of bids that have at least one piece of trade-closure evidence.
+    candidate_bids: set[str] = set(closes_by_bid.keys())
+    for bid, fills in fills_by_bid.items():
+        legs = {(f.get("leg") or "").lower() for f in fills}
+        # Entry + any kind of exit = a complete fill-only trade.
+        if "entry" in legs and (legs & {"target", "stop", "market_close", "trail"}):
+            candidate_bids.add(bid)
+
+    trades: list[dict[str, Any]] = []
+    for bid in candidate_bids:
+        sub = submits.get(bid) or {}
+        close = closes_by_bid.get(bid) or {}
+        fills = fills_by_bid.get(bid, [])
+
+        entry_fill = next((f for f in fills if (f.get("leg") or "").lower() == "entry"), None)
+        exit_fill = next(
+            (f for f in fills
+             if (f.get("leg") or "").lower() in {"target", "stop", "market_close", "trail"}),
+            None,
+        )
+
+        # Timestamps: prefer the most precise source per leg.
+        entry_ts = (entry_fill or {}).get("ts") or sub.get("ts") or ""
+        exit_ts = close.get("ts") or (exit_fill or {}).get("ts") or ""
+        date = ((exit_ts or entry_ts)[:10] if isinstance(exit_ts or entry_ts, str) else "") or _today()
+
+        # PnL: close.net_pnl_usd is the bot's own authoritative number;
+        # never compute from raw prices here (instrument point-value
+        # heterogeneity is not the publisher's job).
+        pnl = close.get("net_pnl_usd")
+        try:
+            pnl_dollars = round(float(pnl), 2) if pnl is not None else 0.0
+        except (TypeError, ValueError):
+            pnl_dollars = 0.0
+
+        # Side / direction: prefer submit, else infer from entry fill action.
+        side = (sub.get("side") or "").upper()
+        if not side and entry_fill:
+            act = (entry_fill.get("action") or "").upper()
+            side = "LONG" if act == "BUY" else ("SHORT" if act == "SELL" else "")
+        direction = side if side in {"LONG", "SHORT"} else ""
+
+        # Numeric defaults — never raise on a missing or malformed value.
+        def _f(v: Any) -> float:
+            try:
+                return float(v) if v is not None else 0.0
+            except (TypeError, ValueError):
+                return 0.0
+
+        entry_price = _f((entry_fill or {}).get("price")) or _f(sub.get("entry"))
+        exit_price = _f((exit_fill or {}).get("price")) or _f(close.get("exit_price"))
+
+        # pnl_points: signed price delta in the trade's direction. Tape views
+        # use this; the dashboard's hero $-figure uses pnl_dollars instead.
+        if direction == "LONG":
+            pnl_points = round(exit_price - entry_price, 2) if entry_price and exit_price else 0.0
+        elif direction == "SHORT":
+            pnl_points = round(entry_price - exit_price, 2) if entry_price and exit_price else 0.0
+        else:
+            pnl_points = 0.0
+
+        # bars_held: best-effort 1-min-bar count between entry and exit
+        # timestamps. 0 when either timestamp is missing.
+        bars_held = 0
+        if entry_ts and exit_ts:
+            try:
+                from datetime import datetime
+                e_dt = datetime.fromisoformat(str(entry_ts).replace("Z", "+00:00"))
+                x_dt = datetime.fromisoformat(str(exit_ts).replace("Z", "+00:00"))
+                bars_held = max(0, int(round((x_dt - e_dt).total_seconds() / 60.0)))
+            except (ValueError, TypeError):
+                bars_held = 0
+
+        # exit_reason from whichever exit signal we got.
+        leg = (close.get("exit_leg") or (exit_fill or {}).get("leg") or "").lower()
+        exit_reason = {
+            "target": "TARGET",
+            "stop": "STOP",
+            "market_close": "TIME",
+            "trail": "TRAILING",
+        }.get(leg, "TARGET")
+
+        trades.append({
+            "trade_id": bid,
+            "date": date,
+            "entry_time": entry_ts or "",
+            "exit_time": exit_ts or "",
+            "direction": direction,
+            "sub_signal": sub.get("sub_signal") or "UNCLASSIFIED",
+            "regime": sub.get("regime") or "UNCLASSIFIED",
+            "qty": int(sub.get("qty") or 1),
+            "entry_price": entry_price,
+            "exit_price": exit_price,
+            "stop_price": _f(sub.get("stop")),
+            "target_price": _f(sub.get("target")),
+            "pnl_dollars": pnl_dollars,
+            "pnl_points": pnl_points,
+            "bars_held": bars_held,
+            "exit_reason": exit_reason,
+            "thesis_confirmed": pnl_dollars > 0,
+            "persona_votes": [],
+        })
+
+    # Stable order: chronological by entry_time, ascending.
+    trades.sort(key=lambda t: t.get("entry_time") or "")
+    log.info(
+        "reconstructed %d trade(s) from events  (submits=%d, fills=%d brackets, closes=%d)",
+        len(trades), len(submits), len(fills_by_bid), len(closes_by_bid),
+    )
+    return trades
+
+
 def _build_live(root: Path) -> Dashboard:
     """Construct a LIVE-mode Dashboard from trades.parquet + live JSONL.
 
-    When trades.parquet is missing (a common case in the early live window),
-    we still emit a valid LIVE payload — empty cumulative, empty today_trades —
-    and rely on the renderer's awaiting-first-trade state.
+    Read order:
+      1. trades.parquet — quant-bot's authoritative daily trade book
+      2. event-pair reconstruction — pair bracket_submitted with
+         position_closed/trade_closed by bracket_id (used early in the
+         live window before parquet exists)
+      3. empty payload — renderer's awaiting-first-trade state
     """
     trades_path = root / "data" / "processed" / "trades.parquet"
     trades = _read_trades_parquet(trades_path)
+    if not trades:
+        # Fall back to event-pair reconstruction.
+        trades = _reconstruct_trades_from_events(root)
 
     # Aggregate by date for day summaries.
     by_date: dict[str, list[dict[str, Any]]] = {}
@@ -557,6 +737,12 @@ def _build_live(root: Path) -> Dashboard:
         starting_equity=STARTING_EQUITY_DEFAULT,
     )
 
+    # awaiting_first_trade flips the renderer's hero into "watching the
+    # market" mode. We set it true only when mode is LIVE but no real
+    # trades have been reconstructed — i.e. bot is awake but hasn't closed
+    # a position today yet.
+    awaiting = (len(today_trades) == 0)
+
     return Dashboard(
         schema_version=SCHEMA_VERSION,
         publisher_version=PUBLISHER_VERSION,
@@ -574,6 +760,7 @@ def _build_live(root: Path) -> Dashboard:
         as_of_date=today_date,
         ai_learnings=_read_learnings(root / "LEARNINGS.md"),
         tomorrow_watch=[],
+        awaiting_first_trade=awaiting,
     )
 
 

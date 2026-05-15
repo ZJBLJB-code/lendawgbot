@@ -37,7 +37,9 @@ done
 # --- Locate paths -----------------------------------------------------------
 HERE="$(cd "$(dirname "$0")" && pwd)"
 TOMCASH="$(cd "$HERE/.." && pwd)"
-REPO_ROOT="$(cd "$TOMCASH/.." && pwd)"
+# lendawgbot is now its own repo (was a subdir of zach-pocs in v1). REPO_ROOT
+# and TOMCASH are the same directory now — keep the alias for readability.
+REPO_ROOT="$TOMCASH"
 QB_ROOT="${QB_ROOT:-$HOME/quant-bot}"
 CANONICAL="$TOMCASH/data/dashboard.json"
 

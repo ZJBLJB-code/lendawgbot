@@ -272,6 +272,11 @@ class Dashboard:
     as_of_date: str | None = None
     ai_learnings: list[str] = field(default_factory=list)
     tomorrow_watch: list[str] = field(default_factory=list)
+    # True iff mode=LIVE and no trades have closed yet today. The renderer
+    # uses this to show the "Len Dawg is watching the market" empty-state
+    # banner instead of a blank hero. Set by _build_live() — defaults to
+    # False so DAY0 and live-with-trades payloads never accidentally trip it.
+    awaiting_first_trade: bool = False
     _provenance: Provenance | None = None
 
     @classmethod
