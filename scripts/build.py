@@ -606,7 +606,17 @@ def main() -> int:
     # from sample-fallback.
     ok = not errors
     out_dir = args.out.parent if args.out else DIST
-    data_as_of = data.get("as_of") or data.get("as_of_date") or data.get("generated_at")
+    # Prefer the full-ISO `_provenance.data_as_of` (publisher's clock) over
+    # the date-only top-level `as_of_date`. Otherwise data_age_hours rounds
+    # to "midnight UTC of today" — making fresh builds look 12+ hours stale
+    # at 9am and 21+ hours stale by EOD. The provenance value is what
+    # actually represents "when was this data captured."
+    data_as_of = (
+        (data.get("_provenance") or {}).get("data_as_of")
+        or data.get("as_of")
+        or data.get("as_of_date")
+        or data.get("generated_at")
+    )
     _write_status(
         out_dir,
         ok=ok,
