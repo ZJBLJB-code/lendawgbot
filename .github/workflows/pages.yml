@@ -48,6 +48,49 @@ jobs:
       - name: Generate sample data
         run: python3 scripts/generate_sample_data.py
 
+      - name: PII red-team grep on canonical dashboard
+        # Last line of defense: even though the allow-list schema in
+        # tools/publisher_schema.py drops unknown keys, this grep catches
+        # any future regression in the schema layer or a manually-edited
+        # data/dashboard.json. Fail the build red on any hit — better a
+        # broken pipeline than a leaked account number on a public URL.
+        # Only runs when canonical is committed; sample-fallback path is
+        # exempt (sample.json is by definition synthetic).
+        if: hashFiles('data/dashboard.json') != ''
+        run: |
+          set -e
+          # Real account ID + paper account ID + raw-event PII field names.
+          # Whitespace-tolerant fixed-string grep (-F) for the literals,
+          # plus extended regex for the field-name patterns.
+          PATTERNS='U25438416|DUP187165|"equity_usd"|"account_id"|"current_equity_usd"|"net_pnl_usd"|"equity_after_usd"|"gross_pnl_usd"|"drawdown_pct"|"host"\s*:|"client_id"\s*:|"bot_pid"'
+          if grep -E "$PATTERNS" data/dashboard.json; then
+            echo "::error::PII leak detected in data/dashboard.json — see matches above."
+            exit 1
+          fi
+          echo "PII grep clean."
+
+      - name: Staleness assertion (warn-only)
+        # If the canonical JSON is more than 30h old, log a warning. We
+        # don't fail the build because the dashboard MUST still render
+        # honestly (the stale state shows yellow in the provenance bar),
+        # but the warning surfaces in the Actions UI for triage.
+        if: hashFiles('data/dashboard.json') != ''
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          from datetime import datetime, timezone
+          d = json.load(open("data/dashboard.json"))
+          ts = (d.get("_provenance") or {}).get("data_as_of")
+          if not ts:
+              print("::warning::no _provenance.data_as_of — cannot assess staleness")
+              sys.exit(0)
+          dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+          age_h = (datetime.now(timezone.utc) - dt).total_seconds() / 3600
+          print(f"data_age_hours = {age_h:.2f}")
+          if age_h > 30:
+              print(f"::warning::canonical dashboard.json is {age_h:.1f}h stale — bot publisher may have stalled")
+          PY
+
       - name: Build
         # v2 architecture: prefer the committed canonical dashboard JSON
         # (data/dashboard.json), produced offline by tools/publisher.py from

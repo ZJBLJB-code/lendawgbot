@@ -3442,16 +3442,36 @@ details[open] .trades-summary .chev { transform: rotate(180deg); }
       }
     }
 
+    // Poller cadence is adaptive:
+    //   • First hour: 60s during market hours, 180s otherwise (snappy).
+    //   • After hour 1: 5min everywhere (a tab left open all afternoon
+    //     doesn't need second-by-second freshness; the user is reading,
+    //     not actively watching).
+    //   • After 12 hours: stop polling entirely. A tab open overnight
+    //     should manually reload if the user cares. This caps cumulative
+    //     fetches at ~150-200 per session, well within mobile-friendly
+    //     bandwidth budgets and won't keep Tom's iPad screen-on forever.
+    const POLLER_START_MS = Date.now();
+    const POLLER_HOUR_1_MS = 60 * 60 * 1000;
+    const POLLER_LIFETIME_MS = 12 * 60 * 60 * 1000;
+    function pollerElapsedMs() { return Date.now() - POLLER_START_MS; }
+    function pollerExpired() { return pollerElapsedMs() > POLLER_LIFETIME_MS; }
+
     function pickInterval() {
-      return isMarketHoursET() ? 60000 : 180000;
+      if (pollerElapsedMs() < POLLER_HOUR_1_MS) {
+        return isMarketHoursET() ? 60000 : 180000;
+      }
+      return 5 * 60 * 1000;
     }
 
     // First poll fires after one interval, not on load — gives the page
     // a moment to settle and avoids racing the build that produced it.
     let timer = null;
     function schedule() {
+      if (pollerExpired()) return;  // capped: stop scheduling new ticks
       const ms = pickInterval();
       timer = setTimeout(async () => {
+        if (pollerExpired()) return;
         await tick();
         schedule();
       }, ms);
