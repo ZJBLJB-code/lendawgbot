@@ -1,0 +1,3 @@
+{"ts":"2026-05-07T15:07:25.187945+00:00","event":"orchestrator_starting","starting_equity_usd":6022.77,"trading_mode":"live","llm_disabled":true,"invert_signals":false}
+{"ts":"2026-05-07T15:59:11.064062+00:00","event":"bracket_submitted","bracket_id":"BR-c4d86fa3","oca_group":"OCA-591d3385","instrument":"MES","asset_class":"FUT","side":"LONG","qty":1,"entry":7388.25,"stop":7384.5,"target":7393.75,"sub_signal":"ORF"}
+{"ts":"2026-05-07T16:45:51.004457+00:00","event":"orchestrator_starting","starting_equity_usd":6022.77,"trading_mode":"live","llm_disabled":true,"invert_signals":false}

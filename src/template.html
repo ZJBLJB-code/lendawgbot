@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Len Dawg</title>
+  <meta name="description" content="Len Dawg — automated /MES futures bot, account update.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E%F0%9F%90%95%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #fafafa;
+      --card: #ffffff;
+      --fg: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --pos: #047857;
+      --neg: #b91c1c;
+      --warn: #b45309;
+      --accent: #1f2937;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b0d10;
+        --card: #14181d;
+        --fg: #f3f4f6;
+        --muted: #9ca3af;
+        --line: #1f262e;
+        --pos: #34d399;
+        --neg: #f87171;
+        --warn: #fbbf24;
+        --accent: #e5e7eb;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 480px; margin: 0 auto; padding: 16px 16px 64px; }
+    header { padding: 8px 4px 16px; }
+    .name { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .dot.green { background: #10b981; }
+    .dot.yellow { background: #f59e0b; }
+    .dot.red { background: #ef4444; }
+    .dot.gray { background: #9ca3af; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* Hero */
+    .hero-num {
+      font-size: 56px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin: 4px 0 8px;
+    }
+    .hero-num.pos { color: var(--pos); }
+    .hero-num.neg { color: var(--neg); }
+    .hero-num.zero { color: var(--accent); }
+    .hero-pct { font-size: 18px; font-weight: 600; margin-left: 8px; opacity: 0.8; }
+    .hero-sub { color: var(--muted); font-size: 14px; }
+    .hero-quality {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .hero-quality.has-warning { color: var(--warn); }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin: 24px 4px 8px;
+    }
+
+    /* Daily list */
+    .daily-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 4px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .daily-row:last-child { border-bottom: 0; }
+    .daily-row:hover { background: rgba(127,127,127,0.04); }
+    .daily-date { font-weight: 600; }
+    .daily-meta { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .daily-pnl { font-weight: 700; font-variant-numeric: tabular-nums; font-size: 16px; }
+    .pos { color: var(--pos); }
+    .neg { color: var(--neg); }
+    .muted { color: var(--muted); }
+
+    /* Sparkline */
+    .spark {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 48px;
+      margin: 4px 0 16px;
+    }
+    .spark-bar {
+      flex: 1;
+      min-width: 8px;
+      border-radius: 2px;
+      position: relative;
+    }
+    .spark-bar.pos { background: var(--pos); }
+    .spark-bar.neg { background: var(--neg); }
+    .spark-bar.zero { background: var(--muted); opacity: 0.3; }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .chip-group { display: flex; gap: 0; }
+    .chip {
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--fg);
+      font: inherit;
+      font-size: 12px;
+      padding: 6px 10px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .chip:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+    .chip:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+    .chip + .chip { border-left: 0; }
+    .chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    select.chip { padding-right: 20px; border-radius: 8px; }
+
+    /* Trades */
+    .trade-row {
+      padding: 10px 4px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .trade-row:last-child { border-bottom: 0; }
+    .trade-line1 {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: baseline;
+    }
+    .trade-when { font-size: 13px; font-weight: 600; }
+    .trade-side {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .trade-side.long { background: rgba(16,185,129,0.15); color: var(--pos); }
+    .trade-side.short { background: rgba(239,68,68,0.15); color: var(--neg); }
+    .trade-pnl { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .trade-line2 { color: var(--muted); font-size: 12px; margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .trade-detail {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(127,127,127,0.06);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .trade-detail dl {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 4px 12px;
+      margin: 0;
+    }
+    .trade-detail dt { color: var(--muted); }
+    .trade-detail dd { margin: 0; font-variant-numeric: tabular-nums; }
+    .trade-detail .bid { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; color: var(--muted); }
+
+    .empty { color: var(--muted); padding: 24px 4px; text-align: center; font-size: 14px; }
+
+    footer { color: var(--muted); font-size: 11px; text-align: center; padding: 16px 8px 0; line-height: 1.5; }
+    footer a { color: var(--muted); }
+
+    /* Hide elements when no data */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="name" id="botName">Len Dawg</div>
+    <div class="meta">
+      <span id="instrument">/MES (micro S&amp;P futures)</span>
+      <span>·</span>
+      <span class="dot gray" id="freshDot" aria-hidden="true"></span>
+      <span id="updatedLabel">—</span>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="card">
+    <div id="heroLabel" class="hero-sub">Account change since launch</div>
+    <div class="hero-num zero" id="heroNum">—</div>
+    <div class="hero-sub" id="heroSub">—</div>
+    <div class="hero-quality muted" id="heroQuality"></div>
+  </div>
+
+  <!-- Daily P&L -->
+  <h2>Daily P&amp;L</h2>
+  <div class="card">
+    <div class="spark" id="spark" aria-hidden="true"></div>
+    <div id="dailyList"></div>
+  </div>
+
+  <!-- All Trades -->
+  <h2>All trades</h2>
+  <div class="card">
+    <div class="filters" id="filters">
+      <div class="chip-group" data-filter="range">
+        <button class="chip active" data-value="all">All</button>
+        <button class="chip" data-value="7">7d</button>
+        <button class="chip" data-value="30">30d</button>
+      </div>
+      <div class="chip-group" data-filter="side">
+        <button class="chip active" data-value="all">All sides</button>
+        <button class="chip" data-value="LONG">Long</button>
+        <button class="chip" data-value="SHORT">Short</button>
+      </div>
+      <div class="chip-group" data-filter="outcome">
+        <button class="chip active" data-value="all">All</button>
+        <button class="chip" data-value="win">Wins</button>
+        <button class="chip" data-value="loss">Losses</button>
+      </div>
+      <select class="chip" id="subFilter" data-filter="sub">
+        <option value="all">All strategies</option>
+      </select>
+    </div>
+    <div id="tradesList"></div>
+  </div>
+
+  <footer>
+    Read-only public view of an automated futures bot.
+    Numbers reflect what the broker reports, not financial advice.
+    <span id="genStamp"></span>
+  </footer>
+
+</div>
+
+<script id="dashboard-data" type="application/json">{{DASHBOARD_JSON}}</script>
+<script>
+(function(){
+  "use strict";
+
+  // -- Load embedded data ----------------------------------------------------
+  var DATA;
+  try {
+    DATA = JSON.parse(document.getElementById("dashboard-data").textContent);
+  } catch (e) {
+    document.getElementById("heroNum").textContent = "—";
+    document.getElementById("heroSub").textContent = "Dashboard data not available.";
+    return;
+  }
+
+  // -- Helpers ---------------------------------------------------------------
+  function fmtUSD(n) {
+    if (n === null || n === undefined || isNaN(n)) return "—";
+    var sign = n < 0 ? "-" : (n > 0 ? "+" : "");
+    var abs = Math.abs(n);
+    return sign + "$" + abs.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  }
+  function fmtUSDPlain(n) {
+    if (n === null || n === undefined || isNaN(n)) return "—";
+    return "$" + n.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  }
+  function fmtPct(n) {
+    if (n === null || n === undefined || isNaN(n)) return "—";
+    var sign = n < 0 ? "-" : (n > 0 ? "+" : "");
+    return sign + (Math.abs(n) * 100).toFixed(2) + "%";
+  }
+  function pnlClass(n) {
+    if (n > 0) return "pos";
+    if (n < 0) return "neg";
+    return "zero";
+  }
+  function relativeTime(iso) {
+    if (!iso) return "—";
+    var then = new Date(iso);
+    if (isNaN(then.getTime())) return "—";
+    var sec = Math.max(0, Math.round((Date.now() - then.getTime()) / 1000));
+    if (sec < 60) return "Updated just now";
+    if (sec < 3600) return "Updated " + Math.round(sec/60) + " min ago";
+    if (sec < 86400) return "Updated " + Math.round(sec/3600) + "h ago";
+    return "Updated " + Math.round(sec/86400) + "d ago";
+  }
+  function freshness(iso) {
+    if (!iso) return "gray";
+    var then = new Date(iso);
+    if (isNaN(then.getTime())) return "gray";
+    var hours = (Date.now() - then.getTime()) / 3600000;
+    if (hours < 1) return "green";
+    if (hours < 24) return "yellow";
+    return "red";
+  }
+  function fmtDateLong(yyyymmdd) {
+    // "2026-05-15" -> "Fri May 15"
+    if (!yyyymmdd) return "—";
+    var d = new Date(yyyymmdd + "T12:00:00Z"); // noon UTC to dodge tz edges
+    if (isNaN(d.getTime())) return yyyymmdd;
+    var w = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getUTCDay()];
+    var m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getUTCMonth()];
+    return w + " " + m + " " + d.getUTCDate();
+  }
+  function fmtClock(iso) {
+    if (!iso) return "—";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    var hh = String(d.getHours()).padStart(2, "0");
+    var mm = String(d.getMinutes()).padStart(2, "0");
+    return hh + ":" + mm;
+  }
+  function holdDuration(entryIso, exitIso) {
+    if (!entryIso || !exitIso) return "—";
+    var d1 = new Date(entryIso), d2 = new Date(exitIso);
+    if (isNaN(d1) || isNaN(d2)) return "—";
+    var sec = Math.max(0, Math.round((d2 - d1) / 1000));
+    if (sec < 60) return sec + "s";
+    if (sec < 3600) return Math.round(sec/60) + "m";
+    var h = Math.floor(sec/3600), m = Math.round((sec%3600)/60);
+    return h + "h " + m + "m";
+  }
+
+  // -- Render header ---------------------------------------------------------
+  if (DATA.bot) {
+    document.getElementById("botName").textContent = DATA.bot.name || "Len Dawg";
+    if (DATA.bot.instrument) document.getElementById("instrument").textContent = DATA.bot.instrument;
+  }
+  var freshDot = document.getElementById("freshDot");
+  freshDot.className = "dot " + freshness(DATA.data_as_of);
+  document.getElementById("updatedLabel").textContent = relativeTime(DATA.data_as_of);
+  if (DATA.generated_at) {
+    document.getElementById("genStamp").textContent = " · build " + DATA.generated_at.replace("T", " ").replace("Z", "Z");
+  }
+
+  // -- Render hero -----------------------------------------------------------
+  var H = DATA.headline || {};
+  var bot = DATA.bot || {};
+  var heroNum = document.getElementById("heroNum");
+  var heroSub = document.getElementById("heroSub");
+  var heroQ = document.getElementById("heroQuality");
+
+  if (H.account_change_usd === null || H.account_change_usd === undefined) {
+    heroNum.textContent = "—";
+    heroNum.className = "hero-num zero";
+    heroSub.textContent = "No closed trades yet.";
+  } else {
+    var change = H.account_change_usd;
+    heroNum.className = "hero-num " + pnlClass(change);
+    heroNum.innerHTML = fmtUSD(change) + '<span class="hero-pct">' + fmtPct(H.account_change_pct) + '</span>';
+    var startStr = bot.starting_equity != null ? fmtUSDPlain(bot.starting_equity) : "—";
+    var curStr   = bot.current_equity  != null ? fmtUSDPlain(bot.current_equity)  : "—";
+    var winRate = H.total_trades ? Math.round((H.wins / H.total_trades) * 100) : 0;
+    heroSub.textContent =
+      "from " + startStr + " to " + curStr +
+      " over " + (bot.days_live || 0) + " trading days · " +
+      H.total_trades + " trades · " +
+      H.wins + " wins / " + H.losses + " losses (" + winRate + "%)";
+  }
+
+  // Data quality line — explicit when broker number diverges from per-trade sum.
+  var warnings = (DATA.data_quality && DATA.data_quality.warnings) || [];
+  if (warnings.length) {
+    heroQ.classList.add("has-warning");
+    heroQ.textContent = warnings.join(" · ");
+  } else {
+    heroQ.classList.add("hidden");
+  }
+
+  // -- Render daily ----------------------------------------------------------
+  var daily = DATA.daily || [];
+  var dailyList = document.getElementById("dailyList");
+  var spark = document.getElementById("spark");
+  if (!daily.length) {
+    dailyList.innerHTML = '<div class="empty">No trading days yet.</div>';
+    spark.classList.add("hidden");
+  } else {
+    // sparkline: oldest -> newest, left to right (daily is newest-first)
+    var maxAbs = Math.max.apply(null, daily.map(function(d){ return Math.abs(d.pnl_usd); })) || 1;
+    var sparkHtml = "";
+    for (var i = daily.length - 1; i >= 0; i--) {
+      var d = daily[i];
+      var pct = Math.max(8, (Math.abs(d.pnl_usd) / maxAbs) * 100);
+      var cls = d.pnl_usd > 0 ? "pos" : (d.pnl_usd < 0 ? "neg" : "zero");
+      sparkHtml += '<div class="spark-bar ' + cls + '" style="height:' + pct + '%" title="' + d.date + ': ' + fmtUSD(d.pnl_usd) + '"></div>';
+    }
+    spark.innerHTML = sparkHtml;
+
+    var rowsHtml = "";
+    daily.forEach(function(d){
+      rowsHtml +=
+        '<div class="daily-row" data-day="' + d.date + '">' +
+          '<div>' +
+            '<div class="daily-date">' + fmtDateLong(d.date) + '</div>' +
+            '<div class="daily-meta">' + d.trades + ' trade' + (d.trades===1?'':'s') + ' · ' + d.wins + 'W / ' + d.losses + 'L</div>' +
+          '</div>' +
+          '<div class="daily-pnl ' + pnlClass(d.pnl_usd) + '">' + fmtUSD(d.pnl_usd) + '</div>' +
+        '</div>';
+    });
+    dailyList.innerHTML = rowsHtml;
+    dailyList.addEventListener("click", function(e){
+      var row = e.target.closest(".daily-row");
+      if (!row) return;
+      var day = row.getAttribute("data-day");
+      // Set date filter to "all" so the day rows are visible, then scroll.
+      filters.range = "all";
+      writeHash();
+      applyFilters();
+      var first = document.querySelector('.trade-row[data-date="' + day + '"]');
+      if (first) first.scrollIntoView({behavior: "smooth", block: "start"});
+    });
+  }
+
+  // -- Strategy options ------------------------------------------------------
+  var trades = DATA.trades || [];
+  var subSel = document.getElementById("subFilter");
+  var subs = Array.from(new Set(trades.map(function(t){ return t.sub_signal || "?"; }))).sort();
+  subs.forEach(function(s){
+    var opt = document.createElement("option");
+    opt.value = s;
+    opt.textContent = s;
+    subSel.appendChild(opt);
+  });
+
+  // -- Filter state (URL-hash synced) ---------------------------------------
+  var filters = { range: "all", side: "all", outcome: "all", sub: "all" };
+  function readHash() {
+    var h = (location.hash || "").replace(/^#/, "");
+    if (!h) return;
+    h.split("&").forEach(function(p){
+      var kv = p.split("=");
+      if (kv.length === 2 && filters.hasOwnProperty(kv[0])) {
+        filters[kv[0]] = decodeURIComponent(kv[1]);
+      }
+    });
+  }
+  function writeHash() {
+    var parts = [];
+    Object.keys(filters).forEach(function(k){
+      if (filters[k] !== "all") parts.push(k + "=" + encodeURIComponent(filters[k]));
+    });
+    var h = parts.length ? "#" + parts.join("&") : "";
+    if (h !== location.hash) history.replaceState(null, "", location.pathname + location.search + h);
+  }
+  readHash();
+
+  // -- Render filter chip state ---------------------------------------------
+  function syncChips() {
+    document.querySelectorAll(".chip-group").forEach(function(g){
+      var key = g.getAttribute("data-filter");
+      g.querySelectorAll(".chip").forEach(function(c){
+        c.classList.toggle("active", c.getAttribute("data-value") === filters[key]);
+      });
+    });
+    subSel.value = filters.sub;
+  }
+
+  document.querySelectorAll(".chip-group .chip").forEach(function(c){
+    c.addEventListener("click", function(){
+      var key = c.parentElement.getAttribute("data-filter");
+      filters[key] = c.getAttribute("data-value");
+      writeHash();
+      syncChips();
+      applyFilters();
+    });
+  });
+  subSel.addEventListener("change", function(){
+    filters.sub = subSel.value;
+    writeHash();
+    applyFilters();
+  });
+
+  // -- Render trades ---------------------------------------------------------
+  var tradesList = document.getElementById("tradesList");
+  function tradeMatches(t) {
+    if (filters.side !== "all" && t.side !== filters.side) return false;
+    if (filters.outcome === "win" && !(t.pnl_usd > 0)) return false;
+    if (filters.outcome === "loss" && !(t.pnl_usd <= 0)) return false;
+    if (filters.sub !== "all" && t.sub_signal !== filters.sub) return false;
+    if (filters.range !== "all") {
+      var days = parseInt(filters.range, 10);
+      if (!isNaN(days)) {
+        var cutoff = Date.now() - days * 86400 * 1000;
+        var ts = new Date(t.exit_ts).getTime();
+        if (isNaN(ts) || ts < cutoff) return false;
+      }
+    }
+    return true;
+  }
+
+  function renderTrades() {
+    // Newest first.
+    var sorted = trades.slice().sort(function(a,b){ return (a.exit_ts < b.exit_ts) ? 1 : -1; });
+    var rows = sorted.filter(tradeMatches);
+    if (!rows.length) {
+      tradesList.innerHTML = '<div class="empty">No trades match the current filters.</div>';
+      return;
+    }
+    var html = "";
+    rows.forEach(function(t){
+      var sideCls = t.side === "LONG" ? "long" : (t.side === "SHORT" ? "short" : "");
+      html +=
+        '<div class="trade-row" data-bid="' + t.bracket_id + '" data-date="' + t.date + '">' +
+          '<div class="trade-line1">' +
+            '<span class="trade-when">' + fmtDateLong(t.date) + ' ' + fmtClock(t.exit_ts) + '</span>' +
+            '<span class="trade-side ' + sideCls + '">' + (t.side || "?") + '</span>' +
+            '<span class="trade-pnl ' + pnlClass(t.pnl_usd) + '">' + fmtUSD(t.pnl_usd) + '</span>' +
+          '</div>' +
+          '<div class="trade-line2">' +
+            t.entry_price + ' → ' + t.exit_price + ' · ' + (t.sub_signal || "?") +
+          '</div>' +
+        '</div>';
+    });
+    tradesList.innerHTML = html;
+  }
+
+  function applyFilters() {
+    renderTrades();
+  }
+
+  // Click-to-expand a trade row.
+  tradesList.addEventListener("click", function(e){
+    var row = e.target.closest(".trade-row");
+    if (!row) return;
+    var existing = row.querySelector(".trade-detail");
+    if (existing) {
+      existing.remove();
+      return;
+    }
+    // Collapse any other open detail
+    document.querySelectorAll(".trade-detail").forEach(function(d){ d.remove(); });
+    var bid = row.getAttribute("data-bid");
+    var t = trades.find(function(x){ return x.bracket_id === bid; });
+    if (!t) return;
+    var detail = document.createElement("div");
+    detail.className = "trade-detail";
+    detail.innerHTML =
+      '<dl>' +
+        '<dt>Entry</dt><dd>' + fmtClock(t.entry_ts) + ' @ ' + t.entry_price + '</dd>' +
+        '<dt>Exit</dt><dd>' + fmtClock(t.exit_ts) + ' @ ' + t.exit_price + '</dd>' +
+        '<dt>Hold</dt><dd>' + holdDuration(t.entry_ts, t.exit_ts) + '</dd>' +
+        '<dt>Stop</dt><dd>' + (t.stop_price != null ? t.stop_price : "—") + '</dd>' +
+        '<dt>Target</dt><dd>' + (t.target_price != null ? t.target_price : "—") + '</dd>' +
+        '<dt>Qty</dt><dd>' + (t.qty || 1) + '</dd>' +
+        '<dt>Strategy</dt><dd>' + (t.sub_signal || "—") + '</dd>' +
+        '<dt>Regime</dt><dd>' + (t.regime || "—") + '</dd>' +
+        '<dt>P&amp;L</dt><dd class="' + pnlClass(t.pnl_usd) + '">' + fmtUSD(t.pnl_usd) + '</dd>' +
+      '</dl>' +
+      '<div class="bid" style="margin-top:8px">id ' + t.bracket_id + '</div>';
+    row.appendChild(detail);
+  });
+
+  syncChips();
+  renderTrades();
+})();
+</script>
+</body>
+</html>

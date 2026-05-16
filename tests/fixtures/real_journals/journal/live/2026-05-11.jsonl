@@ -1,0 +1,7 @@
+{"ts":"2026-05-11T12:36:48.769485+00:00","event":"orchestrator_starting","starting_equity_usd":5919.02,"trading_mode":"live","llm_disabled":true,"invert_signals":false}
+{"ts":"2026-05-11T12:42:27.295429+00:00","event":"orchestrator_starting","starting_equity_usd":5919.02,"trading_mode":"live","llm_disabled":true,"invert_signals":false}
+{"ts":"2026-05-11T14:33:36.977234+00:00","event":"orchestrator_starting","starting_equity_usd":5919.02,"trading_mode":"live","llm_disabled":true,"invert_signals":false}
+{"ts":"2026-05-11T15:31:10.890675+00:00","event":"bracket_submitted","bracket_id":"BR-46bab45e","oca_group":"OCA-41177ae9","instrument":"MES","asset_class":"FUT","side":"SHORT","qty":1,"entry":7447.75,"stop":7450.75,"target":7443.75,"sub_signal":"ORF"}
+{"ts":"2026-05-11T15:42:00.464490+00:00","event":"fill","bracket_id":"BR-46bab45e","leg":"entry","action":"SELL","qty":1,"price":7447.75,"commission":0.0,"broker_order_id":5184}
+{"ts":"2026-05-11T15:44:48.406839+00:00","event":"fill","bracket_id":"BR-46bab45e","leg":"target","action":"BUY","qty":1,"price":7443.75,"commission":0.0,"broker_order_id":5186}
+{"ts":"2026-05-11T15:44:49.113887+00:00","event":"position_closed","bracket_id":"BR-46bab45e","exit_leg":"target","exit_price":7443.75,"gross_pnl_usd":20.0,"entry_commission_usd":0.0,"exit_commission_usd":0.0,"net_pnl_usd":20.0,"equity_after_usd":5939.02}
