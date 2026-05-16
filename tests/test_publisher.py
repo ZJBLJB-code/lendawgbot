@@ -132,7 +132,15 @@ def test_day0_mode_falls_back_to_freshest_variant_when_no_canonical(tmp_path: Pa
 
 
 def test_live_mode_triggers_on_real_fill(tmp_path: Path) -> None:
-    """A live JSONL with a bracket_filled event → mode=LIVE."""
+    """A live JSONL with a bracket_filled event → mode=LIVE.
+
+    Truth-first semantics (post-2026-05-15 rewrite): without a
+    ``position_closed`` event, there's no cumulative P&L to claim, so
+    ``cumulative`` stays None and ``awaiting_first_trade`` is True. The
+    renderer shows the "watching the market" banner instead of a
+    fake-numeric hero. Mode is still LIVE because real trading is
+    happening.
+    """
     root = _make_root(tmp_path)
     live = root / "journal" / "live" / "2026-04-27.jsonl"
     live.write_text(
@@ -148,7 +156,11 @@ def test_live_mode_triggers_on_real_fill(tmp_path: Path) -> None:
 
     assert payload["mode"] == "LIVE"
     assert payload["verdict"] is None
-    assert payload["cumulative"] is not None
+    # No position_closed → no claim about cumulative P&L.
+    assert payload["cumulative"] is None
+    assert payload["awaiting_first_trade"] is True
+    # bot.starting_equity must NOT be a synthetic default — explicit 0.0.
+    assert payload["bot"]["starting_equity"] == 0.0
 
 
 def test_live_mode_reconstructs_trade_from_fill_pairs(tmp_path: Path) -> None:

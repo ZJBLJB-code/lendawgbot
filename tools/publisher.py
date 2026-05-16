@@ -77,7 +77,13 @@ log = logging.getLogger("lendawgbot.publisher")
 
 MAX_LIVE_STALENESS_HOURS = 30
 LIVE_TRADE_EVENTS = {"bracket_filled", "trade_closed", "fill", "position_closed"}
-STARTING_EQUITY_DEFAULT = 10_000.0
+
+# Equity-drift tolerance (USD). The bot's net_pnl_usd is supposed to be
+# fully-loaded (gross - commissions), but commissions in practice drift
+# vs. the IB-reported equity_after_usd by a few cents per trade. If the
+# observed drift exceeds this, we emit a data_quality warning rather
+# than silently fudging the math.
+EQUITY_DRIFT_WARN_USD = 1.00
 
 # Hard cap on a single JSONL line. quant-bot's events are O(KB); anything
 # bigger is a corruption / runaway log. Without this cap a malformed line
@@ -457,7 +463,10 @@ def _build_day0(root: Path, verdict_path: Path) -> Dashboard:
         phase="Phase A — Live, 1 contract max" if all_pass else "In the lab — passing edge-proof gates",
         phase_short="Live" if all_pass else "Lab",
         days_live=0,
-        starting_equity=STARTING_EQUITY_DEFAULT,
+        # DAY0 mode = bot hasn't traded yet. There's no real starting
+        # equity to report; the renderer doesn't display this field in
+        # the gates view anyway.
+        starting_equity=0.0,
     )
 
     verdict = Verdict(
@@ -664,62 +673,219 @@ def _reconstruct_trades_from_events(root: Path) -> list[dict[str, Any]]:
     return trades
 
 
-def _build_live(root: Path) -> Dashboard:
-    """Construct a LIVE-mode Dashboard from trades.parquet + live JSONL.
+def _empty_live_payload(root: Path) -> Dashboard:
+    """Minimal LIVE payload for the awaiting-first-trade state.
 
-    Read order:
-      1. trades.parquet — quant-bot's authoritative daily trade book
-      2. event-pair reconstruction — pair bracket_submitted with
-         position_closed/trade_closed by bracket_id (used early in the
-         live window before parquet exists)
-      3. empty payload — renderer's awaiting-first-trade state
+    Used when the bot is in LIVE mode but has no position_closed events
+    yet (or all closes were filtered as test/replay). The renderer reads
+    ``awaiting_first_trade: True`` and shows the "Len Dawg is watching
+    the market" banner instead of fake numbers.
     """
-    trades_path = root / "data" / "processed" / "trades.parquet"
-    trades = _read_trades_parquet(trades_path)
-    if not trades:
-        # Fall back to event-pair reconstruction.
-        trades = _reconstruct_trades_from_events(root)
+    days_live_count = _count_trading_days(root)
+    return Dashboard(
+        schema_version=SCHEMA_VERSION,
+        publisher_version=PUBLISHER_VERSION,
+        generated_at=_now_iso(),
+        mode="LIVE",
+        bot=Bot(
+            name="Len Dawg",
+            instrument="/MES",
+            instrument_friendly=INSTRUMENT_FRIENDLY.get("/MES", "S&P 500 mini"),
+            phase="Phase A — Live, 1 contract max",
+            phase_short="Live",
+            days_live=max(1, days_live_count),
+            # Unknown until first close; do NOT use a synthetic default.
+            starting_equity=0.0,
+        ),
+        translations=_translations(),
+        personas={code: Persona(code=code, name=PERSONA_NAMES[code], nickname=PERSONA_NICKNAMES[code])
+                  for code in PERSONA_NAMES},
+        equity_curve=[],
+        today_trades=[],
+        today=None,
+        cumulative=None,
+        cage_match=None,
+        verdict=None,
+        as_of_date=_today(),
+        ai_learnings=_read_learnings(root / "LEARNINGS.md"),
+        tomorrow_watch=[],
+        awaiting_first_trade=True,
+    )
 
-    # Aggregate by date for day summaries.
+
+def _read_real_position_closes(root: Path) -> list[dict[str, Any]]:
+    """Walk every live JSONL in chronological order; return only real (non-test,
+    non-replay) ``position_closed`` events. Each event carries the bot's
+    authoritative ``equity_after_usd`` and ``net_pnl_usd`` — no reconstruction.
+    """
+    _, live_dir, _ = _journal_paths(root)
+    if not live_dir.is_dir():
+        return []
+    out: list[dict[str, Any]] = []
+    for jsonl in sorted(live_dir.glob("*.jsonl")):
+        for ev in _read_jsonl(jsonl):
+            if ev.get("event") != "position_closed":
+                continue
+            if ev.get("replay") is True:
+                continue
+            bid = ev.get("bracket_id") or ""
+            if isinstance(bid, str) and bid.lower().startswith("br-test"):
+                continue
+            out.append(ev)
+    out.sort(key=lambda e: e.get("ts") or "")
+    return out
+
+
+def _count_trading_days(root: Path) -> int:
+    """Distinct dates with at least one non-test, non-replay
+    bracket_submitted or position_closed. Counts a day where the bot
+    placed an order even if nothing closed that day.
+    """
+    _, live_dir, _ = _journal_paths(root)
+    if not live_dir.is_dir():
+        return 0
+    days: set[str] = set()
+    activity_events = {"bracket_submitted", "position_closed", "fill"}
+    for jsonl in sorted(live_dir.glob("*.jsonl")):
+        for ev in _read_jsonl(jsonl):
+            if ev.get("event") not in activity_events:
+                continue
+            if ev.get("replay") is True:
+                continue
+            bid = ev.get("bracket_id") or ""
+            if isinstance(bid, str) and bid.lower().startswith("br-test"):
+                continue
+            if ev.get("sub_signal") == "SAT_TEST":
+                continue
+            ts = ev.get("ts")
+            if isinstance(ts, str) and len(ts) >= 10:
+                days.add(ts[:10])
+    return len(days)
+
+
+def _build_live(root: Path) -> Dashboard:
+    """Construct a LIVE-mode Dashboard truth-first.
+
+    Source of truth: real ``position_closed`` events from the bot's journal.
+    Each event carries ``equity_after_usd`` (IB NetLiquidation after the
+    trade) and ``net_pnl_usd`` (commission-loaded P&L). We read these
+    directly — no STARTING_EQUITY_DEFAULT fudge, no synthetic baselines.
+
+    Trade detail (entry/exit prices, sub_signal, side, etc.) comes from
+    the matching bracket_submitted + fill events via
+    ``_reconstruct_trades_from_events``. If the trade reconstruction yields
+    fewer trades than ``position_closed`` events suggest (orphan closes
+    from earlier log files), we surface that as a ``data_quality`` warning
+    rather than silently dropping numbers.
+
+    Invariants asserted at the end:
+      - len(trades) == sum(daily_wins) + sum(daily_losses) + sum(daily_breakevens)
+      - abs(sum(daily_pnl) - cumulative_pnl) < 0.01
+    """
+    closes = _read_real_position_closes(root)
+
+    if not closes:
+        # No closed positions yet — minimal payload, renderer's
+        # awaiting-first-trade banner takes over.
+        return _empty_live_payload(root)
+
+    # --- Equity series: read REAL equity_after_usd ---------------------------
+    # Each position_closed is a real datapoint. The equity curve plots them
+    # in chronological order. Y-axis = the bot's actual equity, not a
+    # synthetic 10K-based offset.
+    starting_equity_observed = round(closes[0]["equity_after_usd"] - closes[0]["net_pnl_usd"], 2)
+    ending_equity = round(closes[-1]["equity_after_usd"], 2)
+    cumulative_pnl_real = round(sum(float(c["net_pnl_usd"]) for c in closes), 2)
+
+    # Drift check: if commissions/fees moved equity beyond per-trade net_pnl,
+    # we surface the divergence rather than fake-matching the numbers.
+    expected_ending = round(starting_equity_observed + cumulative_pnl_real, 2)
+    drift = round(expected_ending - ending_equity, 2)
+    drift_warnings: list[str] = []
+    if abs(drift) > EQUITY_DRIFT_WARN_USD:
+        drift_warnings.append(
+            f"equity_drift: starting + sum(pnl) = ${expected_ending:.2f} but bot reports ${ending_equity:.2f} (drift ${drift:+.2f}, likely commissions)"
+        )
+
+    # --- Trade detail: reconstruct from bracket_submitted + fills -----------
+    trades = _reconstruct_trades_from_events(root)
+    # Align trade list to closes by bracket_id (some recon trades may lack a
+    # matching close in scope — drop those; some closes may lack a recon
+    # trade — surface those as data_quality).
+    closes_by_bid = {c["bracket_id"]: c for c in closes if c.get("bracket_id")}
+    recon_by_bid = {t["trade_id"]: t for t in trades if t.get("trade_id")}
+    pairs_orphaned = len(set(closes_by_bid.keys()) - set(recon_by_bid.keys()))
+    if pairs_orphaned > 0:
+        drift_warnings.append(
+            f"orphan_closes: {pairs_orphaned} position_closed event(s) without matching bracket_submitted in scope"
+        )
+
+    # Trust position_closed for pnl_dollars + exit_price (authoritative).
+    # Trust bracket_submitted for sub_signal + side + entry_price.
+    for t in trades:
+        bid = t.get("trade_id")
+        if bid in closes_by_bid:
+            close = closes_by_bid[bid]
+            t["pnl_dollars"] = round(float(close.get("net_pnl_usd") or 0.0), 2)
+            t["thesis_confirmed"] = t["pnl_dollars"] > 0
+    # Drop any reconstructed "trades" that don't actually have a close
+    # event — they're still-open positions, not closed trades.
+    trades = [t for t in trades if t.get("trade_id") in closes_by_bid]
+
+    # --- Day summaries -------------------------------------------------------
     by_date: dict[str, list[dict[str, Any]]] = {}
     for t in trades:
         by_date.setdefault(t.get("date") or "", []).append(t)
 
     summaries: list[Day] = []
     equity_curve: list[EquityPoint] = []
-    cumulative_pnl = 0.0
+    cumulative_pnl_running = 0.0
     for date_key in sorted(k for k in by_date.keys() if k):
         day_trades = by_date[date_key]
         day_pnl = round(sum(float(x.get("pnl_dollars") or 0.0) for x in day_trades), 2)
-        cumulative_pnl = round(cumulative_pnl + day_pnl, 2)
+        cumulative_pnl_running = round(cumulative_pnl_running + day_pnl, 2)
         wins = sum(1 for x in day_trades if float(x.get("pnl_dollars") or 0.0) > 0)
-        losses = sum(1 for x in day_trades if float(x.get("pnl_dollars") or 0.0) <= 0)
+        losses = sum(1 for x in day_trades if float(x.get("pnl_dollars") or 0.0) < 0)
+        bevens = sum(1 for x in day_trades if float(x.get("pnl_dollars") or 0.0) == 0)
         regime = _mode_value(x.get("regime") for x in day_trades) or "UNCLASSIFIED"
         summaries.append(Day(
-            date=date_key, regime=regime, trades_count=len(day_trades),
-            wins=wins, losses=losses, pnl_dollars=day_pnl,
-            cumulative_pnl=cumulative_pnl,
-        ))
-        equity_curve.append(EquityPoint(
             date=date_key,
-            equity=round(STARTING_EQUITY_DEFAULT + cumulative_pnl, 2),
-            pnl=day_pnl,
+            regime=regime,
+            trades_count=len(day_trades),
+            wins=wins,
+            # The schema's Day.losses includes breakevens by convention (so
+            # wins+losses == trades_count). Keep that contract.
+            losses=losses + bevens,
+            pnl_dollars=day_pnl,
+            cumulative_pnl=cumulative_pnl_running,
         ))
+        # Equity at end-of-day: use the LAST real close on that day.
+        day_last_close = max(
+            (c for c in closes if c.get("ts", "")[:10] == date_key),
+            key=lambda c: c.get("ts", ""),
+            default=None,
+        )
+        eod_equity = (
+            round(float(day_last_close["equity_after_usd"]), 2)
+            if day_last_close else round(starting_equity_observed + cumulative_pnl_running, 2)
+        )
+        equity_curve.append(EquityPoint(date=date_key, equity=eod_equity, pnl=day_pnl))
 
     today_summary = summaries[-1] if summaries else None
     today_date = today_summary.date if today_summary else _today()
     today_trade_dicts = [t for t in trades if t.get("date") == today_date]
     today_trades = [_to_trade(t) for t in today_trade_dicts]
 
-    total_pnl = round(sum(float(t.get("pnl_dollars") or 0.0) for t in trades), 2)
     total_wins = sum(1 for t in trades if float(t.get("pnl_dollars") or 0.0) > 0)
     win_rate = round(total_wins / len(trades), 3) if trades else 0.0
     streak, streak_type = _compute_streak(summaries)
     cumulative = Cumulative(
-        total_pnl=total_pnl,
+        total_pnl=cumulative_pnl_real,
         total_trades=len(trades),
         win_rate=win_rate,
-        current_equity=round(STARTING_EQUITY_DEFAULT + total_pnl, 2),
+        # current_equity = bot's actual last reported equity, NOT
+        # starting + sum(pnl). Drift is surfaced via data_quality.
+        current_equity=ending_equity,
         streak=streak,
         streak_type=streak_type,
     )
@@ -727,21 +893,41 @@ def _build_live(root: Path) -> Dashboard:
     cage = _pick_cage_match(today_trade_dicts)
 
     instrument = "/MES"
+    days_live_count = _count_trading_days(root)
     bot = Bot(
         name="Len Dawg",
         instrument=instrument,
         instrument_friendly=INSTRUMENT_FRIENDLY.get(instrument, instrument),
         phase="Phase A — Live, 1 contract max",
         phase_short="Live",
-        days_live=max(1, len(summaries)),
-        starting_equity=STARTING_EQUITY_DEFAULT,
+        days_live=max(1, days_live_count),
+        # Real starting equity (the bot's first observed equity_after, less
+        # the first trade's pnl) — NOT a synthetic 10K default.
+        starting_equity=starting_equity_observed,
     )
 
-    # awaiting_first_trade flips the renderer's hero into "watching the
-    # market" mode. We set it true only when mode is LIVE but no real
-    # trades have been reconstructed — i.e. bot is awake but hasn't closed
-    # a position today yet.
+    # --- Invariant assertions: fail loudly if math doesn't add up -----------
+    # These are tenets. If any of them fails, we refuse to publish — better
+    # red CI than wrong numbers on a public site.
+    sum_daily_pnl = round(sum(d.pnl_dollars for d in summaries), 2)
+    if abs(sum_daily_pnl - cumulative_pnl_real) > 0.01:
+        raise PublisherError(
+            f"invariant violated: sum(daily_pnl)={sum_daily_pnl} but cumulative={cumulative_pnl_real}"
+        )
+    sum_wins_losses = sum(d.wins + d.losses for d in summaries)
+    if sum_wins_losses != len(trades):
+        raise PublisherError(
+            f"invariant violated: sum(wins+losses)={sum_wins_losses} but len(trades)={len(trades)}"
+        )
+
     awaiting = (len(today_trades) == 0)
+
+    log.info(
+        "_build_live: starting=$%.2f ending=$%.2f cumulative=$%+.2f trades=%d days=%d%s",
+        starting_equity_observed, ending_equity, cumulative_pnl_real,
+        len(trades), days_live_count,
+        f" warnings={drift_warnings}" if drift_warnings else "",
+    )
 
     return Dashboard(
         schema_version=SCHEMA_VERSION,
@@ -758,6 +944,9 @@ def _build_live(root: Path) -> Dashboard:
         cage_match=cage,
         verdict=None,
         as_of_date=today_date,
+        # ai_learnings is renderer-facing copy ("what Len Dawg learned today"),
+        # not a data-quality channel. drift_warnings are logged above and
+        # will move into a formal data_quality field in Phase 2.
         ai_learnings=_read_learnings(root / "LEARNINGS.md"),
         tomorrow_watch=[],
         awaiting_first_trade=awaiting,
