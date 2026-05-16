@@ -2468,19 +2468,25 @@ details[open] .trades-summary .chev { transform: rotate(180deg); }
     const cum = DATA.cumulative || {};
     const bot = DATA.bot || {};
     const total = num(cum.total_pnl);
-    const start = num(bot.starting_equity) || 10000;
-    const pct = start ? (total / start) * 100 : 0;
+    // NO `|| 10000` fallback. If the bot didn't report a real starting
+    // equity, we render an honest version that omits the reference frame.
+    const start = num(bot.starting_equity);
+    const haveStart = start > 0;
+    const pct = haveStart ? (total / start) * 100 : null;
     const wins = 0 + (cum.win_rate ? Math.round(num(cum.win_rate) * num(cum.total_trades)) : 0);
     const trades = num(cum.total_trades);
     const winPct = trades ? Math.round((wins / trades) * 100) : 0;
 
-    // The Skeptic line — pull from ai_learnings or eod_reflection if present
-    let skepticLine = "The Skeptic talked Len Dawg out of $0 in losers.";
+    // The Skeptic line is ONLY rendered when we have real data for it.
+    // Source: brag.skeptic_credit (preferred) or a skeptic-mentioning entry
+    // in ai_learnings. No placeholder "$0 in losers" — if there's no
+    // data, the line is hidden entirely.
+    let skepticLine = null;
+    const credit = (DATA.brag && DATA.brag.skeptic_credit) || '';
     const learnings = DATA.ai_learnings || [];
-    const skepticHit = learnings.find(l => /skeptic|veto|grump/i.test(l));
+    const skepticHit = credit || learnings.find(l => /skeptic|veto|grump/i.test(l)) || '';
     if (skepticHit) {
-      // try to extract a $ amount; otherwise reuse the sentence whole
-      const m = skepticHit.match(/\$\d[\d,]*(?:\.\d+)?/);
+      const m = String(skepticHit).match(/\$\d[\d,]*(?:\.\d+)?/);
       if (m) {
         skepticLine = 'The Skeptic talked Len Dawg out of <span class="accent-warn">' + esc(m[0]) + '</span> in losers.';
       } else {
@@ -2490,22 +2496,41 @@ details[open] .trades-summary .chev { transform: rotate(180deg); }
 
     const totalAbs = Math.abs(total);
     const totalSign = total >= 0 ? '+' : '−';
-    const startStr = '$' + (start / 1000).toFixed(0) + 'K';
-    const pctStr = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+    // Show the real starting equity as an actual dollar value, not "$10K"
+    // rounded. e.g. "$5,992" not "$6K".
+    const startStr = haveStart
+      ? '$' + start.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+      : '';
+    const pctStr = pct == null ? '' : ((pct >= 0 ? '+' : '') + pct.toFixed(1) + '%');
 
-    const line1 = 'Up <strong class="accent-pos">' + esc(totalSign + '$' + totalAbs.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })) + '</strong> on ' + esc(startStr) + ' (<span class="accent-pos">' + esc(pctStr) + '</span>)';
+    // Line 1: when we have a real starting equity, show the full "Up $X
+    // on $Y (+Z%)" form. Without it, just show the raw P&L; no fake
+    // baseline.
+    let line1;
+    if (haveStart) {
+      line1 = 'Up <strong class="accent-pos">' + esc(totalSign + '$' + totalAbs.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })) + '</strong> on ' + esc(startStr) + ' (<span class="accent-pos">' + esc(pctStr) + '</span>)';
+    } else {
+      line1 = 'Up <strong class="accent-pos">' + esc(totalSign + '$' + totalAbs.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })) + '</strong> since launch';
+    }
     const line2 = 'Bot won <strong>' + num(wins) + ' of ' + num(trades) + '</strong> trades. (' + num(winPct) + '%)';
 
-    $('brag-lines').innerHTML =
-      '<div class="brag-line">' + line1 + '</div>' +
-      '<div class="brag-line">' + line2 + '</div>' +
-      '<div class="brag-line">' + skepticLine + '</div>';
+    let html = '<div class="brag-line">' + line1 + '</div>' +
+               '<div class="brag-line">' + line2 + '</div>';
+    if (skepticLine) {
+      html += '<div class="brag-line">' + skepticLine + '</div>';
+    }
+    $('brag-lines').innerHTML = html;
 
     // Plain-text fallback (for clipboard) — strips HTML tags
-    const plain =
-      'Up ' + totalSign + '$' + Math.round(totalAbs) + ' on ' + startStr + ' (' + pctStr + ')\n' +
-      'Bot won ' + wins + ' of ' + trades + ' trades. (' + winPct + '%)\n' +
-      (skepticHit || skepticLine.replace(/<[^>]+>/g, ''));
+    const plainLine1 = haveStart
+      ? ('Up ' + totalSign + '$' + Math.round(totalAbs) + ' on ' + startStr + ' (' + pctStr + ')')
+      : ('Up ' + totalSign + '$' + Math.round(totalAbs) + ' since launch');
+    const plainParts = [
+      plainLine1,
+      'Bot won ' + wins + ' of ' + trades + ' trades. (' + winPct + '%)',
+    ];
+    if (skepticLine) plainParts.push(String(skepticHit).replace(/<[^>]+>/g, ''));
+    const plain = plainParts.join('\n');
 
     const btn = $('brag-copy');
     btn.addEventListener('click', async () => {
@@ -2534,10 +2559,13 @@ details[open] .trades-summary .chev { transform: rotate(180deg); }
     const c = DATA.cumulative || {};
     const bot = DATA.bot || {};
     const total = num(c.total_pnl);
-    const start = num(bot.starting_equity) || 10000;
+    // No synthetic fallback. If starting_equity is absent, we omit the
+    // "on $X / +Y%" context line rather than fabricate one.
+    const start = num(bot.starting_equity);
+    const haveStart = start > 0;
     const days = num(bot.days_live);
     const winRate = num(c.win_rate);
-    const pct = start ? total / start : 0;
+    const pct = haveStart ? total / start : 0;
 
     const totalEl = $('total-pnl');
     totalEl.classList.add(colorClass(total));
@@ -2547,8 +2575,11 @@ details[open] .trades-summary .chev { transform: rotate(180deg); }
     $('win-rate-label').textContent = days ? (fmtPct(winRate, 0) + ' wins') : '';
 
     const ctxParts = [];
-    ctxParts.push('on ' + fmtMoney(start, { noSign: true, short: true }));
-    if (start) ctxParts.push((pct >= 0 ? '+' : '') + (pct * 100).toFixed(1) + '%');
+    if (haveStart) {
+      // Show actual dollar value, not "$X K"-rounded. e.g. "$5,992" not "$6K".
+      ctxParts.push('on $' + start.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }));
+      ctxParts.push((pct >= 0 ? '+' : '') + (pct * 100).toFixed(1) + '%');
+    }
     if (days) ctxParts.push('day ' + days);
     $('total-context').textContent = ctxParts.join(' · ');
 
