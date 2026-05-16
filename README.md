@@ -105,9 +105,27 @@ The script uses `$QB_ROOT` (defaults to `$HOME/quant-bot`). Override:
 QB_ROOT=/path/to/your/quant-bot bash scripts/refresh.sh --deploy
 ```
 
-## Auto-update on file change (optional)
+## Auto-publish on every trade (recommended)
 
-A `launchd` agent watches the quant-bot journal directory and runs `refresh.sh --deploy` automatically when the bot writes a new verdict. After install, you never have to type "refresh."
+The cleanest path: have the bot publish to this repo itself. After every
+`position_closed` event and every EOD flatten, the bot runs the vendored
+publisher and `git push`es a fresh `data/dashboard.json` via a fine-scoped
+PAT. CI rebuilds + redeploys in ~90 seconds. You never have to type
+anything.
+
+Setup (one-time, ~10 minutes): see [docs/auto_publish_setup.md](docs/auto_publish_setup.md)
+— PAT creation, 1Password stash, bot env-var, branch merge.
+
+The bot-side code lives on the `claude/dashboard-publish-hook-2026-05-15`
+branch of the private bot repo. It's gated on `LENDAWGBOT_REPO_DIR` — the
+hook is a no-op until the env var is set, so the branch can land safely
+and the auto-publish loop is activated by flipping one env var.
+
+## Auto-update on file change (legacy path)
+
+Predecessor of the bot-side publish hook: a `launchd` agent watches the
+quant-bot journal directory and runs `refresh.sh --deploy` when the bot
+writes a new verdict. Requires the Mac to be awake at trade time.
 
 ```bash
 LENDAWGBOT_DIR=$HOME/lendawgbot \
