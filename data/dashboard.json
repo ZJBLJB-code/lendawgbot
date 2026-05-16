@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "publisher_version": "1.0.0",
-  "generated_at": "2026-05-16T04:31:53.745292+00:00",
+  "generated_at": "2026-05-16T05:06:06.471506+00:00",
   "mode": "LIVE",
   "bot": {
     "name": "Len Dawg",
@@ -9,8 +9,8 @@
     "phase_short": "Live",
     "instrument_friendly": "S&P 500 mini",
     "phase": "Phase A — Live, 1 contract max",
-    "days_live": 6,
-    "starting_equity": 10000.0
+    "days_live": 7,
+    "starting_equity": 5992.21
   },
   "translations": {
     "regime": {
@@ -90,32 +90,32 @@
   "equity_curve": [
     {
       "date": "2026-05-01",
-      "equity": 9997.5,
+      "equity": 5989.71,
       "pnl": -2.5
     },
     {
       "date": "2026-05-05",
-      "equity": 9986.25,
+      "equity": 5960.24,
       "pnl": -11.25
     },
     {
       "date": "2026-05-06",
-      "equity": 10052.5,
+      "equity": 6024.01,
       "pnl": 66.25
     },
     {
       "date": "2026-05-08",
-      "equity": 10035.0,
+      "equity": 5920.25,
       "pnl": -17.5
     },
     {
       "date": "2026-05-11",
-      "equity": 10055.0,
+      "equity": 5939.02,
       "pnl": 20.0
     },
     {
       "date": "2026-05-15",
-      "equity": 10080.0,
+      "equity": 5960.2,
       "pnl": 25.0
     }
   ],
@@ -174,7 +174,7 @@
     "total_pnl": 80.0,
     "total_trades": 10,
     "win_rate": 0.4,
-    "current_equity": 10080.0,
+    "current_equity": 5960.2,
     "streak": 2,
     "streak_type": "win"
   },
@@ -196,6 +196,6 @@
     "source": "quant-bot",
     "source_detail": "live/2026-05-15.jsonl",
     "data_as_of": "2026-05-15T20:45:44.085392+00:00",
-    "publisher_run_id": "1d3d824d-685a-45d6-9c24-0c6d0d13e9a3"
+    "publisher_run_id": "e39ec1a3-728e-4773-8a7f-6bb8c2002b48"
   }
 }
