@@ -1,0 +1,47 @@
+{
+  "ts": "2026-04-26T02:15:00.177216+00:00",
+  "phase": "day0_pairs_only",
+  "instruments": [
+    "MES",
+    "MNQ"
+  ],
+  "data": {
+    "start": "2021-04-25",
+    "end": "2026-04-25",
+    "mes_rth_bars": 487134,
+    "mnq_rth_bars": 487530
+  },
+  "wfo": {
+    "n_folds": 12,
+    "holdout_start": "2025-04-23",
+    "holdout_end": "2026-04-23",
+    "is_fraction": 0.4
+  },
+  "by_cost": {
+    "2.00": {
+      "cost_usd": 2.0,
+      "n_combos": 3,
+      "winner": "L90_Z2.0_X0.5",
+      "n_trades_total": 244,
+      "n_trades_folded": 191,
+      "n_trades_holdout": 53,
+      "win_rate_folded": 0.5026178010471204,
+      "avg_pnl_per_trade": -0.5733744334608438,
+      "gate": {
+        "all_pass": false,
+        "gates_passed": "1",
+        "g1_pass": "False",
+        "g2_pass": false,
+        "g3_pass": true,
+        "g4_pass": "False",
+        "g5_pass": false,
+        "in_sample_sharpe": 1.118925295799174,
+        "oos_sharpe": 0.030013538074681666,
+        "deflated_sharpe": 0.21004211303119175,
+        "pbo": 0.07195027195027195,
+        "mr_friendly_sharpe": -1.2576983834122688,
+        "holdout_sharpe": -1.0742947072334348
+      }
+    }
+  }
+}

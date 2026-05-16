@@ -1,0 +1,42 @@
+{
+  "ts": "2026-04-26T02:45:40.540055+00:00",
+  "phase": "day0_mr_5min",
+  "instrument": "MES",
+  "timeframe_minutes": 5,
+  "data": {
+    "start": "2021-04-25",
+    "end": "2026-04-25",
+    "rth_bars": 487134
+  },
+  "wfo": {
+    "n_folds": 12,
+    "n_combos": 3,
+    "winner": "MR_5MIN_LOOSER",
+    "holdout_start": "2025-04-23",
+    "holdout_end": "2026-04-23",
+    "cost_usd": 2.0,
+    "is_fraction": 0.4
+  },
+  "trades": {
+    "n_total": 2092,
+    "n_folded": 1674,
+    "n_holdout": 418,
+    "win_rate_folded": 0.4020310633213859,
+    "avg_pnl_per_trade": -3.1391120933613186
+  },
+  "gate": {
+    "all_pass": false,
+    "gates_passed": "1",
+    "g1_pass": "False",
+    "g2_pass": false,
+    "g3_pass": true,
+    "g4_pass": "False",
+    "g5_pass": false,
+    "in_sample_sharpe": 0.6037875479823283,
+    "oos_sharpe": -1.2857036630607972,
+    "deflated_sharpe": 0.0021410265695358103,
+    "pbo": 0.31383061383061384,
+    "mr_friendly_sharpe": -1.7921251716378819,
+    "holdout_sharpe": -0.3134263075117076
+  }
+}

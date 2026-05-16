@@ -1,0 +1,41 @@
+{
+  "ts": "2026-04-26T01:19:19.693604+00:00",
+  "phase": "day0_trend_only",
+  "instrument": "MES",
+  "data": {
+    "start": "2021-04-25",
+    "end": "2026-04-25",
+    "rth_bars": 487134
+  },
+  "wfo": {
+    "n_folds": 12,
+    "n_combos": 3,
+    "winner": "TF_W20_BUF2.0_RSI70",
+    "holdout_start": "2025-04-23",
+    "holdout_end": "2026-04-23",
+    "cost_usd": 2.0,
+    "is_fraction": 0.4
+  },
+  "trades": {
+    "n_total": 911,
+    "n_folded": 722,
+    "n_holdout": 189,
+    "win_rate_folded": 0.2894736842105263,
+    "avg_pnl_per_trade": 1.2878900737023735
+  },
+  "gate": {
+    "all_pass": false,
+    "gates_passed": "3",
+    "g1_pass": "True",
+    "g2_pass": true,
+    "g3_pass": true,
+    "g4_pass": "False",
+    "g5_pass": false,
+    "in_sample_sharpe": 0.18244235533488645,
+    "oos_sharpe": 0.8598791288550243,
+    "deflated_sharpe": 0.7152357652780971,
+    "pbo": 0.09355089355089355,
+    "mr_friendly_sharpe": -0.18196337961982956,
+    "holdout_sharpe": -0.20234323712968366
+  }
+}

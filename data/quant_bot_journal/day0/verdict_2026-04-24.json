@@ -1,0 +1,33 @@
+{
+  "ts": "2026-04-25T06:19:49.837357+00:00",
+  "phase": "day0",
+  "data": {
+    "start": "2021-04-24",
+    "end": "2026-04-24",
+    "raw_rows": 1757488,
+    "processed_rows": 1757488,
+    "rth_bars": 487134,
+    "roll_dates": 0
+  },
+  "wfo": {
+    "n_folds": 12,
+    "n_combos": 27,
+    "winner": "ORF2.0_VWAP2.0_GAP0.7",
+    "holdout_start": "2025-04-23",
+    "holdout_end": "2026-04-23"
+  },
+  "gate": {
+    "all_pass": false,
+    "g1_pass": "False",
+    "g2_pass": false,
+    "g3_pass": false,
+    "g4_pass": "False",
+    "g5_pass": false,
+    "in_sample_sharpe": -1.1469012729204395,
+    "oos_sharpe": -3.143715379816784,
+    "deflated_sharpe": 1.1067823824937383e-07,
+    "pbo": 0.6643356643356644,
+    "mr_friendly_sharpe": -2.4668579831868493,
+    "holdout_sharpe": -2.021651594376551
+  }
+}

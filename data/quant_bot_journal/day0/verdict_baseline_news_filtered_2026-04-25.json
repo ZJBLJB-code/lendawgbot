@@ -1,0 +1,33 @@
+{
+  "ts": "2026-04-26T02:44:21.064231+00:00",
+  "phase": "day0_baseline_news_filtered",
+  "instrument": "MES",
+  "data": {
+    "start": "2021-04-25",
+    "end": "2026-04-25",
+    "rth_bars": 487134
+  },
+  "wfo": {
+    "n_folds": 12,
+    "n_combos": 3,
+    "winner": "ORF1.5_VWAP1.5",
+    "cost_usd": 5.0,
+    "is_fraction": 0.4
+  },
+  "gate": {
+    "holdout_sharpe": 0.1977253449890564,
+    "in_sample_sharpe": -0.07003221731413585,
+    "oos_sharpe": -0.23623096701652885,
+    "deflated_sharpe": 0.11175043526174167,
+    "pbo": 0.2898212898212898,
+    "mr_friendly_sharpe": -0.09783385495514334
+  },
+  "drawdown": {
+    "holdout_max_dd": -0.13922755988996713,
+    "folded_max_dd": -0.4663253230261647
+  },
+  "trades": {
+    "n_folded": 1024,
+    "n_holdout": 257
+  }
+}

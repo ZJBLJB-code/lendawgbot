@@ -1,0 +1,10 @@
+# Cloudflare Pages config for Len Dawg Bot.
+#
+# This file is consumed by `wrangler pages deploy` (and by the
+# cloudflare/wrangler-action@v3 GitHub Action) to identify the project.
+# The CI workflow passes --project-name explicitly, so this file is mostly
+# documentation + a hint for local `wrangler` invocations.
+
+name = "lendawgbot"
+compatibility_date = "2026-04-25"
+pages_build_output_dir = "tomcash/dist"

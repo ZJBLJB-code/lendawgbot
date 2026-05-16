@@ -1,0 +1,98 @@
+{
+  "ts": "2026-04-26T02:56:07.922933+00:00",
+  "phase": "day0_combined_monday_stack",
+  "instrument": "MES",
+  "data": {
+    "start": "2021-04-25",
+    "end": "2026-04-25",
+    "rth_bars": 487134,
+    "n_sessions_total": 1269,
+    "vol_skip_dates": 592,
+    "vix_crisis_skip_dates": 10,
+    "combined_date_skip_union": 594,
+    "vol_skip_pct": 0.4665090622537431
+  },
+  "filters": {
+    "vol_regime": {
+      "realized_vol_window_days": 5,
+      "percentile_lookback_days": 252,
+      "low_percentile": 0.3,
+      "high_percentile": 0.75
+    },
+    "vix_regime": {
+      "skip_set": [
+        "CRISIS"
+      ],
+      "histogram": {
+        "CALM": 261,
+        "NORMAL": 799,
+        "STRESSED": 186,
+        "CRISIS": 10
+      }
+    },
+    "event_filter": {
+      "windows": "FOMC 13:30-15:30 ET; CPI/NFP 08:00-10:00 ET"
+    }
+  },
+  "wfo": {
+    "n_folds": 12,
+    "n_combos": 3,
+    "winner": "ORF1.5_VWAP1.5",
+    "holdout_start": "2025-04-23",
+    "holdout_end": "2026-04-23",
+    "cost_usd": 2.0,
+    "is_fraction": 0.4
+  },
+  "trades": {
+    "drop_breakdown": {
+      "date_skip": 1865,
+      "news_event": 9
+    },
+    "n_folded_trades_winner": 549,
+    "n_holdout_trades_winner": 126
+  },
+  "gate": {
+    "all_pass": false,
+    "gates_passed": "4",
+    "g1_pass": true,
+    "g2_pass": false,
+    "g3_pass": true,
+    "g4_pass": true,
+    "g5_pass": true,
+    "in_sample_sharpe": 0.6583304587960757,
+    "oos_sharpe": 0.5125235983538549,
+    "deflated_sharpe": 0.4821343298308546,
+    "pbo": 0.04188034188034188,
+    "mr_friendly_sharpe": 0.00988679655879551,
+    "holdout_sharpe": 2.066825906593523,
+    "max_dd_dollars": -627.960514281941
+  },
+  "comparison": {
+    "baseline_holdout_sharpe": 1.098007901146199,
+    "vol_only_holdout_sharpe": 2.066825906593523,
+    "combined_holdout_sharpe": 2.066825906593523,
+    "delta_vs_baseline": 0.9688180054473241,
+    "delta_vs_vol_only": 0.0
+  },
+  "equity_curve_summary": {
+    "holdout": {
+      "n_days": 255,
+      "max_dd_dollars": -426.7500000000073,
+      "max_dd_pct": -0.06538770210362169,
+      "daily_pnl_std_dollars": 40.404786862282805,
+      "daily_ret_std": 0.008080957372456562,
+      "final_equity": 6341.45660071865,
+      "total_pnl_dollars": 1341.4566007186504
+    },
+    "full_period": {
+      "n_days": 1269,
+      "max_dd_dollars": -627.960514281941,
+      "max_dd_pct": -0.1074868434674631,
+      "daily_pnl_std_dollars": 32.97663695756276,
+      "daily_ret_std": 0.006595327391512552,
+      "final_equity": 6956.992497163226,
+      "total_pnl_dollars": 1956.9924971632258
+    },
+    "initial_equity": 5000.0
+  }
+}
