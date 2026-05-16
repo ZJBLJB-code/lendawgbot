@@ -1,0 +1,14 @@
+{"ts":"2026-05-01T14:20:33.231754+00:00","event":"orchestrator_starting","starting_equity_usd":5992.21,"trading_mode":"live","llm_disabled":true,"invert_signals":false}
+{"ts":"2026-05-01T14:50:07.288797+00:00","event":"bracket_submitted","bracket_id":"BR-f58937c9","oca_group":"OCA-c1c55131","instrument":"MES","asset_class":"FUT","side":"LONG","qty":1,"entry":7296.5,"stop":7295.75,"target":7298.25,"sub_signal":"VWAP_REV"}
+{"ts":"2026-05-01T14:50:07.994730+00:00","event":"fill","bracket_id":"BR-f58937c9","leg":"entry","action":"BUY","qty":1,"price":7281.25,"commission":0.0,"broker_order_id":407156068}
+{"ts":"2026-05-01T14:50:08.072645+00:00","event":"fill","bracket_id":"BR-f58937c9","leg":"stop","action":"SELL","qty":1,"price":7281.0,"commission":0.0,"broker_order_id":407156069}
+{"ts":"2026-05-01T14:50:08.736123+00:00","event":"position_closed","bracket_id":"BR-f58937c9","exit_leg":"stop","exit_price":7281.0,"net_pnl_usd":-1.25,"equity_after_usd":5990.96}
+{"ts":"2026-05-01T15:51:05.773469+00:00","event":"bracket_submitted","bracket_id":"BR-6cfae631","oca_group":"OCA-dd35ca7f","instrument":"MES","asset_class":"FUT","side":"LONG","qty":1,"entry":7295.75,"stop":7294.75,"target":7298.0,"sub_signal":"VWAP_REV"}
+{"ts":"2026-05-01T15:51:06.730675+00:00","event":"fill","bracket_id":"BR-6cfae631","leg":"entry","action":"BUY","qty":1,"price":7286.5,"commission":0.0,"broker_order_id":407156071}
+{"ts":"2026-05-01T15:51:07.038370+00:00","event":"fill","bracket_id":"BR-6cfae631","leg":"stop","action":"SELL","qty":1,"price":7286.5,"commission":0.0,"broker_order_id":407156072}
+{"ts":"2026-05-01T15:51:07.462870+00:00","event":"position_closed","bracket_id":"BR-6cfae631","exit_leg":"stop","exit_price":7286.5,"net_pnl_usd":0.0,"equity_after_usd":5990.96}
+{"ts":"2026-05-01T15:52:05.899615+00:00","event":"bracket_submitted","bracket_id":"BR-6f36bdd7","oca_group":"OCA-0dd1a485","instrument":"MES","asset_class":"FUT","side":"LONG","qty":1,"entry":7294.25,"stop":7292.75,"target":7297.25,"sub_signal":"VWAP_REV"}
+{"ts":"2026-05-01T15:52:06.515494+00:00","event":"fill","bracket_id":"BR-6f36bdd7","leg":"entry","action":"BUY","qty":1,"price":7285.25,"commission":0.0,"broker_order_id":407156074}
+{"ts":"2026-05-01T15:52:07.090453+00:00","event":"fill","bracket_id":"BR-6f36bdd7","leg":"stop","action":"SELL","qty":1,"price":7285.0,"commission":0.0,"broker_order_id":407156075}
+{"ts":"2026-05-01T15:52:08.042801+00:00","event":"position_closed","bracket_id":"BR-6f36bdd7","exit_leg":"stop","exit_price":7285.0,"net_pnl_usd":-1.25,"equity_after_usd":5989.71}
+{"ts":"2026-05-01T17:48:13.266884+00:00","event":"orchestrator_starting","starting_equity_usd":5985.99,"trading_mode":"live","llm_disabled":true,"invert_signals":false}

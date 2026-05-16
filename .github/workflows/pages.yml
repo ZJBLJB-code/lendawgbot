@@ -1,0 +1,88 @@
+name: GitHub Pages
+
+# Pipeline:
+#   1. pytest                — units, no-synthetic-defaults, real-bot-correctness
+#   2. PII grep              — last line of defense for raw account-id leaks
+#   3. build dist/index.html — inlines data/dashboard.json into src/template.html
+#   4. deploy                — GitHub Pages
+#
+# data/dashboard.json is committed by the operator's local refresh
+# (tools/publisher.py runs against the unsanitized live journal). CI
+# never tries to recompute it; it just renders + verifies what was
+# committed against the same JSON it inlines.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: pytest (unit + correctness + no-synthetic-defaults)
+        run: python -m pytest tests/ -v
+
+      - name: PII grep on data/dashboard.json
+        # Last line of defense against a raw-event leak. The publisher's
+        # schema does not include any of these field names, but a bad
+        # manual edit could. Whitelist of allowed PII-adjacent strings is
+        # empty — fail the build red on any hit.
+        if: hashFiles('data/dashboard.json') != ''
+        run: |
+          set -e
+          PATTERNS='U25438416|DUP187165|"equity_usd"|"account_id"|"current_equity_usd"|"net_pnl_usd"|"equity_after_usd"|"gross_pnl_usd"|"drawdown_pct"|"host"\s*:|"client_id"\s*:|"bot_pid"'
+          if grep -E "$PATTERNS" data/dashboard.json; then
+            echo "::error::PII leak detected in data/dashboard.json"
+            exit 1
+          fi
+          echo "PII grep clean."
+
+      - name: Build dist/index.html
+        run: python3 scripts/build.py
+
+      - name: Verify status
+        run: |
+          set -e
+          test -f dist/index.html
+          test -f dist/_status.json
+          python3 - <<'PY'
+          import json
+          s = json.load(open("dist/_status.json"))
+          assert s["ok"] is True, s
+          assert s["bytes"] < 200_000, f"dist/index.html too large: {s['bytes']} bytes (limit 200KB)"
+          print("status ok:", s)
+          PY
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
