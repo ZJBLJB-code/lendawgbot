@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "publisher_version": "1.0.0",
-  "generated_at": "2026-05-18T15:50:07.777911+00:00",
+  "generated_at": "2026-05-18T20:14:03.581308+00:00",
   "mode": "LIVE",
   "bot": {
     "name": "Len Dawg",
@@ -120,8 +120,8 @@
     },
     {
       "date": "2026-05-18",
-      "equity": 10025.0,
-      "pnl": -55.0
+      "equity": 10120.0,
+      "pnl": 40.0
     }
   ],
   "today_trades": [
@@ -144,24 +144,44 @@
       "stop_price": 7396.25,
       "target_price": 7423.5,
       "thesis_confirmed": false
+    },
+    {
+      "trade_id": "BR-91a0b031",
+      "date": "2026-05-18",
+      "entry_time": "2026-05-18T18:19:41.313056+00:00",
+      "exit_time": "2026-05-18T19:01:32.510439+00:00",
+      "direction": "LONG",
+      "sub_signal": "ORF",
+      "regime": "UNCLASSIFIED",
+      "qty": 1,
+      "entry_price": 7382.0,
+      "exit_price": 7401.0,
+      "pnl_dollars": 95.0,
+      "pnl_points": 19.0,
+      "bars_held": 42,
+      "exit_reason": "TARGET",
+      "persona_votes": [],
+      "stop_price": 7369.5,
+      "target_price": 7401.0,
+      "thesis_confirmed": true
     }
   ],
   "today": {
     "date": "2026-05-18",
     "regime": "UNCLASSIFIED",
-    "trades_count": 1,
-    "wins": 0,
+    "trades_count": 2,
+    "wins": 1,
     "losses": 1,
-    "pnl_dollars": -55.0,
-    "cumulative_pnl": 25.0
+    "pnl_dollars": 40.0,
+    "cumulative_pnl": 120.0
   },
   "cumulative": {
-    "total_pnl": 25.0,
-    "total_trades": 11,
-    "win_rate": 0.364,
-    "current_equity": 10025.0,
-    "streak": 1,
-    "streak_type": "loss"
+    "total_pnl": 120.0,
+    "total_trades": 12,
+    "win_rate": 0.417,
+    "current_equity": 10120.0,
+    "streak": 3,
+    "streak_type": "win"
   },
   "cage_match": {
     "trade_id": "BR-7af9c5de",
@@ -180,7 +200,7 @@
   "_provenance": {
     "source": "quant-bot",
     "source_detail": "live/2026-05-18.jsonl",
-    "data_as_of": "2026-05-18T15:49:51.197305+00:00",
-    "publisher_run_id": "a73cb9b1-89d2-4843-bb3e-50bf527b31b8"
+    "data_as_of": "2026-05-18T20:05:03.371488+00:00",
+    "publisher_run_id": "ae831324-74b7-4b09-bf25-5df7b1d2dc82"
   }
 }
