@@ -1,277 +1,61 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-05-18T20:31:42Z",
-  "data_as_of": "2026-05-18T20:05:03.371346+00:00",
+  "generated_at": "2026-05-26T15:30:42Z",
+  "data_as_of": "2026-05-26T15:30:42.585518+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
-    "starting_equity": 5992.21,
-    "current_equity": 5997.72,
-    "days_live": 7
+    "starting_equity": 5995.24,
+    "current_equity": 5966.49,
+    "days_live": 1
   },
   "headline": {
-    "account_change_usd": 5.51,
-    "account_change_pct": 0.00092,
-    "realized_trade_pnl_usd": 120.0,
-    "cost_drift_usd": 114.49,
-    "total_trades": 12,
-    "wins": 5,
-    "losses": 7,
-    "win_rate": 0.4167
+    "account_change_usd": -28.75,
+    "account_change_pct": -0.004795,
+    "realized_trade_pnl_usd": -28.75,
+    "cost_drift_usd": 0.0,
+    "total_trades": 1,
+    "wins": 0,
+    "losses": 1,
+    "win_rate": 0.0
   },
   "daily": [
     {
-      "date": "2026-05-18",
-      "pnl_usd": 40.0,
-      "trades": 2,
-      "wins": 1,
-      "losses": 1,
-      "end_equity_usd": 5997.72
-    },
-    {
-      "date": "2026-05-15",
-      "pnl_usd": 25.0,
-      "trades": 2,
-      "wins": 1,
-      "losses": 1,
-      "end_equity_usd": 5960.2
-    },
-    {
-      "date": "2026-05-11",
-      "pnl_usd": 20.0,
-      "trades": 1,
-      "wins": 1,
-      "losses": 0,
-      "end_equity_usd": 5939.02
-    },
-    {
-      "date": "2026-05-08",
-      "pnl_usd": -17.5,
+      "date": "2026-05-26",
+      "pnl_usd": -28.75,
       "trades": 1,
       "wins": 0,
       "losses": 1,
-      "end_equity_usd": 5920.25
-    },
-    {
-      "date": "2026-05-06",
-      "pnl_usd": 66.25,
-      "trades": 2,
-      "wins": 2,
-      "losses": 0,
-      "end_equity_usd": 6024.01
-    },
-    {
-      "date": "2026-05-05",
-      "pnl_usd": -11.25,
-      "trades": 1,
-      "wins": 0,
-      "losses": 1,
-      "end_equity_usd": 5960.24
-    },
-    {
-      "date": "2026-05-01",
-      "pnl_usd": -2.5,
-      "trades": 3,
-      "wins": 0,
-      "losses": 3,
-      "end_equity_usd": 5989.71
+      "end_equity_usd": 5966.49
     }
   ],
   "trades": [
     {
-      "bracket_id": "BR-f58937c9",
-      "date": "2026-05-01",
-      "entry_ts": "2026-05-01T14:50:07.288797+00:00",
-      "exit_ts": "2026-05-01T14:50:08.736123+00:00",
+      "bracket_id": "BR-54685ef7",
+      "date": "2026-05-26",
+      "entry_ts": "2026-05-26T15:18:29.818680+00:00",
+      "exit_ts": "2026-05-26T15:30:42.585014+00:00",
       "side": "LONG",
-      "entry_price": 7296.5,
-      "exit_price": 7281.0,
-      "stop_price": 7295.75,
-      "target_price": 7298.25,
+      "entry_price": 7535.5,
+      "exit_price": 7529.75,
+      "stop_price": 7529.75,
+      "target_price": 7544.5,
       "qty": 1,
-      "pnl_usd": -1.25,
-      "sub_signal": "VWAP_REV",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-6cfae631",
-      "date": "2026-05-01",
-      "entry_ts": "2026-05-01T15:51:05.773469+00:00",
-      "exit_ts": "2026-05-01T15:51:07.462870+00:00",
-      "side": "LONG",
-      "entry_price": 7295.75,
-      "exit_price": 7286.5,
-      "stop_price": 7294.75,
-      "target_price": 7298.0,
-      "qty": 1,
-      "pnl_usd": 0.0,
-      "sub_signal": "VWAP_REV",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-6f36bdd7",
-      "date": "2026-05-01",
-      "entry_ts": "2026-05-01T15:52:05.899615+00:00",
-      "exit_ts": "2026-05-01T15:52:08.042801+00:00",
-      "side": "LONG",
-      "entry_price": 7294.25,
-      "exit_price": 7285.0,
-      "stop_price": 7292.75,
-      "target_price": 7297.25,
-      "qty": 1,
-      "pnl_usd": -1.25,
-      "sub_signal": "VWAP_REV",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-f74dc5ec",
-      "date": "2026-05-05",
-      "entry_ts": "2026-05-05T17:52:06.640547+00:00",
-      "exit_ts": "2026-05-05T18:07:32.479215+00:00",
-      "side": "SHORT",
-      "entry_price": 7290.0,
-      "exit_price": 7292.25,
-      "stop_price": 7292.5,
-      "target_price": 7286.0,
-      "qty": 1,
-      "pnl_usd": -11.25,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-51949afd",
-      "date": "2026-05-06",
-      "entry_ts": "2026-05-06T15:02:08.129337+00:00",
-      "exit_ts": "2026-05-06T15:13:33.059576+00:00",
-      "side": "SHORT",
-      "entry_price": 7373.75,
-      "exit_price": 7366.25,
-      "stop_price": 7378.75,
-      "target_price": 7366.25,
-      "qty": 1,
-      "pnl_usd": 37.5,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-3b028fbf",
-      "date": "2026-05-06",
-      "entry_ts": "2026-05-06T18:36:08.197630+00:00",
-      "exit_ts": "2026-05-06T18:48:31.195364+00:00",
-      "side": "SHORT",
-      "entry_price": 7382.5,
-      "exit_price": 7377.5,
-      "stop_price": 7385.5,
-      "target_price": 7377.5,
-      "qty": 1,
-      "pnl_usd": 28.75,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-4fd81c3c",
-      "date": "2026-05-08",
-      "entry_ts": "2026-05-08T18:52:11.129011+00:00",
-      "exit_ts": "2026-05-08T18:54:44.730580+00:00",
-      "side": "LONG",
-      "entry_price": 7414.75,
-      "exit_price": 7411.25,
-      "stop_price": 7411.25,
-      "target_price": 7420.25,
-      "qty": 1,
-      "pnl_usd": -17.5,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-46bab45e",
-      "date": "2026-05-11",
-      "entry_ts": "2026-05-11T15:31:10.890675+00:00",
-      "exit_ts": "2026-05-11T15:44:49.113887+00:00",
-      "side": "SHORT",
-      "entry_price": 7447.75,
-      "exit_price": 7443.75,
-      "stop_price": 7450.75,
-      "target_price": 7443.75,
-      "qty": 1,
-      "pnl_usd": 20.0,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-32760ee4",
-      "date": "2026-05-15",
-      "entry_ts": "2026-05-15T15:51:11.243605+00:00",
-      "exit_ts": "2026-05-15T16:21:24.950786+00:00",
-      "side": "LONG",
-      "entry_price": 7436.5,
-      "exit_price": 7447.5,
-      "stop_price": 7429.0,
-      "target_price": 7447.5,
-      "qty": 1,
-      "pnl_usd": 55.0,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-88d35132",
-      "date": "2026-05-15",
-      "entry_ts": "2026-05-15T19:45:10.790638+00:00",
-      "exit_ts": "2026-05-15T19:53:17.614532+00:00",
-      "side": "LONG",
-      "entry_price": 7440.75,
-      "exit_price": 7434.75,
-      "stop_price": 7434.75,
-      "target_price": 7449.25,
-      "qty": 1,
-      "pnl_usd": -30.0,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-7af9c5de",
-      "date": "2026-05-18",
-      "entry_ts": "2026-05-18T14:36:30.877073+00:00",
-      "exit_ts": "2026-05-18T15:29:50.185803+00:00",
-      "side": "LONG",
-      "entry_price": 7407.0,
-      "exit_price": 7396.0,
-      "stop_price": 7396.25,
-      "target_price": 7423.5,
-      "qty": 1,
-      "pnl_usd": -55.0,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-91a0b031",
-      "date": "2026-05-18",
-      "entry_ts": "2026-05-18T16:31:30.966278+00:00",
-      "exit_ts": "2026-05-18T19:01:32.510439+00:00",
-      "side": "LONG",
-      "entry_price": 7382.0,
-      "exit_price": 7401.0,
-      "stop_price": 7369.5,
-      "target_price": 7401.0,
-      "qty": 1,
-      "pnl_usd": 95.0,
+      "pnl_usd": -28.75,
       "sub_signal": "ORF",
       "regime": null
     }
   ],
   "data_quality": {
-    "warnings": [
-      "realized trade P&L: $120.00; broker account change: $5.51; gap: +$114.49 in fees/slippage the bot did not capture per-trade",
-      "3 bracket(s) submitted but never closed in journal — likely orphans from a prior crash"
-    ],
+    "warnings": [],
     "orphan_closes": 0,
-    "open_positions": 3
+    "open_positions": 0
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-05-18.jsonl",
-    "data_as_of": "2026-05-18T20:05:03Z",
-    "publisher_run_id": "cea883df-8266-4239-bca6-c0a7b0dd2993"
+    "source_detail": "live/2026-05-26.jsonl",
+    "data_as_of": "2026-05-26T15:30:42Z",
+    "publisher_run_id": "439332d0-a0fe-4150-97e5-46dafbe55838"
   }
 }
