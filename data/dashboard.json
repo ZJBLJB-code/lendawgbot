@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-05-27T19:58:01Z",
-  "data_as_of": "2026-05-27T19:58:00.634358+00:00",
+  "generated_at": "2026-05-28T19:58:02Z",
+  "data_as_of": "2026-05-28T19:58:01.758512+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
@@ -11,6 +11,8 @@
     "days_live": 2
   },
   "headline": {
+    "bot_equity_change_usd": 17.2,
+    "bot_equity_change_pct": 0.002869,
     "account_change_usd": 17.2,
     "account_change_pct": 0.002869,
     "realized_trade_pnl_usd": 13.75,
@@ -70,17 +72,39 @@
       "regime": null
     }
   ],
+  "open_positions_detail": [
+    {
+      "symbol": "CLBT",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:CLBT:2026-05-26",
+      "opened_date": "2026-05-26",
+      "scheduled_exit_date": "2026-06-11",
+      "entry_price": 12.89,
+      "source": "cohort"
+    },
+    {
+      "symbol": "FUTU",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:FUTU:2026-05-26",
+      "opened_date": "2026-05-26",
+      "scheduled_exit_date": "2026-06-11",
+      "entry_price": 107.7,
+      "source": "cohort"
+    }
+  ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: $13.75; broker account change: $17.20; gap: -$3.45 in fees/slippage the bot did not capture per-trade"
+      "realized trade P&L: $13.75; bot-tracked equity change: $17.20; gap: -$3.45 in fees/slippage the bot did not capture per-trade"
     ],
     "orphan_closes": 0,
     "open_positions": 0
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-05-27.jsonl",
-    "data_as_of": "2026-05-27T19:58:00Z",
-    "publisher_run_id": "6463acd0-5e1d-4a3c-86ca-f525f940c801"
+    "source_detail": "live/2026-05-28.jsonl",
+    "data_as_of": "2026-05-28T19:58:01Z",
+    "publisher_run_id": "0aa8d502-cf0b-46d5-bf01-6c45d4961544"
   }
 }
