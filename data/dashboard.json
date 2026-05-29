@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-05-28T19:58:02Z",
-  "data_as_of": "2026-05-28T19:58:01.758512+00:00",
+  "generated_at": "2026-05-29T19:46:18Z",
+  "data_as_of": "2026-05-29T19:45:56.023751+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
@@ -74,6 +74,16 @@
   ],
   "open_positions_detail": [
     {
+      "symbol": "ATAT",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:ATAT:2026-05-28",
+      "opened_date": "2026-05-28",
+      "scheduled_exit_date": "2026-06-15",
+      "entry_price": 34.13,
+      "source": "cohort"
+    },
+    {
       "symbol": "CLBT",
       "shares": 1,
       "sleeve_id": "IWM100_R5H12_1SH_MR",
@@ -103,8 +113,8 @@
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-05-28.jsonl",
-    "data_as_of": "2026-05-28T19:58:01Z",
-    "publisher_run_id": "0aa8d502-cf0b-46d5-bf01-6c45d4961544"
+    "source_detail": "live/2026-05-29.jsonl",
+    "data_as_of": "2026-05-29T19:45:56Z",
+    "publisher_run_id": "cf5e7ce5-f1c4-434b-9b0d-d4858958428a"
   }
 }
