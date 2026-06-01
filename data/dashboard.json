@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-06-01T19:58:04Z",
-  "data_as_of": "2026-06-01T19:58:03.499296+00:00",
+  "generated_at": "2026-06-01T20:32:21Z",
+  "data_as_of": "2026-06-01T20:04:45.066189+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
@@ -155,6 +155,26 @@
       "scheduled_exit_date": "2026-06-11",
       "entry_price": 107.7,
       "source": "cohort"
+    },
+    {
+      "symbol": "RKLB",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:RKLB:2026-06-01",
+      "opened_date": "2026-06-01",
+      "scheduled_exit_date": "2026-06-17",
+      "entry_price": 122.39,
+      "source": "cohort"
+    },
+    {
+      "symbol": "SKWD",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:SKWD:2026-06-01",
+      "opened_date": "2026-06-01",
+      "scheduled_exit_date": "2026-06-17",
+      "entry_price": 44.21,
+      "source": "cohort"
     }
   ],
   "data_quality": {
@@ -167,7 +187,7 @@
   "_provenance": {
     "source": "quant-bot",
     "source_detail": "live/2026-06-01.jsonl",
-    "data_as_of": "2026-06-01T19:58:03Z",
-    "publisher_run_id": "2ddf9e40-6587-4c71-82a1-e5ba7a1ddf9a"
+    "data_as_of": "2026-06-01T20:04:45Z",
+    "publisher_run_id": "0e645f73-9aae-48e5-8ba5-a11c2c669be4"
   }
 }
