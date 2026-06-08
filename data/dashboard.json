@@ -1,28 +1,36 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-06-05T19:58:06Z",
-  "data_as_of": "2026-06-05T19:58:04.478617+00:00",
+  "generated_at": "2026-06-08T17:04:04Z",
+  "data_as_of": "2026-06-08T17:04:02.541812+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
     "starting_equity": 5995.24,
-    "current_equity": 6039.51,
-    "days_live": 6
+    "current_equity": 5947.4,
+    "days_live": 7
   },
   "headline": {
-    "bot_equity_change_usd": 44.27,
-    "bot_equity_change_pct": 0.007384,
-    "account_change_usd": 44.27,
-    "account_change_pct": 0.007384,
-    "realized_trade_pnl_usd": 38.84,
-    "cost_drift_usd": -5.43,
-    "total_trades": 11,
+    "bot_equity_change_usd": -47.84,
+    "bot_equity_change_pct": -0.00798,
+    "account_change_usd": -47.84,
+    "account_change_pct": -0.00798,
+    "realized_trade_pnl_usd": 10.1,
+    "cost_drift_usd": 57.94,
+    "total_trades": 12,
     "wins": 6,
-    "losses": 5,
-    "win_rate": 0.5455
+    "losses": 6,
+    "win_rate": 0.5
   },
   "daily": [
+    {
+      "date": "2026-06-08",
+      "pnl_usd": -28.74,
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "end_equity_usd": 5947.4
+    },
     {
       "date": "2026-06-05",
       "pnl_usd": -39.99,
@@ -237,9 +245,34 @@
       "pnl_usd": -39.99,
       "sub_signal": "ORF",
       "regime": null
+    },
+    {
+      "bracket_id": "BR-4f73dc1d",
+      "date": "2026-06-08",
+      "entry_ts": "2026-06-08T17:02:32.276201+00:00",
+      "exit_ts": "2026-06-08T17:04:02.025669+00:00",
+      "side": "LONG",
+      "entry_price": 7434.75,
+      "exit_price": 7426.5,
+      "stop_price": 7426.75,
+      "target_price": 7446.75,
+      "qty": 1,
+      "pnl_usd": -28.74,
+      "sub_signal": "ORF",
+      "regime": null
     }
   ],
   "open_positions_detail": [
+    {
+      "symbol": "ALKT",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:ALKT:2026-06-05",
+      "opened_date": "2026-06-05",
+      "scheduled_exit_date": "2026-06-24",
+      "entry_price": 15.89,
+      "source": "cohort"
+    },
     {
       "symbol": "ATAT",
       "shares": 1,
@@ -293,15 +326,15 @@
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: $38.84; bot-tracked equity change: $44.27; gap: -$5.43 in fees/slippage the bot did not capture per-trade"
+      "realized trade P&L: $10.10; bot-tracked equity change: -$47.84; gap: +$57.94 in fees/slippage the bot did not capture per-trade"
     ],
     "orphan_closes": 0,
     "open_positions": 0
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-06-05.jsonl",
-    "data_as_of": "2026-06-05T19:58:04Z",
-    "publisher_run_id": "a151b8b9-8308-4d37-9e5a-d7d52e07cebb"
+    "source_detail": "live/2026-06-08.jsonl",
+    "data_as_of": "2026-06-08T17:04:02Z",
+    "publisher_run_id": "89f4b554-9117-4dca-b66d-074a967c6812"
   }
 }
