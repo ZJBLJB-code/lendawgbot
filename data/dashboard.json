@@ -1,28 +1,36 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-06-08T19:58:07Z",
-  "data_as_of": "2026-06-08T19:58:04.068341+00:00",
+  "generated_at": "2026-06-09T14:15:57Z",
+  "data_as_of": "2026-06-09T14:15:54.816671+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
     "starting_equity": 5995.24,
-    "current_equity": 5909.29,
-    "days_live": 7
+    "current_equity": 5823.19,
+    "days_live": 8
   },
   "headline": {
-    "bot_equity_change_usd": -85.95,
-    "bot_equity_change_pct": -0.014336,
-    "account_change_usd": -85.95,
-    "account_change_pct": -0.014336,
-    "realized_trade_pnl_usd": -27.39,
-    "cost_drift_usd": 58.56,
-    "total_trades": 13,
+    "bot_equity_change_usd": -172.05,
+    "bot_equity_change_pct": -0.028698,
+    "account_change_usd": -172.05,
+    "account_change_pct": -0.028698,
+    "realized_trade_pnl_usd": -47.38,
+    "cost_drift_usd": 124.67,
+    "total_trades": 14,
     "wins": 6,
-    "losses": 7,
-    "win_rate": 0.4615
+    "losses": 8,
+    "win_rate": 0.4286
   },
   "daily": [
+    {
+      "date": "2026-06-09",
+      "pnl_usd": -19.99,
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "end_equity_usd": 5823.19
+    },
     {
       "date": "2026-06-08",
       "pnl_usd": -66.23,
@@ -275,6 +283,21 @@
       "pnl_usd": -37.49,
       "sub_signal": "ORF",
       "regime": null
+    },
+    {
+      "bracket_id": "BR-962b2c40",
+      "date": "2026-06-09",
+      "entry_ts": "2026-06-09T14:14:32.174072+00:00",
+      "exit_ts": "2026-06-09T14:15:54.816125+00:00",
+      "side": "LONG",
+      "entry_price": 7445.75,
+      "exit_price": 7434.5,
+      "stop_price": 7434.0,
+      "target_price": 7463.25,
+      "qty": 1,
+      "pnl_usd": -19.99,
+      "sub_signal": "ORF",
+      "regime": null
     }
   ],
   "open_positions_detail": [
@@ -341,15 +364,15 @@
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$27.39; bot-tracked equity change: -$85.95; gap: +$58.56 in fees/slippage the bot did not capture per-trade"
+      "realized trade P&L: -$47.38; bot-tracked equity change: -$172.05; gap: +$124.67 in fees/slippage the bot did not capture per-trade"
     ],
     "orphan_closes": 0,
     "open_positions": 0
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-06-08.jsonl",
-    "data_as_of": "2026-06-08T19:58:04Z",
-    "publisher_run_id": "a5cf299a-fdaf-4c01-b732-c55222d2a4c2"
+    "source_detail": "live/2026-06-09.jsonl",
+    "data_as_of": "2026-06-09T14:15:54Z",
+    "publisher_run_id": "76e584e5-0dc1-4c7d-a7aa-ab6e31085db3"
   }
 }
