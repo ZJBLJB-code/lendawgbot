@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-06-10T19:58:17Z",
-  "data_as_of": "2026-06-10T19:58:15.287984+00:00",
+  "generated_at": "2026-06-26T19:58:07Z",
+  "data_as_of": "2026-06-26T19:58:04.801884+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
@@ -325,20 +325,20 @@
       "symbol": "CLBT",
       "shares": 1,
       "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:CLBT:2026-05-26",
-      "opened_date": "2026-05-26",
-      "scheduled_exit_date": "2026-06-11",
-      "entry_price": 12.89,
+      "cohort_id": "IWM100_R5H12_1SH_MR:CLBT:2026-06-08",
+      "opened_date": "2026-06-08",
+      "scheduled_exit_date": "2026-06-25",
+      "entry_price": 13.43,
       "source": "cohort"
     },
     {
       "symbol": "FUTU",
       "shares": 1,
       "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:FUTU:2026-05-26",
-      "opened_date": "2026-05-26",
-      "scheduled_exit_date": "2026-06-11",
-      "entry_price": 107.7,
+      "cohort_id": "IWM100_R5H12_1SH_MR:FUTU:2026-05-28",
+      "opened_date": "2026-05-28",
+      "scheduled_exit_date": "2026-06-15",
+      "entry_price": 104.91,
       "source": "cohort"
     },
     {
@@ -372,8 +372,8 @@
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-06-10.jsonl",
-    "data_as_of": "2026-06-10T19:58:15Z",
-    "publisher_run_id": "34d281a7-ef36-4735-b592-354c6d2788c1"
+    "source_detail": "live/2026-06-26.jsonl",
+    "data_as_of": "2026-06-26T19:58:04Z",
+    "publisher_run_id": "63f8c659-ffa1-439a-98cb-a898cfe24874"
   }
 }
