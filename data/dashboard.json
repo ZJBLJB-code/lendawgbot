@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-06-26T19:58:07Z",
-  "data_as_of": "2026-06-26T19:58:04.801884+00:00",
+  "generated_at": "2026-06-26T23:43:43Z",
+  "data_as_of": "2026-06-26T20:35:06.859902+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
@@ -300,68 +300,7 @@
       "regime": null
     }
   ],
-  "open_positions_detail": [
-    {
-      "symbol": "ALKT",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:ALKT:2026-06-05",
-      "opened_date": "2026-06-05",
-      "scheduled_exit_date": "2026-06-24",
-      "entry_price": 15.89,
-      "source": "cohort"
-    },
-    {
-      "symbol": "ATAT",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:ATAT:2026-05-28",
-      "opened_date": "2026-05-28",
-      "scheduled_exit_date": "2026-06-15",
-      "entry_price": 34.13,
-      "source": "cohort"
-    },
-    {
-      "symbol": "CLBT",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:CLBT:2026-06-08",
-      "opened_date": "2026-06-08",
-      "scheduled_exit_date": "2026-06-25",
-      "entry_price": 13.43,
-      "source": "cohort"
-    },
-    {
-      "symbol": "FUTU",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:FUTU:2026-05-28",
-      "opened_date": "2026-05-28",
-      "scheduled_exit_date": "2026-06-15",
-      "entry_price": 104.91,
-      "source": "cohort"
-    },
-    {
-      "symbol": "RKLB",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:RKLB:2026-06-01",
-      "opened_date": "2026-06-01",
-      "scheduled_exit_date": "2026-06-17",
-      "entry_price": 122.39,
-      "source": "cohort"
-    },
-    {
-      "symbol": "SKWD",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:SKWD:2026-06-01",
-      "opened_date": "2026-06-01",
-      "scheduled_exit_date": "2026-06-17",
-      "entry_price": 44.21,
-      "source": "cohort"
-    }
-  ],
+  "open_positions_detail": [],
   "data_quality": {
     "warnings": [
       "realized trade P&L: -$47.38; bot-tracked equity change: -$172.05; gap: +$124.67 in fees/slippage the bot did not capture per-trade",
@@ -373,7 +312,7 @@
   "_provenance": {
     "source": "quant-bot",
     "source_detail": "live/2026-06-26.jsonl",
-    "data_as_of": "2026-06-26T19:58:04Z",
-    "publisher_run_id": "63f8c659-ffa1-439a-98cb-a898cfe24874"
+    "data_as_of": "2026-06-26T20:35:06Z",
+    "publisher_run_id": "0b3656ff-9419-4aa2-baa3-e6fff6afcc7d"
   }
 }
