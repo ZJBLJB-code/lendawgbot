@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-06-29T19:58:34Z",
-  "data_as_of": "2026-06-29T19:58:31.920011+00:00",
+  "generated_at": "2026-07-02T10:00:44Z",
+  "data_as_of": "2026-07-01T20:37:53.571529+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
@@ -254,7 +254,38 @@
       "regime": null
     }
   ],
-  "open_positions_detail": [],
+  "open_positions_detail": [
+    {
+      "symbol": "COCO",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:COCO:2026-06-29",
+      "opened_date": "2026-06-29",
+      "scheduled_exit_date": "2026-07-16",
+      "entry_price": 72.53,
+      "source": "cohort"
+    },
+    {
+      "symbol": "RMBS",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:RMBS:2026-06-29",
+      "opened_date": "2026-06-29",
+      "scheduled_exit_date": "2026-07-16",
+      "entry_price": 123.9,
+      "source": "cohort"
+    },
+    {
+      "symbol": "SMCI",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:SMCI:2026-06-29",
+      "opened_date": "2026-06-29",
+      "scheduled_exit_date": "2026-07-16",
+      "entry_price": 28.15,
+      "source": "cohort"
+    }
+  ],
   "data_quality": {
     "warnings": [
       "realized trade P&L: -$61.13; bot-tracked equity change: -$171.06; gap: +$109.93 in fees/slippage the bot did not capture per-trade",
@@ -265,8 +296,8 @@
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-06-29.jsonl",
-    "data_as_of": "2026-06-29T19:58:34Z",
-    "publisher_run_id": "08148474-c0ce-4dc1-b90d-93946ada7052"
+    "source_detail": "live/2026-07-01.jsonl",
+    "data_as_of": "2026-07-01T20:37:53Z",
+    "publisher_run_id": "e9e017e4-2084-44a3-b08f-1ff45df83f0f"
   }
 }
