@@ -1,26 +1,26 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-04T02:59:10Z",
+  "generated_at": "2026-07-04T03:02:49Z",
   "data_as_of": "2026-07-04T02:38:39.344124+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
-    "starting_equity": 6057.6,
+    "starting_equity": 6079.75,
     "current_equity": 6710.1,
-    "days_live": 6
+    "days_live": 5
   },
   "headline": {
-    "bot_equity_change_usd": 652.5,
-    "bot_equity_change_pct": 0.107716,
-    "account_change_usd": 652.5,
-    "account_change_pct": 0.107716,
-    "realized_trade_pnl_usd": -91.14,
-    "cost_drift_usd": -743.64,
-    "total_trades": 11,
-    "wins": 4,
-    "losses": 7,
-    "win_rate": 0.3636
+    "bot_equity_change_usd": 630.35,
+    "bot_equity_change_pct": 0.10368,
+    "account_change_usd": 630.35,
+    "account_change_pct": 0.10368,
+    "realized_trade_pnl_usd": -96.16,
+    "cost_drift_usd": -726.51,
+    "total_trades": 9,
+    "wins": 3,
+    "losses": 6,
+    "win_rate": 0.3333
   },
   "daily": [
     {
@@ -62,47 +62,9 @@
       "wins": 2,
       "losses": 1,
       "end_equity_usd": 6082.29
-    },
-    {
-      "date": "2026-06-02",
-      "pnl_usd": 5.02,
-      "trades": 2,
-      "wins": 1,
-      "losses": 1,
-      "end_equity_usd": 6062.0
     }
   ],
   "trades": [
-    {
-      "bracket_id": "BR-4e6034bb",
-      "date": "2026-06-02",
-      "entry_ts": "2026-06-02T14:12:30.992487+00:00",
-      "exit_ts": "2026-06-02T14:35:02.236067+00:00",
-      "side": "SHORT",
-      "entry_price": 7609.0,
-      "exit_price": 7613.5,
-      "stop_price": 7613.5,
-      "target_price": 7602.0,
-      "qty": 1,
-      "pnl_usd": -21.24,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-be323269",
-      "date": "2026-06-02",
-      "entry_ts": "2026-06-02T17:28:30.191086+00:00",
-      "exit_ts": "2026-06-02T19:11:30.360409+00:00",
-      "side": "LONG",
-      "entry_price": 7617.25,
-      "exit_price": 7622.75,
-      "stop_price": 7613.25,
-      "target_price": 7622.75,
-      "qty": 1,
-      "pnl_usd": 26.26,
-      "sub_signal": "ORF",
-      "regime": null
-    },
     {
       "bracket_id": "BR-7953937d",
       "date": "2026-06-04",
@@ -283,7 +245,7 @@
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$91.14; bot-tracked equity change: $652.50; gap: -$743.64 in fees/slippage the bot did not capture per-trade",
+      "realized trade P&L: -$96.16; bot-tracked equity change: $630.35; gap: -$726.51 in fees/slippage the bot did not capture per-trade",
       "1 bracket(s) submitted but never closed in journal — likely orphans from a prior crash"
     ],
     "orphan_closes": 0,
@@ -293,6 +255,6 @@
     "source": "quant-bot",
     "source_detail": "live/2026-07-03.jsonl",
     "data_as_of": "2026-07-04T02:38:39Z",
-    "publisher_run_id": "5df87761-3f1a-4f6a-bbc6-f752b92320f1"
+    "publisher_run_id": "6e102fee-4672-434c-9da1-645b47a80c1d"
   }
 }
