@@ -1,26 +1,26 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-02T19:58:35Z",
-  "data_as_of": "2026-07-02T19:58:34.966564+00:00",
+  "generated_at": "2026-07-04T01:23:50Z",
+  "data_as_of": "2026-07-03T20:35:08.051755+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
-    "starting_equity": 5994.25,
+    "starting_equity": 6057.6,
     "current_equity": 6710.1,
-    "days_live": 7
+    "days_live": 6
   },
   "headline": {
-    "bot_equity_change_usd": 715.85,
-    "bot_equity_change_pct": 0.119423,
-    "account_change_usd": 715.85,
-    "account_change_pct": 0.119423,
-    "realized_trade_pnl_usd": -34.86,
-    "cost_drift_usd": -750.71,
-    "total_trades": 14,
-    "wins": 6,
-    "losses": 8,
-    "win_rate": 0.4286
+    "bot_equity_change_usd": 652.5,
+    "bot_equity_change_pct": 0.107716,
+    "account_change_usd": 652.5,
+    "account_change_pct": 0.107716,
+    "realized_trade_pnl_usd": -91.14,
+    "cost_drift_usd": -743.64,
+    "total_trades": 11,
+    "wins": 4,
+    "losses": 7,
+    "win_rate": 0.3636
   },
   "daily": [
     {
@@ -70,62 +70,9 @@
       "wins": 1,
       "losses": 1,
       "end_equity_usd": 6062.0
-    },
-    {
-      "date": "2026-06-01",
-      "pnl_usd": 56.28,
-      "trades": 3,
-      "wins": 2,
-      "losses": 1,
-      "end_equity_usd": 6049.29
     }
   ],
   "trades": [
-    {
-      "bracket_id": "BR-376c6249",
-      "date": "2026-06-01",
-      "entry_ts": "2026-06-01T15:31:29.949130+00:00",
-      "exit_ts": "2026-06-01T16:11:30.485572+00:00",
-      "side": "SHORT",
-      "entry_price": 7600.5,
-      "exit_price": 7592.0,
-      "stop_price": 7606.5,
-      "target_price": 7592.0,
-      "qty": 1,
-      "pnl_usd": 41.26,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-76febc3c",
-      "date": "2026-06-01",
-      "entry_ts": "2026-06-01T16:54:31.088351+00:00",
-      "exit_ts": "2026-06-01T17:08:30.607714+00:00",
-      "side": "SHORT",
-      "entry_price": 7606.0,
-      "exit_price": 7600.0,
-      "stop_price": 7609.75,
-      "target_price": 7600.0,
-      "qty": 1,
-      "pnl_usd": 28.76,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-23a072a4",
-      "date": "2026-06-01",
-      "entry_ts": "2026-06-01T19:37:29.887413+00:00",
-      "exit_ts": "2026-06-01T19:45:46.351976+00:00",
-      "side": "LONG",
-      "entry_price": 7620.0,
-      "exit_price": 7617.5,
-      "stop_price": 7617.5,
-      "target_price": 7624.0,
-      "qty": 1,
-      "pnl_usd": -13.74,
-      "sub_signal": "ORF",
-      "regime": null
-    },
     {
       "bracket_id": "BR-4e6034bb",
       "date": "2026-06-02",
@@ -294,6 +241,16 @@
   ],
   "open_positions_detail": [
     {
+      "symbol": "AAON",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:AAON:2026-07-02",
+      "opened_date": "2026-07-02",
+      "scheduled_exit_date": "2026-07-21",
+      "entry_price": 107.62,
+      "source": "cohort"
+    },
+    {
       "symbol": "COCO",
       "shares": 1,
       "sleeve_id": "IWM100_R5H12_1SH_MR",
@@ -326,7 +283,7 @@
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$34.86; bot-tracked equity change: $715.85; gap: -$750.71 in fees/slippage the bot did not capture per-trade",
+      "realized trade P&L: -$91.14; bot-tracked equity change: $652.50; gap: -$743.64 in fees/slippage the bot did not capture per-trade",
       "1 bracket(s) submitted but never closed in journal — likely orphans from a prior crash"
     ],
     "orphan_closes": 0,
@@ -334,8 +291,8 @@
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-07-02.jsonl",
-    "data_as_of": "2026-07-02T19:58:34Z",
-    "publisher_run_id": "571ead7e-d075-4f45-8ab5-bcd09ce3871a"
+    "source_detail": "live/2026-07-03.jsonl",
+    "data_as_of": "2026-07-03T20:35:08Z",
+    "publisher_run_id": "384c08a4-71cd-4a2a-84c7-a490d2593260"
   }
 }
