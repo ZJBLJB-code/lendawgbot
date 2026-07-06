@@ -1,28 +1,36 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-04T03:02:57Z",
-  "data_as_of": "2026-07-04T02:38:39.344124+00:00",
+  "generated_at": "2026-07-06T15:30:33Z",
+  "data_as_of": "2026-07-06T15:30:32.306448+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
-    "starting_equity": 6079.75,
-    "current_equity": 6710.1,
+    "starting_equity": 6079.5,
+    "current_equity": 6560.45,
     "days_live": 5
   },
   "headline": {
-    "bot_equity_change_usd": 630.35,
-    "bot_equity_change_pct": 0.10368,
-    "account_change_usd": 630.35,
-    "account_change_pct": 0.10368,
-    "realized_trade_pnl_usd": -96.16,
-    "cost_drift_usd": -726.51,
-    "total_trades": 9,
-    "wins": 3,
+    "bot_equity_change_usd": 480.95,
+    "bot_equity_change_pct": 0.07911,
+    "account_change_usd": 480.95,
+    "account_change_pct": 0.07911,
+    "realized_trade_pnl_usd": -182.42,
+    "cost_drift_usd": -663.37,
+    "total_trades": 7,
+    "wins": 1,
     "losses": 6,
-    "win_rate": 0.3333
+    "win_rate": 0.1429
   },
   "daily": [
+    {
+      "date": "2026-07-06",
+      "pnl_usd": -82.48,
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "end_equity_usd": 6560.45
+    },
     {
       "date": "2026-07-02",
       "pnl_usd": 26.27,
@@ -54,62 +62,9 @@
       "wins": 0,
       "losses": 1,
       "end_equity_usd": 6039.51
-    },
-    {
-      "date": "2026-06-04",
-      "pnl_usd": 3.78,
-      "trades": 3,
-      "wins": 2,
-      "losses": 1,
-      "end_equity_usd": 6082.29
     }
   ],
   "trades": [
-    {
-      "bracket_id": "BR-7953937d",
-      "date": "2026-06-04",
-      "entry_ts": "2026-06-04T14:25:32.665839+00:00",
-      "exit_ts": "2026-06-04T15:07:32.676706+00:00",
-      "side": "SHORT",
-      "entry_price": 7569.75,
-      "exit_price": 7576.75,
-      "stop_price": 7576.75,
-      "target_price": 7559.25,
-      "qty": 1,
-      "pnl_usd": -36.24,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-851392b1",
-      "date": "2026-06-04",
-      "entry_ts": "2026-06-04T19:07:32.485040+00:00",
-      "exit_ts": "2026-06-04T19:14:32.730257+00:00",
-      "side": "SHORT",
-      "entry_price": 7608.5,
-      "exit_price": 7605.0,
-      "stop_price": 7611.0,
-      "target_price": 7605.0,
-      "qty": 1,
-      "pnl_usd": 16.26,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-8bbf03b9",
-      "date": "2026-06-04",
-      "entry_ts": "2026-06-04T19:29:32.695188+00:00",
-      "exit_ts": "2026-06-04T19:45:40.512942+00:00",
-      "side": "SHORT",
-      "entry_price": 7609.25,
-      "exit_price": 7605.75,
-      "stop_price": 7611.75,
-      "target_price": 7605.75,
-      "qty": 1,
-      "pnl_usd": 23.76,
-      "sub_signal": "ORF",
-      "regime": null
-    },
     {
       "bracket_id": "BR-7447b855",
       "date": "2026-06-05",
@@ -199,6 +154,21 @@
       "pnl_usd": -37.49,
       "sub_signal": "ORF",
       "regime": null
+    },
+    {
+      "bracket_id": "BR-826302a2",
+      "date": "2026-07-06",
+      "entry_ts": "2026-07-06T14:31:32.009146+00:00",
+      "exit_ts": "2026-07-06T15:30:32.306166+00:00",
+      "side": "SHORT",
+      "entry_price": 7580.25,
+      "exit_price": 7588.25,
+      "stop_price": 7588.25,
+      "target_price": 7567.75,
+      "qty": 2,
+      "pnl_usd": -82.48,
+      "sub_signal": "ORF",
+      "regime": null
     }
   ],
   "open_positions_detail": [
@@ -245,7 +215,7 @@
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$96.16; bot-tracked equity change: $630.35; gap: -$726.51 in fees/slippage the bot did not capture per-trade",
+      "realized trade P&L: -$182.42; bot-tracked equity change: $480.95; gap: -$663.37 in fees/slippage the bot did not capture per-trade",
       "1 bracket(s) submitted but never closed in journal — likely orphans from a prior crash"
     ],
     "orphan_closes": 0,
@@ -253,8 +223,8 @@
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-07-03.jsonl",
-    "data_as_of": "2026-07-04T02:38:39Z",
-    "publisher_run_id": "4bfaa110-82f3-4462-bae2-40d8e5c32fbd"
+    "source_detail": "live/2026-07-06.jsonl",
+    "data_as_of": "2026-07-06T15:30:32Z",
+    "publisher_run_id": "ed559ceb-4af0-4171-8759-173d1011c965"
   }
 }
