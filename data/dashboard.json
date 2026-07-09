@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-08T19:58:31Z",
-  "data_as_of": "2026-07-08T19:58:30.229105+00:00",
+  "generated_at": "2026-07-09T19:58:31Z",
+  "data_as_of": "2026-07-09T19:58:30.263072+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
@@ -200,8 +200,8 @@
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-07-08.jsonl",
-    "data_as_of": "2026-07-08T19:58:30Z",
-    "publisher_run_id": "c968acc8-36c9-4507-9d26-51a1ae93738a"
+    "source_detail": "live/2026-07-09.jsonl",
+    "data_as_of": "2026-07-09T19:58:30Z",
+    "publisher_run_id": "6f679317-b49d-4158-a983-6c27fb4774cd"
   }
 }
