@@ -1,26 +1,26 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-09T19:58:31Z",
-  "data_as_of": "2026-07-09T19:58:30.263072+00:00",
+  "generated_at": "2026-07-19T19:58:15Z",
+  "data_as_of": "2026-07-19T19:58:14.823581+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
-    "starting_equity": 5976.14,
+    "starting_equity": 6640.56,
     "current_equity": 6560.45,
-    "days_live": 4
+    "days_live": 2
   },
   "headline": {
-    "bot_equity_change_usd": 584.31,
-    "bot_equity_change_pct": 0.097774,
-    "account_change_usd": 584.31,
-    "account_change_pct": 0.097774,
-    "realized_trade_pnl_usd": -142.43,
-    "cost_drift_usd": -726.74,
-    "total_trades": 6,
+    "bot_equity_change_usd": -80.11,
+    "bot_equity_change_pct": -0.012064,
+    "account_change_usd": -80.11,
+    "account_change_pct": -0.012064,
+    "realized_trade_pnl_usd": -56.21,
+    "cost_drift_usd": 23.9,
+    "total_trades": 3,
     "wins": 1,
-    "losses": 5,
-    "win_rate": 0.1667
+    "losses": 2,
+    "win_rate": 0.3333
   },
   "daily": [
     {
@@ -38,70 +38,9 @@
       "wins": 1,
       "losses": 1,
       "end_equity_usd": 6710.1
-    },
-    {
-      "date": "2026-06-09",
-      "pnl_usd": -19.99,
-      "trades": 1,
-      "wins": 0,
-      "losses": 1,
-      "end_equity_usd": 5823.19
-    },
-    {
-      "date": "2026-06-08",
-      "pnl_usd": -66.23,
-      "trades": 2,
-      "wins": 0,
-      "losses": 2,
-      "end_equity_usd": 5909.29
     }
   ],
   "trades": [
-    {
-      "bracket_id": "BR-4f73dc1d",
-      "date": "2026-06-08",
-      "entry_ts": "2026-06-08T17:02:32.276201+00:00",
-      "exit_ts": "2026-06-08T17:04:02.025669+00:00",
-      "side": "LONG",
-      "entry_price": 7434.75,
-      "exit_price": 7426.5,
-      "stop_price": 7426.75,
-      "target_price": 7446.75,
-      "qty": 1,
-      "pnl_usd": -28.74,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-6372224b",
-      "date": "2026-06-08",
-      "entry_ts": "2026-06-08T19:11:32.811535+00:00",
-      "exit_ts": "2026-06-08T19:15:33.018965+00:00",
-      "side": "LONG",
-      "entry_price": 7420.5,
-      "exit_price": 7413.0,
-      "stop_price": 7413.0,
-      "target_price": 7431.5,
-      "qty": 1,
-      "pnl_usd": -37.49,
-      "sub_signal": "ORF",
-      "regime": null
-    },
-    {
-      "bracket_id": "BR-962b2c40",
-      "date": "2026-06-09",
-      "entry_ts": "2026-06-09T14:14:32.174072+00:00",
-      "exit_ts": "2026-06-09T14:15:54.816125+00:00",
-      "side": "LONG",
-      "entry_price": 7445.75,
-      "exit_price": 7434.5,
-      "stop_price": 7434.0,
-      "target_price": 7463.25,
-      "qty": 1,
-      "pnl_usd": -19.99,
-      "sub_signal": "ORF",
-      "regime": null
-    },
     {
       "bracket_id": "BR-d726babd",
       "date": "2026-07-02",
@@ -170,6 +109,36 @@
       "source": "cohort"
     },
     {
+      "symbol": "INTC",
+      "shares": 1,
+      "sleeve_id": "XLK_RANK_MR",
+      "cohort_id": "XLK_RANK_MR:INTC:2026-07-09",
+      "opened_date": "2026-07-09",
+      "scheduled_exit_date": "2026-07-14",
+      "entry_price": 112.54,
+      "source": "cohort"
+    },
+    {
+      "symbol": "MIDD",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:MIDD:2026-07-09",
+      "opened_date": "2026-07-09",
+      "scheduled_exit_date": "2026-07-27",
+      "entry_price": 133.29,
+      "source": "cohort"
+    },
+    {
+      "symbol": "RKLB",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:RKLB:2026-07-09",
+      "opened_date": "2026-07-09",
+      "scheduled_exit_date": "2026-07-27",
+      "entry_price": 82.55,
+      "source": "cohort"
+    },
+    {
       "symbol": "RMBS",
       "shares": 1,
       "sleeve_id": "IWM100_R5H12_1SH_MR",
@@ -192,16 +161,15 @@
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$142.43; bot-tracked equity change: $584.31; gap: -$726.74 in fees/slippage the bot did not capture per-trade",
-      "1 bracket(s) submitted but never closed in journal — likely orphans from a prior crash"
+      "realized trade P&L: -$56.21; bot-tracked equity change: -$80.11; gap: +$23.90 in fees/slippage the bot did not capture per-trade"
     ],
     "orphan_closes": 0,
-    "open_positions": 1
+    "open_positions": 0
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-07-09.jsonl",
-    "data_as_of": "2026-07-09T19:58:30Z",
-    "publisher_run_id": "6f679317-b49d-4158-a983-6c27fb4774cd"
+    "source_detail": "live/2026-07-19.jsonl",
+    "data_as_of": "2026-07-19T19:58:14Z",
+    "publisher_run_id": "6bf273a2-295f-43af-b655-facf72b20c41"
   }
 }
