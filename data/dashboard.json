@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-19T22:24:46Z",
+  "generated_at": "2026-07-19T22:25:00Z",
   "data_as_of": "2026-07-19T22:24:15.043253+00:00",
   "bot": {
     "name": "Len Dawg",
@@ -170,6 +170,6 @@
     "source": "quant-bot",
     "source_detail": "live/2026-07-19.jsonl",
     "data_as_of": "2026-07-19T22:24:15Z",
-    "publisher_run_id": "42183d90-bb8d-45d0-916c-09331825278d"
+    "publisher_run_id": "f7616243-4902-411f-990e-d4231c0e8ca0"
   }
 }
