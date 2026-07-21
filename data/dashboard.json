@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-21T16:21:56Z",
-  "data_as_of": "2026-07-21T16:21:55.198329+00:00",
+  "generated_at": "2026-07-21T19:50:31Z",
+  "data_as_of": "2026-07-21T19:50:30.629793+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
@@ -187,15 +187,16 @@
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$218.59; bot-tracked equity change: -$377.76; gap: +$159.17 in fees/slippage the bot did not capture per-trade"
+      "realized trade P&L: -$218.59; bot-tracked equity change: -$377.76; gap: +$159.17 in fees/slippage the bot did not capture per-trade",
+      "1 bracket(s) submitted but never closed in journal — likely orphans from a prior crash"
     ],
     "orphan_closes": 0,
-    "open_positions": 0
+    "open_positions": 1
   },
   "_provenance": {
     "source": "quant-bot",
     "source_detail": "live/2026-07-21.jsonl",
-    "data_as_of": "2026-07-21T16:21:55Z",
-    "publisher_run_id": "f365ae0e-67d5-4237-a57c-15c649dc3868"
+    "data_as_of": "2026-07-21T19:50:31Z",
+    "publisher_run_id": "b800ccb4-f5bb-4bec-8f75-2f38b4cd70f1"
   }
 }
