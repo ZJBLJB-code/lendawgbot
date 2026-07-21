@@ -1,28 +1,36 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-20T19:58:05Z",
-  "data_as_of": "2026-07-20T19:58:04.090953+00:00",
+  "generated_at": "2026-07-21T16:21:56Z",
+  "data_as_of": "2026-07-21T16:21:55.198329+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
     "starting_equity": 6640.56,
-    "current_equity": 6443.62,
-    "days_live": 3
+    "current_equity": 6262.8,
+    "days_live": 4
   },
   "headline": {
-    "bot_equity_change_usd": -196.94,
-    "bot_equity_change_pct": -0.029657,
-    "account_change_usd": -196.94,
-    "account_change_pct": -0.029657,
-    "realized_trade_pnl_usd": -143.65,
-    "cost_drift_usd": 53.29,
-    "total_trades": 4,
+    "bot_equity_change_usd": -377.76,
+    "bot_equity_change_pct": -0.056887,
+    "account_change_usd": -377.76,
+    "account_change_pct": -0.056887,
+    "realized_trade_pnl_usd": -218.59,
+    "cost_drift_usd": 159.17,
+    "total_trades": 5,
     "wins": 1,
-    "losses": 3,
-    "win_rate": 0.25
+    "losses": 4,
+    "win_rate": 0.2
   },
   "daily": [
+    {
+      "date": "2026-07-21",
+      "pnl_usd": -74.94,
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "end_equity_usd": 6262.8
+    },
     {
       "date": "2026-07-20",
       "pnl_usd": -87.44,
@@ -108,6 +116,21 @@
       "pnl_usd": -87.44,
       "sub_signal": "ORF",
       "regime": null
+    },
+    {
+      "bracket_id": "BR-0b8623a1",
+      "date": "2026-07-21",
+      "entry_ts": "2026-07-21T15:22:07.265118+00:00",
+      "exit_ts": "2026-07-21T16:21:55.197845+00:00",
+      "side": "SHORT",
+      "entry_price": 7541.75,
+      "exit_price": 7549.0,
+      "stop_price": 7549.0,
+      "target_price": 7531.25,
+      "qty": 2,
+      "pnl_usd": -74.94,
+      "sub_signal": "ORF",
+      "regime": null
     }
   ],
   "open_positions_detail": [
@@ -125,20 +148,10 @@
       "symbol": "COCO",
       "shares": 1,
       "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:COCO:2026-06-29",
-      "opened_date": "2026-06-29",
-      "scheduled_exit_date": "2026-07-16",
-      "entry_price": 72.53,
-      "source": "cohort"
-    },
-    {
-      "symbol": "INTC",
-      "shares": 1,
-      "sleeve_id": "XLK_RANK_MR",
-      "cohort_id": "XLK_RANK_MR:INTC:2026-07-09",
-      "opened_date": "2026-07-09",
-      "scheduled_exit_date": "2026-07-14",
-      "entry_price": 112.54,
+      "cohort_id": "IWM100_R5H12_1SH_MR:COCO:2026-07-02",
+      "opened_date": "2026-07-02",
+      "scheduled_exit_date": "2026-07-21",
+      "entry_price": 66.16,
       "source": "cohort"
     },
     {
@@ -162,37 +175,27 @@
       "source": "cohort"
     },
     {
-      "symbol": "RMBS",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:RMBS:2026-06-29",
-      "opened_date": "2026-06-29",
-      "scheduled_exit_date": "2026-07-16",
-      "entry_price": 123.9,
-      "source": "cohort"
-    },
-    {
       "symbol": "SMCI",
       "shares": 1,
       "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:SMCI:2026-06-29",
-      "opened_date": "2026-06-29",
-      "scheduled_exit_date": "2026-07-16",
-      "entry_price": 28.15,
+      "cohort_id": "IWM100_R5H12_1SH_MR:SMCI:2026-07-06",
+      "opened_date": "2026-07-06",
+      "scheduled_exit_date": "2026-07-22",
+      "entry_price": 27.19,
       "source": "cohort"
     }
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$143.65; bot-tracked equity change: -$196.94; gap: +$53.29 in fees/slippage the bot did not capture per-trade"
+      "realized trade P&L: -$218.59; bot-tracked equity change: -$377.76; gap: +$159.17 in fees/slippage the bot did not capture per-trade"
     ],
     "orphan_closes": 0,
     "open_positions": 0
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-07-20.jsonl",
-    "data_as_of": "2026-07-20T19:58:04Z",
-    "publisher_run_id": "1b29f588-43e4-474f-8ada-6138c718f2a8"
+    "source_detail": "live/2026-07-21.jsonl",
+    "data_as_of": "2026-07-21T16:21:55Z",
+    "publisher_run_id": "f365ae0e-67d5-4237-a57c-15c649dc3868"
   }
 }
