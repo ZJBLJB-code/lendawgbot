@@ -1,28 +1,36 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-22T19:58:32Z",
-  "data_as_of": "2026-07-22T19:58:31.618458+00:00",
+  "generated_at": "2026-07-23T15:12:50Z",
+  "data_as_of": "2026-07-23T15:12:49.055440+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
     "starting_equity": 6640.56,
-    "current_equity": 6323.05,
-    "days_live": 5
+    "current_equity": 6211.87,
+    "days_live": 6
   },
   "headline": {
-    "bot_equity_change_usd": -317.51,
-    "bot_equity_change_pct": -0.047814,
-    "account_change_usd": -317.51,
-    "account_change_pct": -0.047814,
-    "realized_trade_pnl_usd": -139.72,
-    "cost_drift_usd": 177.79,
-    "total_trades": 8,
+    "bot_equity_change_usd": -428.69,
+    "bot_equity_change_pct": -0.064556,
+    "account_change_usd": -428.69,
+    "account_change_pct": -0.064556,
+    "realized_trade_pnl_usd": -274.66,
+    "cost_drift_usd": 154.03,
+    "total_trades": 9,
     "wins": 3,
-    "losses": 5,
-    "win_rate": 0.375
+    "losses": 6,
+    "win_rate": 0.3333
   },
   "daily": [
+    {
+      "date": "2026-07-23",
+      "pnl_usd": -134.94,
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "end_equity_usd": 6211.87
+    },
     {
       "date": "2026-07-22",
       "pnl_usd": 28.81,
@@ -184,29 +192,24 @@
       "pnl_usd": -18.72,
       "sub_signal": "ORF",
       "regime": null
+    },
+    {
+      "bracket_id": "BR-6dedb67a",
+      "date": "2026-07-23",
+      "entry_ts": "2026-07-23T15:03:32.798877+00:00",
+      "exit_ts": "2026-07-23T15:12:49.055051+00:00",
+      "side": "LONG",
+      "entry_price": 7438.5,
+      "exit_price": 7425.0,
+      "stop_price": 7425.0,
+      "target_price": 7458.5,
+      "qty": 2,
+      "pnl_usd": -134.94,
+      "sub_signal": "ORF",
+      "regime": null
     }
   ],
   "open_positions_detail": [
-    {
-      "symbol": "AAON",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:AAON:2026-07-06",
-      "opened_date": "2026-07-06",
-      "scheduled_exit_date": "2026-07-22",
-      "entry_price": 109.35,
-      "source": "cohort"
-    },
-    {
-      "symbol": "COCO",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:COCO:2026-07-06",
-      "opened_date": "2026-07-06",
-      "scheduled_exit_date": "2026-07-22",
-      "entry_price": 66.78,
-      "source": "cohort"
-    },
     {
       "symbol": "MIDD",
       "shares": 1,
@@ -226,29 +229,19 @@
       "scheduled_exit_date": "2026-07-27",
       "entry_price": 82.55,
       "source": "cohort"
-    },
-    {
-      "symbol": "SMCI",
-      "shares": 1,
-      "sleeve_id": "IWM100_R5H12_1SH_MR",
-      "cohort_id": "IWM100_R5H12_1SH_MR:SMCI:2026-07-06",
-      "opened_date": "2026-07-06",
-      "scheduled_exit_date": "2026-07-22",
-      "entry_price": 27.19,
-      "source": "cohort"
     }
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$139.72; bot-tracked equity change: -$317.51; gap: +$177.79 in fees/slippage the bot did not capture per-trade"
+      "realized trade P&L: -$274.66; bot-tracked equity change: -$428.69; gap: +$154.03 in fees/slippage the bot did not capture per-trade"
     ],
     "orphan_closes": 0,
     "open_positions": 0
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-07-22.jsonl",
-    "data_as_of": "2026-07-22T19:58:31Z",
-    "publisher_run_id": "f1f23d65-efaa-4bbd-af92-ce6d96e84e4f"
+    "source_detail": "live/2026-07-23.jsonl",
+    "data_as_of": "2026-07-23T15:12:49Z",
+    "publisher_run_id": "50eb9b41-9cbe-42be-8035-233b2a9a3ff6"
   }
 }
