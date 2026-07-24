@@ -1,28 +1,36 @@
 {
   "schema_version": "3.0",
   "publisher_version": "3.0.0",
-  "generated_at": "2026-07-23T19:58:32Z",
-  "data_as_of": "2026-07-23T19:58:30.779599+00:00",
+  "generated_at": "2026-07-24T15:11:33Z",
+  "data_as_of": "2026-07-24T15:11:32.549124+00:00",
   "bot": {
     "name": "Len Dawg",
     "instrument": "/MES (micro S&P futures)",
     "starting_equity": 6640.56,
-    "current_equity": 6165.71,
-    "days_live": 6
+    "current_equity": 5888.02,
+    "days_live": 7
   },
   "headline": {
-    "bot_equity_change_usd": -474.85,
-    "bot_equity_change_pct": -0.071508,
-    "account_change_usd": -474.85,
-    "account_change_pct": -0.071508,
-    "realized_trade_pnl_usd": -319.6,
-    "cost_drift_usd": 155.25,
-    "total_trades": 10,
+    "bot_equity_change_usd": -752.54,
+    "bot_equity_change_pct": -0.113325,
+    "account_change_usd": -752.54,
+    "account_change_pct": -0.113325,
+    "realized_trade_pnl_usd": -417.04,
+    "cost_drift_usd": 335.5,
+    "total_trades": 11,
     "wins": 3,
-    "losses": 7,
-    "win_rate": 0.3
+    "losses": 8,
+    "win_rate": 0.2727
   },
   "daily": [
+    {
+      "date": "2026-07-24",
+      "pnl_usd": -97.44,
+      "trades": 1,
+      "wins": 0,
+      "losses": 1,
+      "end_equity_usd": 5888.02
+    },
     {
       "date": "2026-07-23",
       "pnl_usd": -179.88,
@@ -222,9 +230,34 @@
       "pnl_usd": -44.94,
       "sub_signal": "ORF",
       "regime": null
+    },
+    {
+      "bracket_id": "BR-77859bd2",
+      "date": "2026-07-24",
+      "entry_ts": "2026-07-24T15:00:42.722523+00:00",
+      "exit_ts": "2026-07-24T15:11:31.632953+00:00",
+      "side": "SHORT",
+      "entry_price": 7465.0,
+      "exit_price": 7474.75,
+      "stop_price": 7475.25,
+      "target_price": 7450.0,
+      "qty": 2,
+      "pnl_usd": -97.44,
+      "sub_signal": "ORF",
+      "regime": null
     }
   ],
   "open_positions_detail": [
+    {
+      "symbol": "AGYS",
+      "shares": 1,
+      "sleeve_id": "IWM100_R5H12_1SH_MR",
+      "cohort_id": "IWM100_R5H12_1SH_MR:AGYS:2026-07-23",
+      "opened_date": "2026-07-23",
+      "scheduled_exit_date": "2026-08-10",
+      "entry_price": 95.01,
+      "source": "cohort"
+    },
     {
       "symbol": "MIDD",
       "shares": 1,
@@ -248,15 +281,15 @@
   ],
   "data_quality": {
     "warnings": [
-      "realized trade P&L: -$319.60; bot-tracked equity change: -$474.85; gap: +$155.25 in fees/slippage the bot did not capture per-trade"
+      "realized trade P&L: -$417.04; bot-tracked equity change: -$752.54; gap: +$335.50 in fees/slippage the bot did not capture per-trade"
     ],
     "orphan_closes": 0,
     "open_positions": 0
   },
   "_provenance": {
     "source": "quant-bot",
-    "source_detail": "live/2026-07-23.jsonl",
-    "data_as_of": "2026-07-23T19:58:30Z",
-    "publisher_run_id": "81209083-45d1-41df-a2f7-5aa99b2765c8"
+    "source_detail": "live/2026-07-24.jsonl",
+    "data_as_of": "2026-07-24T15:11:32Z",
+    "publisher_run_id": "9bf7e899-97a9-4372-acba-bdb52a4c50e8"
   }
 }
